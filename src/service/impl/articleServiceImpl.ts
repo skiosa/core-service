@@ -1,10 +1,12 @@
+import { Arg, Query, Resolver } from 'type-graphql';
 import { dataSource } from '../../datalayer/db';
 import { Article } from '../../model/article';
 import { ArticleService } from '../articleService';
 
-
+@Resolver(Article)
 export class ArticleServiceImpl implements ArticleService {
 
+    @Query(returns => [Article])
     getArticles(): Promise<Article[]> {
         const articleRepository = dataSource.getRepository(Article);
         return new Promise((resolve, reject) => {
@@ -14,7 +16,8 @@ export class ArticleServiceImpl implements ArticleService {
         });
     }
 
-    getArticle(id: number): Promise<Article> {
+    @Query(returns => Article)
+    getArticle(@Arg("id") id: number): Promise<Article> {
         const articleRepository = dataSource.getRepository(Article);
         return new Promise((resolve, reject) => {
             articleRepository.findOneBy({ id: id })

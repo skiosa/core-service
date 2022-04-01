@@ -1,29 +1,27 @@
+import { makeExecutableSchema } from '@graphql-tools/schema';
 import express from 'express';
 import { graphqlHTTP } from 'express-graphql';
-import { buildSchema } from 'graphql';
+import { buildTypeDefsAndResolvers } from 'type-graphql';
+import { ArticleServiceMock } from '../service/mockup/articleServiceMock';
 
 const router = express.Router();
 
-/**
- * Main GraphQL Schema
- */
-var schema = buildSchema(`
-  type Query {
-    hello: String
-  }
-`);
+bootstrap();
 
-// The root provides a resolver function for each API endpoint
-var root = {
-    hello: () => {
-        return 'Hello world!';
-    },
-};
+async function bootstrap() {
+  const { typeDefs, resolvers } = await buildTypeDefsAndResolvers({
+    resolvers: [ArticleServiceMock],
+  });
 
-router.use("/", graphqlHTTP({
+  const schema = makeExecutableSchema({ typeDefs, resolvers });
+
+  /**
+   * Main GraphQL Route to Serve GraphQL
+   */
+  router.use("/", graphqlHTTP({
     schema: schema,
-    rootValue: root,
     graphiql: true
-}));
+  }));
+}
 
-export { router as graphqlController }
+export { router as graphqlController };

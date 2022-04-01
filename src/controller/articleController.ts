@@ -1,6 +1,6 @@
 import express from 'express';
 import { ArticleService } from '../service/articleService';
-import { ArticleServiceImpl } from '../service/impl/articaleServiceImpl';
+import { ArticleServiceImpl } from '../service/impl/articleServiceImpl';
 
 const router = express.Router();
 
