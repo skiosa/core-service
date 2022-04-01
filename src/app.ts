@@ -14,8 +14,8 @@ dotenv.config({ path: './src/config/app.env' });
  */
 const api = express();
 
-api.listen(process.env.PORT, () => {
-    console.log(`Core-Service running at http://localhost:${process.env.PORT}`)
+api.listen(process.env.API_PORT, () => {
+    console.log(`Core-Service running at http://localhost:${process.env.API_PORT}`)
 });
 
 /**
