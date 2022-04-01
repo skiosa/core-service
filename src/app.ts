@@ -1,7 +1,9 @@
 import dotenv from 'dotenv';
 import express from 'express';
 import "reflect-metadata";
+import { articleController } from './controller/articleController';
 import { defaultController } from './controller/defaultController';
+import { dataSource } from './datalayer/db';
 
 /**
  * Configuration Part
@@ -22,4 +24,11 @@ api.listen(process.env.API_PORT, () => {
  * Express Routes
  */
 api.use("/", defaultController);
+api.use("/article", articleController);
 
+
+/**
+ * Database Setup
+ */
+dataSource.initialize()
+    .catch((err) => console.error(err));
