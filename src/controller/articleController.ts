@@ -1,7 +1,6 @@
 import express from 'express';
 import { ArticleService } from '../service/articleService';
 import { ArticleServiceImpl } from '../service/impl/articaleServiceImpl';
-import { Article } from '../model/article';
 
 const router = express.Router();
 
@@ -39,4 +38,4 @@ router.get('/:id', (req: express.Request, res: express.Response) => {
 });
 
 
-export { router as articleController }
+export { router as articleController };
