@@ -11,18 +11,17 @@ steps:
   - npm install
 
 - name: unit tests
-  image: node
+  image: node:16
   commands:
   - npm run test
 
 - name: branch specific code-analysis
-  image: node
+  image: node:16
   environment:
     token:
       from_secret: sonar_token
   commands:
   - npm install sonarqube-scanner -g
-  - sonar-scanner -Dsonar.branch.name=master -Dsonar.login=$token
   - sonar-scanner -Dsonar.branch.name=$${DRONE_TARGET_BRANCH} -Dsonar.login=$token
 
 image_pull_secrets:
@@ -43,17 +42,17 @@ name: pre-build-pipeline
 
 steps:
 - name: npm setup
-  image: node
+  image: node:16
   commands:
   - npm install
 
 - name: unit tests
-  image: node
+  image: node:16
   commands:
   - npm run test
 
 - name: code-analysis & coverage
-  image: node
+  image: node:16
   environment:
     token:
       from_secret: sonar_token
@@ -77,12 +76,12 @@ name: final-build-pipeline
 steps:
 
 - name: npm setup
-  image: node
+  image: node:16
   commands:
   - npm install
 
 - name: unit tests
-  image: node
+  image: node:16
   commands:
   - npm run test
 
@@ -105,7 +104,7 @@ steps:
     target: production
 
 - name: master code-analysis
-  image: node
+  image: node:16
   environment:
     token:
       from_secret: sonar_token
