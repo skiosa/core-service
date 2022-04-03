@@ -22,6 +22,7 @@ steps:
       from_secret: sonar_token
   commands:
   - npm install sonarqube-scanner -g
+  - sonar-scanner -Dsonar.branch.name=master -Dsonar.login=$token
   - sonar-scanner -Dsonar.branch.name=$${DRONE_TARGET_BRANCH} -Dsonar.login=$token
 
 image_pull_secrets:
