@@ -1,8 +1,8 @@
-import { makeExecutableSchema } from '@graphql-tools/schema';
-import express from 'express';
-import { graphqlHTTP } from 'express-graphql';
-import { buildTypeDefsAndResolvers } from 'type-graphql';
-import { ArticleServiceMock } from '../service/mockup/articleServiceMock';
+import { makeExecutableSchema } from "@graphql-tools/schema";
+import express from "express";
+import { graphqlHTTP } from "express-graphql";
+import { buildTypeDefsAndResolvers } from "type-graphql";
+import { ArticleServiceMock } from "../service/mockup/articleServiceMock";
 
 const router = express.Router();
 
@@ -18,10 +18,13 @@ async function bootstrap() {
   /**
    * Main GraphQL Route to Serve GraphQL
    */
-  router.use("/", graphqlHTTP({
-    schema: schema,
-    graphiql: true
-  }));
+  router.use(
+    "/",
+    graphqlHTTP({
+      schema: schema,
+      graphiql: true,
+    })
+  );
 }
 
 export { router as graphqlController };
