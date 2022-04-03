@@ -6,17 +6,17 @@ name: basic-pipeline
 
 steps:
 - name: npm setup
-  image: node:16-alpine
+  image: node
   commands:
   - npm install
 
 - name: unit tests
-  image: node:16-alpine
+  image: node
   commands:
   - npm run test
 
 - name: branch specific code-analysis
-  image: node:16-alpine
+  image: node
   environment:
     token:
       from_secret: sonar_token
@@ -42,17 +42,17 @@ name: pre-build-pipeline
 
 steps:
 - name: npm setup
-  image: node:16-alpine
+  image: node
   commands:
   - npm install
 
 - name: unit tests
-  image: node:16-alpine
+  image: node
   commands:
   - npm run test
 
 - name: code-analysis & coverage
-  image: node:16-alpine
+  image: node
   environment:
     token:
       from_secret: sonar_token
@@ -76,12 +76,12 @@ name: final-build-pipeline
 steps:
 
 - name: npm setup
-  image: node:16-alpine
+  image: node
   commands:
   - npm install
 
 - name: unit tests
-  image: node:16-alpine
+  image: node
   commands:
   - npm run test
 
@@ -104,7 +104,7 @@ steps:
     target: production
 
 - name: master code-analysis
-  image: node:16-alpine
+  image: node
   environment:
     token:
       from_secret: sonar_token
