@@ -54,6 +54,7 @@
     "graphql": "^15.5.0",
     "pg": "^8.7.3",
     "reflect-metadata": "^0.1.13",
+    "skiosa-orm": "github:skiosa/orm",
     "type-graphql": "^1.2.0-rc.1",
     "typeorm": "^0.3.4"
   }

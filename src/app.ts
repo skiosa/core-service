@@ -4,12 +4,16 @@ import "reflect-metadata";
 import { articleController } from "./controller/articleController";
 import { defaultController } from "./controller/defaultController";
 import { graphqlController } from "./controller/graphqlController";
-import { dataSource } from "./datalayer/db";
-
+import { dataSource } from 'skiosa-orm/lib/db';
 /**
  * Configuration Part
  */
 dotenv.config({ path: "./src/config/app.env" });
+
+/**
+ * Database Setup
+ */
+ dataSource.initialize().catch((err) => console.error(err));
 
 /**
  * Express Configuration
@@ -29,7 +33,3 @@ api.use("/", defaultController);
 api.use("/article", articleController);
 api.use("/graphql", graphqlController);
 
-/**
- * Database Setup
- */
-dataSource.initialize().catch((err) => console.error(err));
