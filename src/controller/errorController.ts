@@ -15,7 +15,7 @@ router.get("/", (req: express.Request, res: express.Response) => {
     status: "404",
   };
 
-  res.status(200);
+  res.status(404);
   res.json(response);
 });
 

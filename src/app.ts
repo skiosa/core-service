@@ -19,7 +19,7 @@ dataSource.initialize().catch((err) => console.error(err));
 /**
  * Express Configuration
  */
-const api = express();
+export const api = express();
 
 api.listen(process.env.API_PORT, () => {
   console.log(
