@@ -1,10 +1,11 @@
 import dotenv from "dotenv";
 import express from "express";
 import "reflect-metadata";
-import { articleController } from "./controller/articleController";
-import { defaultController } from "./controller/defaultController";
-import { graphqlController } from "./controller/graphqlController";
 import { dataSource } from 'skiosa-orm/lib/db';
+import { defaultController } from "./controller/defaultController";
+import { errorController } from "./controller/errorController";
+import { graphqlController } from "./controller/graphqlController";
+
 /**
  * Configuration Part
  */
@@ -13,7 +14,7 @@ dotenv.config({ path: "./src/config/app.env" });
 /**
  * Database Setup
  */
- dataSource.initialize().catch((err) => console.error(err));
+dataSource.initialize().catch((err) => console.error(err));
 
 /**
  * Express Configuration
@@ -30,6 +31,5 @@ api.listen(process.env.API_PORT, () => {
  * Express Routes
  */
 api.use("/", defaultController);
-api.use("/article", articleController);
 api.use("/graphql", graphqlController);
-
+api.use('*', errorController);

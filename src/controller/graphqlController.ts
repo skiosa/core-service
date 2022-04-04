@@ -6,8 +6,16 @@ import { ArticleServiceMock } from "../service/mockup/articleServiceMock";
 
 const router = express.Router();
 
+//Starts the main GraphQL Function
 bootstrap();
 
+/**
+* @author LukasLJL
+* @summary main graphql function
+* @description Initialize the GraphQL Types and Resolvers, also manages the GraphQL Route
+* @route   GET /graphql
+* @access  Public
+*/
 async function bootstrap() {
   const { typeDefs, resolvers } = await buildTypeDefsAndResolvers({
     resolvers: [ArticleServiceMock],
@@ -15,9 +23,7 @@ async function bootstrap() {
 
   const schema = makeExecutableSchema({ typeDefs, resolvers });
 
-  /**
-   * Main GraphQL Route to Serve GraphQL
-   */
+  // Main GraphQL Route to Serve GraphQL
   router.use(
     "/",
     graphqlHTTP({
