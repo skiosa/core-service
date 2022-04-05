@@ -10,10 +10,10 @@ steps:
   commands:
   - npm install
 
-- name: unit tests
-  image: node:16
-  commands:
-  - npm run test:ci
+#- name: unit tests
+#  image: node:16
+#  commands:
+#  - npm run test:ci
 
 - name: branch specific code-analysis
   image: node:16
@@ -46,10 +46,10 @@ steps:
   commands:
   - npm install
 
-- name: unit tests
-  image: node:16
-  commands:
-  - npm run test:ci
+#- name: unit tests
+#  image: node:16
+#  commands:
+#  - npm run test:ci
 
 - name: code-analysis & coverage
   image: node:16
@@ -80,10 +80,10 @@ steps:
   commands:
   - npm install
 
-- name: unit tests
-  image: node:16
-  commands:
-  - npm run test:ci
+#- name: unit tests
+#  image: node:16
+#  commands:
+#  - npm run test:ci
 
 - name: docker-build
   image: plugins/docker
@@ -96,12 +96,12 @@ steps:
     password:
       from_secret: docker_password
 
-- name: promote-deployment
-  image: danihodovic/drone-promote
-  settings:
-    drone_token:
-      from_secret: drone_token
-    target: production
+#- name: promote-deployment
+#  image: danihodovic/drone-promote
+#  settings:
+#    drone_token:
+#      from_secret: drone_token
+#    target: production
 
 - name: master code-analysis
   image: node:16
