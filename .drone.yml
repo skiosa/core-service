@@ -51,6 +51,18 @@ steps:
   commands:
   - npm run test:ci
 
+- name: starting application
+  image: node:16
+  detach: true
+  commands:
+  - npm run start
+
+- name: integration tests
+  image: postman/newman
+  commands:
+  - sleep 5
+  - ./tests/integration/Skiosa.postman_collection.json --environment="./tests/integration/skiosa-local-dev.postman_environment.json"
+
 - name: code-analysis & coverage
   image: node:16
   environment:
