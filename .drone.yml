@@ -58,7 +58,8 @@ steps:
     POSTGRES_HOST: database
     POSTGRES_DB: skiosa-db-integration-test
     POSTGRES_USER: skiosa-user-integration-test
-    POSTGRES_PASSWORD: ${database_password}
+    POSTGRES_PASSWORD: 
+      from_secret: database_password
   commands:
   - npm run start
 
@@ -84,7 +85,8 @@ services:
   environment:
     POSTGRES_DB: skiosa-db-integration-test
     POSTGRES_USER: skiosa-user-integration-test
-    POSTGRES_PASSWORD: ${database_password}
+    POSTGRES_PASSWORD: 
+      from_secret: database_password
 
 image_pull_secrets:
 - dockerconfig
