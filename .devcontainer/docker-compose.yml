@@ -1,0 +1,34 @@
+version: "3"
+
+services:
+  core-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: skiosa-core-service-devcontainer
+    volumes:
+      - ..:/core-service:cached
+    environment:
+    - POSTGRES_HOST=database
+    - POSTGRES_PORT=5432
+    - POSTGRES_DB=skiosa-db-dev
+    - POSTGRES_USER=skiosa-user-dev
+    - POSTGRES_PASSWORD=skiosa-password-dev
+    - API_PORT=8080
+    command: /bin/zsh -c "while sleep 1000; do :; done"
+  database:
+    image: postgres:14
+    restart: unless-stopped
+    container_name: skiosa-database
+    environment:
+      - POSTGRES_DB=skiosa-db-dev
+      - POSTGRES_USER=skiosa-user-dev
+      - POSTGRES_PASSWORD=skiosa-password-dev
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+
+volumes:
+  postgres-data:

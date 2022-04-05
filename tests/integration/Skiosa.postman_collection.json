@@ -1,0 +1,618 @@
+{
+	"info": {
+		"_postman_id": "dd7a897d-f57c-4a7e-90ee-e809719994c4",
+		"name": "Skiosa",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Basic Information",
+			"item": [
+				{
+					"name": "Landing Page",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status Code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var data = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.test(\"Correct Response\", function () {\r",
+									"    pm.expect(data.message).equal(\"Welcome to the Skiosa Core-Service!\");\r",
+									"    pm.expect(data.status).equal(\"/status\");\r",
+									"    pm.expect(data.git).equal(\"https://github.com/skiosa/core-service\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api-url}}",
+							"host": [
+								"{{api-url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Error Page",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status Code is 404\", function() {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"var data = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.test(\"Correct Response\", function () {\r",
+									"    pm.expect(data.message).equal(\"no endpoint found\");\r",
+									"    pm.expect(data.status).equal(\"404\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api-url}}/abc",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"abc"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Article",
+			"item": [
+				{
+					"name": "GET  - All Articles - Basic Information",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status Code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var data = JSON.parse(responseBody);\r",
+									"var id_array = pm.environment.get(\"article-id\") - 1;\r",
+									"\r",
+									"pm.test(\"Correct Data\", function () {\r",
+									"    pm.expect(data.data.getArticles[id_array].id).equal(parseInt(pm.environment.get(\"article-id\")));\r",
+									"    pm.expect(data.data.getArticles[id_array].title).equal(\"How installing linux made me gain 20lbs of muscle\");\r",
+									"    pm.expect(data.data.getArticles[id_array].description).equal(\"After installing arch linux, I did one pushup every time I told someone, that I use...\");\r",
+									"    pm.expect(data.data.getArticles[id_array].content).to.exist;\r",
+									"    pm.expect(data.data.getArticles[id_array].url).equal(\"https://asciiflix.de/watch/814bd1ab-18a7-41f2-8b23-7feb2bab9de2\");\r",
+									"\r",
+									"    pm.expect(data.data.getArticles[2]).to.exist;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query articles{\r\n  getArticles{\r\n    id\r\n    title\r\n    description\r\n    content\r\n    url    \r\n  }\r\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/graphql",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET  - All Articles - Author Information",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status Code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var data = JSON.parse(responseBody);\r",
+									"var id_array = pm.environment.get(\"article-id\") - 1;\r",
+									"\r",
+									"pm.test(\"Correct Data\", function () {\r",
+									"    pm.expect(data.data.getArticles[id_array].id).equal(parseInt(pm.environment.get(\"article-id\")));\r",
+									"    pm.expect(data.data.getArticles[id_array].title).equal(\"How installing linux made me gain 20lbs of muscle\");\r",
+									"    pm.expect(data.data.getArticles[id_array].description).equal(\"After installing arch linux, I did one pushup every time I told someone, that I use...\");\r",
+									"    pm.expect(data.data.getArticles[id_array].content).to.exist;\r",
+									"    pm.expect(data.data.getArticles[id_array].url).equal(\"https://asciiflix.de/watch/814bd1ab-18a7-41f2-8b23-7feb2bab9de2\");\r",
+									"    pm.expect(data.data.getArticles[id_array].author).to.exist;\r",
+									"\r",
+									"    pm.expect(data.data.getArticles[2]).to.exist;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query articles{\r\n  getArticles{\r\n    id\r\n    title\r\n    description\r\n    content\r\n    url\r\n    author {\r\n        id\r\n        name\r\n    }\r\n  }\r\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/graphql",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET  - All Articles - Category Information",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status Code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var data = JSON.parse(responseBody);\r",
+									"var id_array = pm.environment.get(\"article-id\") - 1;\r",
+									"\r",
+									"pm.test(\"Correct Data\", function () {\r",
+									"    pm.expect(data.data.getArticles[id_array].id).equal(parseInt(pm.environment.get(\"article-id\")));\r",
+									"    pm.expect(data.data.getArticles[id_array].title).equal(\"How installing linux made me gain 20lbs of muscle\");\r",
+									"    pm.expect(data.data.getArticles[id_array].description).equal(\"After installing arch linux, I did one pushup every time I told someone, that I use...\");\r",
+									"    pm.expect(data.data.getArticles[id_array].content).to.exist;\r",
+									"    pm.expect(data.data.getArticles[id_array].url).equal(\"https://asciiflix.de/watch/814bd1ab-18a7-41f2-8b23-7feb2bab9de2\");\r",
+									"    pm.expect(data.data.getArticles[id_array].categories).to.exist;\r",
+									"\r",
+									"    pm.expect(data.data.getArticles[2]).to.exist;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query articles{\r\n  getArticles{\r\n    id\r\n    title\r\n    description\r\n    content\r\n    url\r\n    categories {\r\n        id\r\n        name\r\n    }\r\n  }\r\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/graphql",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET  - All Articles - Feed Information",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status Code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var data = JSON.parse(responseBody);\r",
+									"var id_array = pm.environment.get(\"article-id\") - 1;\r",
+									"\r",
+									"pm.test(\"Correct Data\", function () {\r",
+									"    pm.expect(data.data.getArticles[id_array].id).equal(parseInt(pm.environment.get(\"article-id\")));\r",
+									"    pm.expect(data.data.getArticles[id_array].title).equal(\"How installing linux made me gain 20lbs of muscle\");\r",
+									"    pm.expect(data.data.getArticles[id_array].description).equal(\"After installing arch linux, I did one pushup every time I told someone, that I use...\");\r",
+									"    pm.expect(data.data.getArticles[id_array].content).to.exist;\r",
+									"    pm.expect(data.data.getArticles[id_array].url).equal(\"https://asciiflix.de/watch/814bd1ab-18a7-41f2-8b23-7feb2bab9de2\");\r",
+									"    pm.expect(data.data.getArticles[id_array].feed).to.exist;\r",
+									"\r",
+									"    pm.expect(data.data.getArticles[2]).to.exist;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query articles{\r\n  getArticles{\r\n    id\r\n    title\r\n    description\r\n    content\r\n    url\r\n    feed {\r\n        id\r\n        name\r\n        link\r\n        ttl\r\n    }\r\n  }\r\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/graphql",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET  - All Articles - All Information",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status Code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var data = JSON.parse(responseBody);\r",
+									"var id_array = pm.environment.get(\"article-id\") - 1;\r",
+									"\r",
+									"pm.test(\"Correct Data\", function () {\r",
+									"    pm.expect(data.data.getArticles[id_array].id).equal(parseInt(pm.environment.get(\"article-id\")));\r",
+									"    pm.expect(data.data.getArticles[id_array].title).equal(\"How installing linux made me gain 20lbs of muscle\");\r",
+									"    pm.expect(data.data.getArticles[id_array].description).equal(\"After installing arch linux, I did one pushup every time I told someone, that I use...\");\r",
+									"    pm.expect(data.data.getArticles[id_array].content).to.exist;\r",
+									"    pm.expect(data.data.getArticles[id_array].url).equal(\"https://asciiflix.de/watch/814bd1ab-18a7-41f2-8b23-7feb2bab9de2\");\r",
+									"    pm.expect(data.data.getArticles[id_array].author).to.exist;\r",
+									"    pm.expect(data.data.getArticles[id_array].categories).to.exist;\r",
+									"    pm.expect(data.data.getArticles[id_array].feed).to.exist;\r",
+									"\r",
+									"    pm.expect(data.data.getArticles[2]).to.exist;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query articles{\r\n  getArticles{\r\n    id\r\n    title\r\n    description\r\n    content\r\n    url\r\n    author {\r\n        id\r\n        name\r\n    }\r\n    categories {\r\n        id\r\n        name\r\n    }\r\n        feed {\r\n        id\r\n        name\r\n        link\r\n        ttl\r\n    }\r\n  }\r\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/graphql",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET  - Single Article - Basic Information",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status Code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var data = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.test(\"Correct Data\", function () {\r",
+									"    pm.expect(data.data.getArticle.id).equal(parseInt(pm.environment.get(\"article-id\")));\r",
+									"    pm.expect(data.data.getArticle.title).equal(\"How installing linux made me gain 20lbs of muscle\");\r",
+									"    pm.expect(data.data.getArticle.description).equal(\"After installing arch linux, I did one pushup every time I told someone, that I use...\");\r",
+									"    pm.expect(data.data.getArticle.content).to.exist;\r",
+									"    pm.expect(data.data.getArticle.url).equal(\"https://asciiflix.de/watch/814bd1ab-18a7-41f2-8b23-7feb2bab9de2\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query article ($id: Float!){\r\n  getArticle(id: $id){\r\n    id\r\n    title\r\n    description\r\n    content\r\n    url\r\n  }\r\n}\r\n",
+								"variables": "{\r\n    \"id\": {{article-id}}\r\n}"
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/graphql",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET  - Single Article - Author Information",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status Code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var data = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.test(\"Correct Data\", function () {\r",
+									"    pm.expect(data.data.getArticle.id).equal(parseInt(pm.environment.get(\"article-id\")));\r",
+									"    pm.expect(data.data.getArticle.title).equal(\"How installing linux made me gain 20lbs of muscle\");\r",
+									"    pm.expect(data.data.getArticle.description).equal(\"After installing arch linux, I did one pushup every time I told someone, that I use...\");\r",
+									"    pm.expect(data.data.getArticle.content).to.exist;\r",
+									"    pm.expect(data.data.getArticle.url).equal(\"https://asciiflix.de/watch/814bd1ab-18a7-41f2-8b23-7feb2bab9de2\");\r",
+									"    pm.expect(data.data.getArticle.author).to.exist;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query article ($id: Float!){\r\n  getArticle(id: $id){\r\n    id\r\n    title\r\n    description\r\n    content\r\n    url\r\n    author {\r\n      id\r\n      name      \r\n    }\r\n  }\r\n}\r\n",
+								"variables": "{\r\n    \"id\": {{article-id}}\r\n}"
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/graphql",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET  - Single Article - Category Information",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status Code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var data = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.test(\"Correct Data\", function () {\r",
+									"    pm.expect(data.data.getArticle.id).equal(parseInt(pm.environment.get(\"article-id\")));\r",
+									"    pm.expect(data.data.getArticle.title).equal(\"How installing linux made me gain 20lbs of muscle\");\r",
+									"    pm.expect(data.data.getArticle.description).equal(\"After installing arch linux, I did one pushup every time I told someone, that I use...\");\r",
+									"    pm.expect(data.data.getArticle.content).to.exist;\r",
+									"    pm.expect(data.data.getArticle.url).equal(\"https://asciiflix.de/watch/814bd1ab-18a7-41f2-8b23-7feb2bab9de2\");\r",
+									"    pm.expect(data.data.getArticle.categories).to.exist;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query article ($id: Float!){\r\n  getArticle(id: $id){\r\n    id\r\n    title\r\n    description\r\n    content\r\n    url\r\n    categories {\r\n        id\r\n        name\r\n    }\r\n  }\r\n}\r\n",
+								"variables": "{\r\n    \"id\": {{article-id}}\r\n}"
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/graphql",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET  - Single Article - Feed Information",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status Code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var data = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.test(\"Correct Data\", function () {\r",
+									"    pm.expect(data.data.getArticle.id).equal(parseInt(pm.environment.get(\"article-id\")));\r",
+									"    pm.expect(data.data.getArticle.title).equal(\"How installing linux made me gain 20lbs of muscle\");\r",
+									"    pm.expect(data.data.getArticle.description).equal(\"After installing arch linux, I did one pushup every time I told someone, that I use...\");\r",
+									"    pm.expect(data.data.getArticle.content).to.exist;\r",
+									"    pm.expect(data.data.getArticle.url).equal(\"https://asciiflix.de/watch/814bd1ab-18a7-41f2-8b23-7feb2bab9de2\");\r",
+									"    pm.expect(data.data.getArticle.feed).to.exist;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query article ($id: Float!){\r\n  getArticle(id: $id){\r\n    id\r\n    title\r\n    description\r\n    content\r\n    url\r\n    feed {\r\n        id\r\n        name\r\n        link\r\n        ttl\r\n    }\r\n  }\r\n}\r\n",
+								"variables": "{\r\n    \"id\": {{article-id}}\r\n}"
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/graphql",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET  - Single Article - All Information",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status Code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var data = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.test(\"Correct Data\", function () {\r",
+									"    pm.expect(data.data.getArticle.id).equal(parseInt(pm.environment.get(\"article-id\")));\r",
+									"    pm.expect(data.data.getArticle.title).equal(\"How installing linux made me gain 20lbs of muscle\");\r",
+									"    pm.expect(data.data.getArticle.description).equal(\"After installing arch linux, I did one pushup every time I told someone, that I use...\");\r",
+									"    pm.expect(data.data.getArticle.content).to.exist;\r",
+									"    pm.expect(data.data.getArticle.url).equal(\"https://asciiflix.de/watch/814bd1ab-18a7-41f2-8b23-7feb2bab9de2\");\r",
+									"    pm.expect(data.data.getArticle.author).to.exist;\r",
+									"    pm.expect(data.data.getArticle.categories).to.exist;\r",
+									"    pm.expect(data.data.getArticle.feed).to.exist;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query article ($id: Float!){\r\n  getArticle(id: $id){\r\n    id\r\n    title\r\n    description\r\n    content\r\n    url\r\n    author {\r\n        id\r\n        name\r\n    }\r\n    categories {\r\n        id\r\n        name\r\n    }\r\n    feed {\r\n        id\r\n        name\r\n        link\r\n        ttl\r\n    }\r\n  }\r\n}\r\n",
+								"variables": "{\r\n    \"id\": {{article-id}}\r\n}"
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/graphql",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
