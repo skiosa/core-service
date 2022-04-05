@@ -33,3 +33,8 @@ api.listen(process.env.API_PORT, () => {
 api.use("/", defaultController);
 api.use("/graphql", graphqlController);
 api.use('*', errorController);
+
+/**
+ * Security Configuration
+ */
+api.disable("x-powered-by");
