@@ -8,7 +8,8 @@
     "test:ci": "nyc --require ts-node/register --reporter=lcov mocha -R @danmasta/mocha-sonar ./tests/unit/**/*.spec.ts",
     "dev": "nodemon",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
-    "lint": "eslint -c .eslintrc.json"
+    "lint": "eslint -c .eslintrc.json",
+    "start": "ts-node ."
   },
   "repository": {
     "type": "git",
