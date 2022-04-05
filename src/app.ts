@@ -19,7 +19,7 @@ dataSource.initialize().catch((err) => console.error(err));
 /**
  * Express Configuration
  */
-export const api = express();
+const api = express();
 
 api.listen(process.env.API_PORT, () => {
   console.log(
@@ -33,3 +33,8 @@ api.listen(process.env.API_PORT, () => {
 api.use("/", defaultController);
 api.use("/graphql", graphqlController);
 api.use('*', errorController);
+
+/**
+ * Security Configuration
+ */
+api.disable("x-powered-by");
