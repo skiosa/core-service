@@ -54,6 +54,11 @@ steps:
 - name: starting application
   image: node:16
   detach: true
+  environment
+    POSTGRES_HOST=database
+    POSTGRES_DB=skiosa-db-integration-test
+    POSTGRES_USER=skiosa-user-integration-test
+    POSTGRES_PASSWORD=${database_password}
   commands:
   - npm run start
 
@@ -72,6 +77,14 @@ steps:
   commands:
   - npm install sonarqube-scanner -g
   - sonar-scanner -Dsonar.pullrequest.key=$${DRONE_PULL_REQUEST} -Dsonar.pullrequest.branch=$${DRONE_SOURCE_BRANCH} -Dsonar.pullrequest.base=$${DRONE_TARGET_BRANCH} -Dsonar.scm.disabled=true -Dsonar.login=$token
+
+services:
+- name: database
+  image: postgres:14
+  environment:
+    POSTGRES_DB=skiosa-db-integration-test
+    POSTGRES_USER=skiosa-user-integration-test
+    POSTGRES_PASSWORD=${database_password}
 
 image_pull_secrets:
 - dockerconfig
