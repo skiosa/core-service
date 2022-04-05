@@ -61,7 +61,8 @@ steps:
   image: postman/newman
   commands:
   - sleep 5
-  - ./tests/integration/Skiosa.postman_collection.json --environment="./tests/integration/skiosa-local-dev.postman_environment.json"
+  - cd tests/integration
+  - newman run Skiosa.postman_collection.json -e skiosa-local-dev.postman_environment.json
 
 - name: code-analysis & coverage
   image: node:16
