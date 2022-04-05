@@ -5,11 +5,35 @@
   "main": "src/app.ts",
   "scripts": {
     "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha -r ts-node/register 'tests/**/*.spec.ts'",
-    "test:ci": "nyc --require ts-node/register --reporter=lcov mocha -R @danmasta/mocha-sonar ./tests/unit/**/*.spec.ts",
+    "test:ci": "nyc npm run test",
     "dev": "nodemon",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "lint": "eslint -c .eslintrc.json",
     "start": "ts-node ."
+  },
+  "nyc": {
+    "extends": "@istanbuljs/nyc-config-typescript",
+    "check-coverage": true,
+    "all": true,
+    "include": [
+      "src/**/*.ts"
+    ],
+    "exclude": [
+      "tests/**/*.spec.ts",
+      "src/app.ts"
+    ],
+    "reporter": [
+      "html",
+      "lcov",
+      "text",
+      "text-summary"
+    ],
+    "report-dir": "coverage",
+    "excludeNodeModules": true,
+    "branches": 0,
+    "lines": 0,
+    "functions": 0,
+    "statements": 0
   },
   "repository": {
     "type": "git",
