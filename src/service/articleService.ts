@@ -1,4 +1,4 @@
-import { Article } from "skiosa-orm/lib/model/article";
+import { Article } from "../model/article";
 
 export interface ArticleService {
   getArticles(): Promise<Article[]>;

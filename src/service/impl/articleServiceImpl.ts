@@ -1,5 +1,5 @@
+import { Article } from "skiosa-orm";
 import { dataSource } from "skiosa-orm/lib/db";
-import { Article } from "skiosa-orm/lib/model/article";
 import { Arg, Query, Resolver } from "type-graphql";
 import { ArticleService } from "../articleService";
 

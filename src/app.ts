@@ -1,10 +1,11 @@
 import dotenv from "dotenv";
 import express from "express";
 import "reflect-metadata";
-import { dataSource } from 'skiosa-orm/lib/db';
 import { defaultController } from "./controller/defaultController";
 import { errorController } from "./controller/errorController";
 import { graphqlController } from "./controller/graphqlController";
+import { initDB } from "./util/initDB";
+import { dataSource } from "skiosa-orm/lib/db";
 
 /**
  * Configuration Part
@@ -14,22 +15,28 @@ dotenv.config({ path: "./src/config/app.env" });
 /**
  * Database Setup
  */
-dataSource.initialize().catch((err) => console.error(err));
+dataSource
+  .initialize()
+  .then(() => initDB())
+  .then(() => start())
+  .catch((err: any) => console.error(err));
 
-/**
- * Express Configuration
- */
-export const api = express();
+function start() {
+  /**
+   * Express Configuration
+   */
+  const api = express();
 
-api.listen(process.env.API_PORT, () => {
-  console.log(
-    `Core-Service running at http://localhost:${process.env.API_PORT}`
-  );
-});
+  api.listen(process.env.API_PORT, () => {
+    console.log(
+      `Core-Service running at http://localhost:${process.env.API_PORT}`
+    );
+  });
 
-/**
- * Express Routes
- */
-api.use("/", defaultController);
-api.use("/graphql", graphqlController);
-api.use('*', errorController);
+  /**
+   * Express Routes
+   */
+  api.use("/", defaultController);
+  api.use("/graphql", graphqlController);
+  api.use("*", errorController);
+}

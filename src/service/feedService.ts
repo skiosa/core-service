@@ -1,9 +1,8 @@
-import { Article, Feed } from "skiosa-orm";
 import { PaginationArg } from "../model/paginationArg";
 
 export interface FeedService {
   //Querys:
- 
+
   /**
    * @author Marcel Alex, Jonas Eppard
    * @summary Get all feeds
@@ -12,7 +11,7 @@ export interface FeedService {
    * @returns {Feed[]} List of Queried Feeds
    */
   feeds(paginated?: PaginationArg): Promise<Feed[]>;
- 
+
   /**
    * @author Marcel Alex, Jonas Eppard
    * @summary Get a feed by id
@@ -22,8 +21,7 @@ export interface FeedService {
    *
    */
   feed(id: number): Promise<Feed>;
- 
- 
+
   //FieldResolvers:
   /**
    * @author Marcel Alex, Jonas Eppard
@@ -34,9 +32,9 @@ export interface FeedService {
    * @returns {Article[]} List of Queried Articles
    *
    */
-  articles(feed: Feed, paginated?: PaginationArg): Promise<Article[]>;
- 
- /**
+  articles(feed: Feed, paginated?: PaginationArg): any;
+
+  /**
    * @author Marcel Alex, Jonas Eppard
    * @summary Get number of articles from a feed
    * @description Get number of articles from a feed from the database
