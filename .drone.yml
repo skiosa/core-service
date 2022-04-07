@@ -10,10 +10,10 @@ steps:
   commands:
   - npm install
 
-#- name: unit tests
-#  image: node:16
-#  commands:
-#  - npm run test:ci
+- name: unit tests
+  image: node:16
+  commands:
+  - npm run test:ci
 
 - name: branch specific code-analysis
   image: node:16
@@ -46,10 +46,29 @@ steps:
   commands:
   - npm install
 
-#- name: unit tests
-#  image: node:16
-#  commands:
-#  - npm run test:ci
+- name: unit tests
+  image: node:16
+  commands:
+  - npm run test:ci
+
+- name: starting application
+  image: node:16
+  detach: true
+  environment:
+    POSTGRES_HOST: database
+    POSTGRES_DB: skiosa-db-integration-test
+    POSTGRES_USER: skiosa-user-integration-test
+    POSTGRES_PASSWORD: 
+      from_secret: database_password
+  commands:
+  - npm run start
+
+- name: integration tests
+  image: postman/newman
+  commands:
+  - sleep 5
+  - cd tests/integration
+  - newman run Skiosa.postman_collection.json -e skiosa-local-dev.postman_environment.json
 
 - name: code-analysis & coverage
   image: node:16
@@ -59,6 +78,15 @@ steps:
   commands:
   - npm install sonarqube-scanner -g
   - sonar-scanner -Dsonar.pullrequest.key=$${DRONE_PULL_REQUEST} -Dsonar.pullrequest.branch=$${DRONE_SOURCE_BRANCH} -Dsonar.pullrequest.base=$${DRONE_TARGET_BRANCH} -Dsonar.scm.disabled=true -Dsonar.login=$token
+
+services:
+- name: database
+  image: postgres:14
+  environment:
+    POSTGRES_DB: skiosa-db-integration-test
+    POSTGRES_USER: skiosa-user-integration-test
+    POSTGRES_PASSWORD: 
+      from_secret: database_password
 
 image_pull_secrets:
 - dockerconfig
@@ -80,10 +108,10 @@ steps:
   commands:
   - npm install
 
-#- name: unit tests
-#  image: node:16
-#  commands:
-#  - npm run test:ci
+- name: unit tests
+  image: node:16
+  commands:
+  - npm run test:ci
 
 - name: docker-build
   image: plugins/docker
@@ -96,12 +124,12 @@ steps:
     password:
       from_secret: docker_password
 
-#- name: promote-deployment
-#  image: danihodovic/drone-promote
-#  settings:
-#    drone_token:
-#      from_secret: drone_token
-#    target: production
+- name: promote-deployment
+  image: danihodovic/drone-promote
+  settings:
+    drone_token:
+      from_secret: drone_token
+    target: production
 
 - name: master code-analysis
   image: node:16

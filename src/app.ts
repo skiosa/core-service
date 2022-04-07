@@ -18,26 +18,24 @@ dotenv.config({ path: "./src/config/app.env" });
 dataSource
   .initialize()
   .then(() => initDB())
-  .then(() => start())
   .catch((err: any) => console.error(err));
 
-export const api = express();
+/**
+ * Express Configuration
+ */
+const api = express();
+/**
+ * Express Configuration
+ */
 
-function start() {
-  /**
-   * Express Configuration
-   */
+/**
+ * Express Routes
+ */
+api.use("/", defaultController);
+api.use("/graphql", graphqlController);
+api.use('*', errorController);
 
-  api.listen(process.env.API_PORT, () => {
-    console.log(
-      `Core-Service running at http://localhost:${process.env.API_PORT}`
-    );
-  });
-
-  /**
-   * Express Routes
-   */
-  api.use("/", defaultController);
-  api.use("/graphql", graphqlController);
-  api.use("*", errorController);
-}
+/**
+ * Security Configuration
+ */
+api.disable("x-powered-by");

@@ -36,17 +36,11 @@ export class ArticleServiceMock extends MockService implements ArticleService {
 
   @Query((_returns) => [Article])
   getArticles(): Promise<Article[]> {
-    return new Promise((resolve, _reject) => {
-      resolve(this.articlesMock);
-    });
+    return Promise.resolve(this.articlesMock);
   }
 
   @Query((_returns) => Article)
   getArticle(@Arg("id") id: number): Promise<Article> {
-    return new Promise((resolve, _reject) => {
-      resolve(
-        this.articlesMock.filter((articlesMock) => articlesMock.id === id)[0]
-      );
-    });
+    return Promise.resolve(this.articlesMock.filter((articlesMock) => articlesMock.id === id)[0]);
   }
 }
