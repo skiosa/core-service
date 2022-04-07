@@ -21,11 +21,12 @@ dataSource
   .then(() => start())
   .catch((err: any) => console.error(err));
 
+export const api = express();
+
 function start() {
   /**
    * Express Configuration
    */
-  const api = express();
 
   api.listen(process.env.API_PORT, () => {
     console.log(

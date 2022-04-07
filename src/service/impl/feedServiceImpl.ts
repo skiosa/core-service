@@ -1,4 +1,4 @@
-import { Resolver, Query, FieldResolver, Root, Arg, ID } from "type-graphql";
+import { Resolver, Query, FieldResolver, Root, Arg, ID, Int } from "type-graphql";
 import { PaginationArg } from "../../model/paginationArg";
 import { FeedService } from "../feedService";
 import { Loader } from "type-graphql-dataloader";
@@ -18,7 +18,7 @@ export class FeedResolverService implements FeedService {
       relations: [],
       skip: paginated?.skip,
       take: paginated?.take,
-      order: { id: "DESC" },
+      order: { id: "ASC" },
     });
   }
 
@@ -36,49 +36,25 @@ export class FeedResolverService implements FeedService {
       });
   }
 
-  @FieldResolver()
-  @Loader<{ id: number; paginated?: PaginationArg }, Article[]>((parameter) => {
-    return dataSource
-      .getRepository(Article)
-      .find({
-        relations: ["feed"],
-        where: {
-          feed: { id: In(parameter.map((p) => p.id)) },
-        },
-      })
-      .then((articles) => {
-        return parameter.map((p) => {
-          const all: Article[] = articles.filter(
-            (articles) => articles.feed?.id === p.id
-          );
-          if (!p.paginated) {
-            return all;
-          } else {
-            return all.slice(
-              p.paginated.skip ?? 0,
-              (p.paginated.skip ?? 0) + p.paginated.take
-            );
-          }
-        });
-      });
-  })
-  async articles(
+  @FieldResolver(_type => [Article])
+  articles(
     @Root() feed: Feed,
     @Arg("PaginationArg", { nullable: true }) paginated?: PaginationArg
-  ) {
-    return (
-      dataloader: DataLoader<
-        { id: number; paginated?: PaginationArg },
-        Article[]
-      >
-    ) =>
-      dataloader.load({
-        id: feed.id,
-        paginated: paginated,
-      });
+  ): Promise<Article[]> {
+    return dataSource.getRepository(Article).find({
+      relations: ["feed"],
+      where: {
+        feed: {
+          id: feed.id,
+        }
+      },
+      take: paginated?.take,
+      skip: paginated?.skip,
+      order: { id: "ASC" },
+    });
   }
 
-  @FieldResolver()
+  @FieldResolver(type => Int)
   async articleCount(@Root() feed: Feed): Promise<number> {
     return dataSource.getRepository(Article).count({
       where: {

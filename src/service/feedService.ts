@@ -1,3 +1,4 @@
+import { Article, Feed } from "skiosa-orm";
 import { PaginationArg } from "../model/paginationArg";
 
 export interface FeedService {
@@ -32,7 +33,7 @@ export interface FeedService {
    * @returns {Article[]} List of Queried Articles
    *
    */
-  articles(feed: Feed, paginated?: PaginationArg): any;
+  articles(feed: Feed, paginated?: PaginationArg): Promise<Article[]>;
 
   /**
    * @author Marcel Alex, Jonas Eppard

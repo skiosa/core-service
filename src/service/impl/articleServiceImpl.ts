@@ -1,6 +1,6 @@
-import { Article } from "skiosa-orm";
+import { Article, Feed } from "skiosa-orm";
 import { dataSource } from "skiosa-orm/lib/db";
-import { Arg, Query, Resolver } from "type-graphql";
+import { Arg, FieldResolver, Query, Resolver, Root } from "type-graphql";
 import { ArticleService } from "../articleService";
 
 @Resolver(Article)
@@ -31,5 +31,20 @@ export class ArticleServiceImpl implements ArticleService {
         })
         .catch((err) => reject(err));
     });
+  }
+
+  @FieldResolver((_returns) => Feed)
+  feed(@Root() article: Article): Promise<Feed> {
+    return dataSource.getRepository(Article).find({
+      relations: ["feed"],
+      where: {
+        id: article.id,
+      }
+    }).then(articles => {
+      if (articles.length !== 1 || !articles[0].feed) {
+        throw new Error(`Article with ID ${article.id} has invalid Format`);
+      }
+      return articles[0].feed;
+    })
   }
 }
