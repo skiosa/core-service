@@ -9,7 +9,8 @@
     "dev": "nodemon",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "lint": "eslint -c .eslintrc.json",
-    "start": "ts-node ."
+    "start": "ts-node .",
+    "initDB": "ts-node ./src/initDB.ts"
   },
   "nyc": {
     "extends": "@istanbuljs/nyc-config-typescript",

@@ -21,7 +21,7 @@ bootstrap();
  */
 async function bootstrap() {
   const { typeDefs, resolvers } = await buildTypeDefsAndResolvers({
-    resolvers: [ArticleServiceMock, FeedResolverServiceMock],
+    resolvers: [ArticleServiceImpl, FeedResolverService],
   });
 
   const schema = makeExecutableSchema({ typeDefs, resolvers });
