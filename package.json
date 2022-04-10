@@ -5,10 +5,36 @@
   "main": "src/app.ts",
   "scripts": {
     "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha -r ts-node/register 'tests/**/*.spec.ts'",
-    "test:ci": "nyc --require ts-node/register --reporter=lcov mocha -R @danmasta/mocha-sonar ./tests/unit/**/*.spec.ts",
+    "test:ci": "nyc npm run test",
     "dev": "nodemon",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
-    "lint": "eslint -c .eslintrc.json"
+    "lint": "eslint -c .eslintrc.json",
+    "start": "ts-node .",
+    "initDB": "ts-node ./src/initDB.ts"
+  },
+  "nyc": {
+    "extends": "@istanbuljs/nyc-config-typescript",
+    "check-coverage": true,
+    "all": true,
+    "include": [
+      "src/**/*.ts"
+    ],
+    "exclude": [
+      "tests/**/*.spec.ts",
+      "src/app.ts"
+    ],
+    "reporter": [
+      "html",
+      "lcov",
+      "text",
+      "text-summary"
+    ],
+    "report-dir": "coverage",
+    "excludeNodeModules": true,
+    "branches": 0,
+    "lines": 0,
+    "functions": 0,
+    "statements": 0
   },
   "repository": {
     "type": "git",
@@ -50,14 +76,16 @@
   },
   "dependencies": {
     "class-validator": "^0.13.2",
+    "dataloader": "^2.0.0",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
     "express-graphql": "^0.12.0",
     "graphql": "^15.5.0",
     "pg": "^8.7.3",
     "reflect-metadata": "^0.1.13",
-    "skiosa-orm": "github:skiosa/orm",
+    "skiosa-orm": "github:skiosa/orm#v1.0.0",
     "type-graphql": "^1.2.0-rc.1",
+    "type-graphql-dataloader": "^0.5.0",
     "typeorm": "^0.3.4"
   }
 }

@@ -51,7 +51,7 @@
 							"script": {
 								"exec": [
 									"pm.test(\"Status Code is 404\", function() {\r",
-									"    pm.response.to.have.status(400);\r",
+									"    pm.response.to.have.status(404);\r",
 									"});\r",
 									"\r",
 									"var data = JSON.parse(responseBody);\r",
