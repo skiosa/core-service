@@ -1,5 +1,6 @@
 import { Article, Author, Category, Feed } from "skiosa-orm";
 import { dataSource } from "skiosa-orm/lib/db";
+import { ID } from "type-graphql";
 
 /**
  * @author Jonas Eppard
@@ -7,30 +8,20 @@ import { dataSource } from "skiosa-orm/lib/db";
  * @description Truncates Database and injects Mock Database content for testing
  */
 export async function initDB() {
-  dataSource.getRepository(Feed).query(`TRUNCATE TABLE "feed" RESTART IDENTITY CASCADE`);
-  dataSource.getRepository(Article).query(`TRUNCATE TABLE "article" RESTART IDENTITY CASCADE`);
-  dataSource.getRepository(Author).query(`TRUNCATE TABLE "author" RESTART IDENTITY CASCADE`);
-  dataSource.getRepository(Category).query(`TRUNCATE TABLE "category" RESTART IDENTITY CASCADE`);
-  dataSource.getRepository(Feed).save([
-    {
-      link: "https://asciiflix.de",
-      ttl: 3600,
-      name: "Asciiflix.de",
-      description:
-        " A cheap and data-saving YouTube alternative for poor People with Bad Internet Connections",
-    },
-    {
-      link: "https://test.de",
-      ttl: 4200,
-      name: "testwebsite",
-      description: "I am a test website",
-    },
-  ]);
-  dataSource
+  await dataSource
+    .getRepository(Feed)
+    .query(`TRUNCATE TABLE "feed" RESTART IDENTITY CASCADE`);
+  await dataSource
+    .getRepository(Article)
+    .query(`TRUNCATE TABLE "article" RESTART IDENTITY CASCADE`);
+  await dataSource
     .getRepository(Author)
-    .save([{ name: "Gustavo" }, { name: "Günther" }, { name: "Peter Agile" }]);
+    .query(`TRUNCATE TABLE "author" RESTART IDENTITY CASCADE`);
+  await dataSource
+    .getRepository(Category)
+    .query(`TRUNCATE TABLE "category" RESTART IDENTITY CASCADE`);
 
-  dataSource
+  await dataSource
     .getRepository(Category)
     .save([
       { name: "News" },
@@ -45,9 +36,33 @@ export async function initDB() {
     ]);
 
   const categoryMock = await dataSource.getRepository(Category).find();
-  const authorMock = await dataSource.getRepository(Author).find();
+
+  await dataSource.getRepository(Feed).save([
+    {
+      link: "https://asciiflix.de",
+      ttl: 3600,
+      name: "Asciiflix.de",
+      description:
+        " A cheap and data-saving YouTube alternative for poor People with Bad Internet Connections",
+      categories: [categoryMock[1], categoryMock[4]],
+    },
+    {
+      link: "https://test.de",
+      ttl: 4200,
+      name: "testwebsite",
+      description: "I am a test website",
+      categories: [categoryMock[2], categoryMock[5]],
+    },
+  ]);
   const feedMock = await dataSource.getRepository(Feed).find();
-  dataSource.getRepository(Article).save([
+
+  await dataSource
+    .getRepository(Author)
+    .save([{ name: "Gustavo" }, { name: "Günther" }, { name: "Peter Agile" }]);
+
+  const authorMock = await dataSource.getRepository(Author).find();
+
+  await dataSource.getRepository(Article).save([
     {
       title: "How installing linux made me gain 20lbs of muscle",
       description:
