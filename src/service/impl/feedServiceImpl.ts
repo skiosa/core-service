@@ -1,12 +1,8 @@
-import { Resolver, Query, FieldResolver, Root, Arg, ID, Int } from "type-graphql";
-import { PaginationArg } from "../../model/paginationArg";
-import { FeedService } from "../feedService";
-import { Loader } from "type-graphql-dataloader";
-import { Min } from "class-validator";
-import { In } from "typeorm";
-import DataLoader from "dataloader";
 import { Article, Category, Feed, User } from "skiosa-orm";
 import { dataSource } from "skiosa-orm/lib/db";
+import { Arg, FieldResolver, Int, Query, Resolver, Root } from "type-graphql";
+import { PaginationArg } from "../../model/paginationArg";
+import { FeedService } from "../feedService";
 
 @Resolver((_of) => Feed)
 export class FeedResolverService implements FeedService {

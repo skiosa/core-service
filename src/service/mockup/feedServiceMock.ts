@@ -1,4 +1,4 @@
-import { Article, Feed } from "skiosa-orm";
+import { Article, Category, Feed, User } from "skiosa-orm";
 import { Arg, FieldResolver, Int, Query, Resolver, Root } from "type-graphql";
 import { PaginationArg } from "../../model/paginationArg";
 import { FeedService } from "../feedService";
@@ -7,8 +7,19 @@ import { MockService } from "./mockService";
 @Resolver((_of) => Feed)
 export class FeedResolverServiceMock
   extends MockService
-  implements FeedService
-{
+  implements FeedService {
+  categories(feed: Feed, paginated?: PaginationArg): Promise<Category[]> {
+    throw new Error("Method not implemented.");
+  }
+  categoryCount(feed: Feed): Promise<number> {
+    throw new Error("Method not implemented.");
+  }
+  subscribers(feed: Feed, paginated?: PaginationArg): Promise<User[]> {
+    throw new Error("Method not implemented.");
+  }
+  subscriberCount(feed: Feed): Promise<number> {
+    throw new Error("Method not implemented.");
+  }
   @Query((_of) => [Feed])
   feeds(
     @Arg("PaginationArg", { nullable: true }) paginated?: PaginationArg
