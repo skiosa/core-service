@@ -28,8 +28,6 @@ export class FeedServiceImpl implements FeedService {
       .getRepository(Feed)
       .find({
         relations: [],
-        skip: paginated?.skip,
-        take: paginated?.take,
         order: { id: "ASC" },
       })
       .then((feeds) => shuffle(feeds, seed))

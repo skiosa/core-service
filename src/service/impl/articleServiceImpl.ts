@@ -2,6 +2,8 @@ import { Article, Feed } from "skiosa-orm";
 import { dataSource } from "skiosa-orm/lib/db";
 import { Arg, FieldResolver, Query, Resolver, Root } from "type-graphql";
 import { ArticleService } from "../articleService";
+import { PaginationArg } from "../../model/paginationArg";
+import { shuffle } from "shuffle-seed";
 
 @Resolver(Article)
 export class ArticleServiceImpl implements ArticleService {
@@ -14,6 +16,28 @@ export class ArticleServiceImpl implements ArticleService {
         .then((articles) => resolve(articles))
         .catch((err) => reject(err));
     });
+  }
+
+  @Query((_of) => [Article])
+  recommendedArticles(
+    @Arg("seed") seed: number,
+    @Arg("PaginationArg", { nullable: true }) paginated?: PaginationArg
+  ) {
+    return dataSource
+      .getRepository(Article)
+      .find({
+        relations: [],
+        order: { id: "ASC" },
+      })
+      .then((articles) => shuffle(articles, seed))
+      .then((articles) =>
+        paginated
+          ? articles.slice(
+              paginated.skip ?? 0,
+              paginated.skip ?? 0 + paginated.take
+            )
+          : articles
+      );
   }
 
   @Query((_returns) => Article)
@@ -35,16 +59,19 @@ export class ArticleServiceImpl implements ArticleService {
 
   @FieldResolver((_returns) => Feed)
   feed(@Root() article: Article): Promise<Feed> {
-    return dataSource.getRepository(Article).find({
-      relations: ["feed"],
-      where: {
-        id: article.id,
-      }
-    }).then(articles => {
-      if (articles.length !== 1 || !articles[0].feed) {
-        throw new Error(`Article with ID ${article.id} has invalid Format`);
-      }
-      return articles[0].feed;
-    })
+    return dataSource
+      .getRepository(Article)
+      .find({
+        relations: ["feed"],
+        where: {
+          id: article.id,
+        },
+      })
+      .then((articles) => {
+        if (articles.length !== 1 || !articles[0].feed) {
+          throw new Error(`Article with ID ${article.id} has invalid Format`);
+        }
+        return articles[0].feed;
+      });
   }
 }
