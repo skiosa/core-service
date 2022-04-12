@@ -9,6 +9,7 @@ import KeycloakConnect from "keycloak-connect";
 import session from "express-session";
 import { UserInfo } from "./model/jwt";
 
+
 /**
  * Configuration Part
  */
@@ -17,7 +18,9 @@ dotenv.config({ path: "./src/config/app.env" });
 /**
  * Database Setup
  */
-dataSource.initialize().catch((err) => console.error(err));
+dataSource
+  .initialize()
+  .catch((err: any) => console.error(err));
 
 /**
  * Express Configuration
@@ -67,7 +70,6 @@ var keycloak = new KeycloakConnect(
 /**
  * Express Middleware
  */
-
 api.use(keycloak.middleware());
 
 /**

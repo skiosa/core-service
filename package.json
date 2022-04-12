@@ -9,7 +9,8 @@
     "dev": "nodemon",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "lint": "eslint -c .eslintrc.json",
-    "start": "ts-node ."
+    "start": "ts-node .",
+    "initDB": "ts-node ./src/initDB.ts"
   },
   "nyc": {
     "extends": "@istanbuljs/nyc-config-typescript",
@@ -20,7 +21,9 @@
     ],
     "exclude": [
       "tests/**/*.spec.ts",
-      "src/app.ts"
+      "src/app.ts",
+      "src/initDB.ts",
+      "src/util/initDB.ts"
     ],
     "reporter": [
       "html",
@@ -77,6 +80,7 @@
   },
   "dependencies": {
     "class-validator": "^0.13.2",
+    "dataloader": "^2.0.0",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
     "express-graphql": "^0.12.0",
@@ -86,8 +90,9 @@
     "keycloak-connect": "^17.0.1",
     "pg": "^8.7.3",
     "reflect-metadata": "^0.1.13",
-    "skiosa-orm": "github:skiosa/orm",
+    "skiosa-orm": "github:skiosa/orm#v1.0.0",
     "type-graphql": "^1.2.0-rc.1",
+    "type-graphql-dataloader": "^0.5.0",
     "typeorm": "^0.3.4"
   }
 }

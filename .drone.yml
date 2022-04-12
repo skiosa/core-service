@@ -51,6 +51,17 @@ steps:
   commands:
   - npm run test:ci
 
+- name: initialize db/api with Sample Data
+  image: node:16
+  environment:
+    POSTGRES_HOST: database
+    POSTGRES_DB: skiosa-db-integration-test
+    POSTGRES_USER: skiosa-user-integration-test
+    POSTGRES_PASSWORD: 
+      from_secret: database_password
+  commands:
+  - npm run initDB
+
 - name: starting application
   image: node:16
   detach: true
