@@ -21,7 +21,9 @@
     ],
     "exclude": [
       "tests/**/*.spec.ts",
-      "src/app.ts"
+      "src/app.ts",
+      "src/initDB.ts",
+      "src/util/initDB.ts"
     ],
     "reporter": [
       "html",
