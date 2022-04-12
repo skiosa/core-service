@@ -9,7 +9,7 @@ import { Article, Category, Feed, User } from "skiosa-orm";
 import { dataSource } from "skiosa-orm/lib/db";
 
 @Resolver((_of) => Feed)
-export class FeedResolverService implements FeedService {
+export class FeedServiceImpl implements FeedService {
   @Query(() => [Feed])
   async feeds(
     @Arg("PaginationArg", { nullable: true }) paginated?: PaginationArg

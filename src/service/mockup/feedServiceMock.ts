@@ -5,7 +5,7 @@ import { FeedService } from "../feedService";
 import { MockService } from "./mockService";
 
 @Resolver((_of) => Feed)
-export class FeedResolverServiceMock
+export class FeedServiceMock
   extends MockService
   implements FeedService
 {
