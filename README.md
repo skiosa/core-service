@@ -4,7 +4,8 @@
 
 In order to develop outside of dev-containers, start up the db and initialize your environment:
 ```bash
-cd .nvim 
+cd .devcontainer 
 docker-compose up -d
+cd ../.nvim 
 export $(cat .env| xargs)
 ```
