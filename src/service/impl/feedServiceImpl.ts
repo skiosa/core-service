@@ -1,3 +1,4 @@
+import { shuffle } from "shuffle-seed";
 import { Article, Category, Feed, User } from "skiosa-orm";
 import { dataSource } from "skiosa-orm/lib/db";
 import { Arg, FieldResolver, Int, Query, Resolver, Root } from "type-graphql";
@@ -18,6 +19,30 @@ export class FeedServiceImpl implements FeedService {
     });
   }
 
+  @Query((_of) => [Feed])
+  async recommendedFeeds(
+    @Arg("seed") seed: number,
+    @Arg("PaginationArg", { nullable: true }) paginated?: PaginationArg
+  ): Promise<Feed[]> {
+    return dataSource
+      .getRepository(Feed)
+      .find({
+        relations: [],
+        skip: paginated?.skip,
+        take: paginated?.take,
+        order: { id: "ASC" },
+      })
+      .then((feeds) => shuffle(feeds, seed))
+      .then((feeds) =>
+        paginated
+          ? feeds.slice(
+              paginated.skip ?? 0,
+              paginated.skip ?? 0 + paginated.take
+            )
+          : feeds
+      );
+  }
+
   @Query(() => Feed)
   async feed(@Arg("id") id: number): Promise<Feed> {
     return dataSource
@@ -32,7 +57,7 @@ export class FeedServiceImpl implements FeedService {
       });
   }
 
-  @FieldResolver(_type => [Article])
+  @FieldResolver((_type) => [Article])
   articles(
     @Root() feed: Feed,
     @Arg("PaginationArg", { nullable: true }) paginated?: PaginationArg
@@ -42,7 +67,7 @@ export class FeedServiceImpl implements FeedService {
       where: {
         feed: {
           id: feed.id,
-        }
+        },
       },
       take: paginated?.take,
       skip: paginated?.skip,
@@ -50,7 +75,7 @@ export class FeedServiceImpl implements FeedService {
     });
   }
 
-  @FieldResolver(type => Int)
+  @FieldResolver((type) => Int)
   async articleCount(@Root() feed: Feed): Promise<number> {
     return dataSource.getRepository(Article).count({
       where: {
@@ -59,75 +84,99 @@ export class FeedServiceImpl implements FeedService {
     });
   }
 
-  @FieldResolver(_type => [Category])
-  categories(@Root() feed: Feed, @Arg("paginationArg", { nullable: true }) paginated?: PaginationArg): Promise<Category[]> {
-    return dataSource.getRepository(Feed).findOne({
-      relations: ["categories"],
-      where: {
-        id: feed.id,
-      },
-    }).then(f => {
-      if (!f) {
-        throw new Error(`Feed with id ${feed.id} not found`);
-      } else {
-        const categories = f.categories || [];
-        if (paginated) {
-          return categories.slice(paginated.skip || 0, (paginated.skip || 0) + paginated.take);
+  @FieldResolver((_type) => [Category])
+  categories(
+    @Root() feed: Feed,
+    @Arg("paginationArg", { nullable: true }) paginated?: PaginationArg
+  ): Promise<Category[]> {
+    return dataSource
+      .getRepository(Feed)
+      .findOne({
+        relations: ["categories"],
+        where: {
+          id: feed.id,
+        },
+      })
+      .then((f) => {
+        if (!f) {
+          throw new Error(`Feed with id ${feed.id} not found`);
+        } else {
+          const categories = f.categories || [];
+          if (paginated) {
+            return categories.slice(
+              paginated.skip || 0,
+              (paginated.skip || 0) + paginated.take
+            );
+          }
+          return categories;
         }
-        return categories;
-      }
-    });
+      });
   }
 
-  @FieldResolver(_type => Int)
+  @FieldResolver((_type) => Int)
   categoryCount(@Root() feed: Feed): Promise<number> {
-    return dataSource.getRepository(Feed).findOne({
-      relations: ["categories"],
-      where: {
-        id: feed.id,
-      },
-    }).then(f => {
-      if (!f) {
-        throw new Error(`Feed with id ${feed.id} not found`);
-      } else {
-        return (f.categories || []).length;
-      }
-    });
-  }
-
-  @FieldResolver(_type => [User])
-  subscribers(@Root() feed: Feed, @Arg("PaginationArg", { nullable: true }) paginated?: PaginationArg): Promise<User[]> {
-    return dataSource.getRepository(Feed).findOne({
-      relations: ["subscribers"],
-      where: {
-        id: feed.id,
-      }
-    }).then(f => {
-      if (!f) {
-        throw new Error(`Feed with id ${feed.id} not found`);
-      } else {
-        const subscribers = f.subscribers || [];
-        if (paginated) {
-          return subscribers.slice(paginated.skip || 0, (paginated.skip || 0) + paginated.take);
+    return dataSource
+      .getRepository(Feed)
+      .findOne({
+        relations: ["categories"],
+        where: {
+          id: feed.id,
+        },
+      })
+      .then((f) => {
+        if (!f) {
+          throw new Error(`Feed with id ${feed.id} not found`);
+        } else {
+          return (f.categories || []).length;
         }
-        return subscribers;
-      }
-    });
+      });
   }
 
-  @FieldResolver(_type => Int)
+  @FieldResolver((_type) => [User])
+  subscribers(
+    @Root() feed: Feed,
+    @Arg("PaginationArg", { nullable: true }) paginated?: PaginationArg
+  ): Promise<User[]> {
+    return dataSource
+      .getRepository(Feed)
+      .findOne({
+        relations: ["subscribers"],
+        where: {
+          id: feed.id,
+        },
+      })
+      .then((f) => {
+        if (!f) {
+          throw new Error(`Feed with id ${feed.id} not found`);
+        } else {
+          const subscribers = f.subscribers || [];
+          if (paginated) {
+            return subscribers.slice(
+              paginated.skip || 0,
+              (paginated.skip || 0) + paginated.take
+            );
+          }
+          return subscribers;
+        }
+      });
+  }
+
+  @FieldResolver((_type) => Int)
   subscriberCount(@Root() feed: Feed): Promise<number> {
-    return dataSource.getRepository(Feed).findOne({
-      relations: ["subscribers"],
-      where: {
-        id: feed.id,
-      }
-    }).then(f => {
-      if (!f) {
-        throw new Error(`Feed with id ${feed.id} not found`);
-      } else {
-        return (f.subscribers || []).length;
-      }
-    });
+    return dataSource
+      .getRepository(Feed)
+      .findOne({
+        relations: ["subscribers"],
+        where: {
+          id: feed.id,
+        },
+      })
+      .then((f) => {
+        if (!f) {
+          throw new Error(`Feed with id ${feed.id} not found`);
+        } else {
+          return (f.subscribers || []).length;
+        }
+      });
   }
 }

@@ -1,3 +1,4 @@
+import { shuffle } from "shuffle-seed";
 import { Article, Category, Feed, User } from "skiosa-orm";
 import { Arg, FieldResolver, Int, Query, Resolver, Root } from "type-graphql";
 import { PaginationArg } from "../../model/paginationArg";
@@ -5,9 +6,27 @@ import { FeedService } from "../feedService";
 import { MockService } from "./mockService";
 
 @Resolver((_of) => Feed)
-export class FeedServiceMock
-  extends MockService
-  implements FeedService {
+export class FeedServiceMock extends MockService implements FeedService {
+  recommendedFeeds(seed: number, paginated?: PaginationArg): Promise<Feed[]> {
+    return new Promise<Feed[]>((resolve, reject) => {
+      try {
+        const feeds = shuffle(this.feedMock, seed);
+        if (paginated) {
+          resolve(
+            feeds.slice(
+              paginated.skip ?? 0,
+              (paginated.skip ?? 0) + paginated.take
+            )
+          );
+        } else {
+          resolve(feeds);
+        }
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+
   categories(feed: Feed, paginated?: PaginationArg): Promise<Category[]> {
     throw new Error("Method not implemented.");
   }
