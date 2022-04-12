@@ -2,14 +2,13 @@ import express from "express";
 
 const router = express.Router();
 
-
 /**
-* @author LukasLJL
-* @summary get function for defaultController
-* @description Get default landing page aka default controller
-* @route   GET /
-* @access  Public
-*/
+ * @author LukasLJL
+ * @summary get function for defaultController
+ * @description Get default landing page aka default controller
+ * @route   GET /
+ * @access  Public
+ */
 router.get("/", (req: express.Request, res: express.Response) => {
   let response = {
     message: "Welcome to the Skiosa Core-Service!",

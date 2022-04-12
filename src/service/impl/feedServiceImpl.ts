@@ -8,9 +8,7 @@ import { FeedService } from "../feedService";
 @Resolver((_of) => Feed)
 export class FeedServiceImpl implements FeedService {
   @Query(() => [Feed])
-  async feeds(
-    @Arg("PaginationArg", { nullable: true }) paginated?: PaginationArg
-  ): Promise<Feed[]> {
+  async feeds(@Arg("PaginationArg", { nullable: true }) paginated?: PaginationArg): Promise<Feed[]> {
     return dataSource.getRepository(Feed).find({
       relations: [],
       skip: paginated?.skip,
@@ -31,14 +29,7 @@ export class FeedServiceImpl implements FeedService {
         order: { id: "ASC" },
       })
       .then((feeds) => shuffle(feeds, seed))
-      .then((feeds) =>
-        paginated
-          ? feeds.slice(
-              paginated.skip ?? 0,
-              paginated.skip ?? 0 + paginated.take
-            )
-          : feeds
-      );
+      .then((feeds) => (paginated ? feeds.slice(paginated.skip ?? 0, paginated.skip ?? 0 + paginated.take) : feeds));
   }
 
   @Query(() => Feed)
@@ -101,10 +92,7 @@ export class FeedServiceImpl implements FeedService {
         } else {
           const categories = f.categories || [];
           if (paginated) {
-            return categories.slice(
-              paginated.skip || 0,
-              (paginated.skip || 0) + paginated.take
-            );
+            return categories.slice(paginated.skip || 0, (paginated.skip || 0) + paginated.take);
           }
           return categories;
         }
@@ -149,10 +137,7 @@ export class FeedServiceImpl implements FeedService {
         } else {
           const subscribers = f.subscribers || [];
           if (paginated) {
-            return subscribers.slice(
-              paginated.skip || 0,
-              (paginated.skip || 0) + paginated.take
-            );
+            return subscribers.slice(paginated.skip || 0, (paginated.skip || 0) + paginated.take);
           }
           return subscribers;
         }

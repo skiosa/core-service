@@ -12,12 +12,7 @@ export class FeedServiceMock extends MockService implements FeedService {
       try {
         const feeds = shuffle(this.feedMock, seed);
         if (paginated) {
-          resolve(
-            feeds.slice(
-              paginated.skip ?? 0,
-              (paginated.skip ?? 0) + paginated.take
-            )
-          );
+          resolve(feeds.slice(paginated.skip ?? 0, (paginated.skip ?? 0) + paginated.take));
         } else {
           resolve(feeds);
         }
@@ -40,18 +35,11 @@ export class FeedServiceMock extends MockService implements FeedService {
     throw new Error("Method not implemented.");
   }
   @Query((_of) => [Feed])
-  feeds(
-    @Arg("PaginationArg", { nullable: true }) paginated?: PaginationArg
-  ): Promise<Feed[]> {
+  feeds(@Arg("PaginationArg", { nullable: true }) paginated?: PaginationArg): Promise<Feed[]> {
     if (!paginated) {
       return Promise.resolve(this.feedMock);
     } else {
-      return Promise.resolve(
-        this.feedMock.slice(
-          paginated.skip,
-          (paginated.skip || 0) + paginated.take
-        )
-      );
+      return Promise.resolve(this.feedMock.slice(paginated.skip, (paginated.skip || 0) + paginated.take));
     }
   }
 
@@ -70,9 +58,7 @@ export class FeedServiceMock extends MockService implements FeedService {
     @Arg("PaginationArg", { nullable: true }) paginated?: PaginationArg
   ): Promise<Article[]> {
     if (!paginated) {
-      return Promise.resolve(
-        this.articlesMock.filter((a) => a.feed?.id === feed.id)
-      );
+      return Promise.resolve(this.articlesMock.filter((a) => a.feed?.id === feed.id));
     } else {
       return Promise.resolve(
         this.articlesMock
@@ -84,8 +70,6 @@ export class FeedServiceMock extends MockService implements FeedService {
 
   @FieldResolver((_of) => Int)
   articleCount(@Root() feed: Feed): Promise<number> {
-    return Promise.resolve(
-      this.articlesMock.filter((a) => a.feed?.id === feed.id).length
-    );
+    return Promise.resolve(this.articlesMock.filter((a) => a.feed?.id === feed.id).length);
   }
 }

@@ -19,10 +19,7 @@ export class ArticleServiceImpl implements ArticleService {
   }
 
   @Query((_of) => [Article])
-  recommendedArticles(
-    @Arg("seed") seed: number,
-    @Arg("PaginationArg", { nullable: true }) paginated?: PaginationArg
-  ) {
+  recommendedArticles(@Arg("seed") seed: number, @Arg("PaginationArg", { nullable: true }) paginated?: PaginationArg) {
     return dataSource
       .getRepository(Article)
       .find({
@@ -31,12 +28,7 @@ export class ArticleServiceImpl implements ArticleService {
       })
       .then((articles) => shuffle(articles, seed))
       .then((articles) =>
-        paginated
-          ? articles.slice(
-              paginated.skip ?? 0,
-              paginated.skip ?? 0 + paginated.take
-            )
-          : articles
+        paginated ? articles.slice(paginated.skip ?? 0, paginated.skip ?? 0 + paginated.take) : articles
       );
   }
 

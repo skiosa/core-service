@@ -7,20 +7,12 @@ import { MockService } from "./mockService";
 
 @Resolver(Article)
 export class ArticleServiceMock extends MockService implements ArticleService {
-  recommendedArticles(
-    seed: number,
-    paginated?: PaginationArg
-  ): Promise<Article[]> {
+  recommendedArticles(seed: number, paginated?: PaginationArg): Promise<Article[]> {
     return new Promise<Article[]>((resolve, reject) => {
       try {
         const articles = shuffle(this.articlesMock, seed);
         if (paginated) {
-          resolve(
-            articles.slice(
-              paginated.skip ?? 0,
-              (paginated.skip ?? 0) + paginated.take
-            )
-          );
+          resolve(articles.slice(paginated.skip ?? 0, (paginated.skip ?? 0) + paginated.take));
         } else {
           resolve(articles);
         }
@@ -40,17 +32,13 @@ export class ArticleServiceMock extends MockService implements ArticleService {
     if (feed) {
       return feed;
     } else {
-      throw new Error(
-        `Internal Error Article with ID ${article.id} has invalid Format`
-      );
+      throw new Error(`Internal Error Article with ID ${article.id} has invalid Format`);
     }
   }
 
   @FieldResolver((_type) => Feed)
   categories(@Root() article: Article): Category[] {
-    const categories = this.articlesMock.find(
-      (a) => a.id === article.id
-    )?.categories;
+    const categories = this.articlesMock.find((a) => a.id === article.id)?.categories;
     if (categories) {
       return categories;
     } else {
@@ -65,8 +53,6 @@ export class ArticleServiceMock extends MockService implements ArticleService {
 
   @Query((_returns) => Article)
   getArticle(@Arg("id") id: number): Promise<Article> {
-    return Promise.resolve(
-      this.articlesMock.filter((articlesMock) => articlesMock.id === id)[0]
-    );
+    return Promise.resolve(this.articlesMock.filter((articlesMock) => articlesMock.id === id)[0]);
   }
 }

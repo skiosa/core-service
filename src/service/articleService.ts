@@ -11,9 +11,6 @@ export interface ArticleService {
    * @param {PaginationArg} paginated - Pagination Arguments for return
    * @returns {Article[]} List of recommended Articles
    */
-  recommendedArticles(
-    seed: number,
-    paginated?: PaginationArg
-  ): Promise<Article[]>;
+  recommendedArticles(seed: number, paginated?: PaginationArg): Promise<Article[]>;
   getArticle(id: number): Promise<Article>;
 }

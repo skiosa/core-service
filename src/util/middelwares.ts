@@ -16,11 +16,7 @@ import { UserInfo } from "../model/jwt";
   }
 );
  */
-export function getUserInfo(
-  req: express.Request,
-  _res: express.Response,
-  next: express.NextFunction
-) {
+export function getUserInfo(req: express.Request, _res: express.Response, next: express.NextFunction) {
   let jwtToken: string = req.headers.authorization as string;
   if (!jwtToken) {
     next();
