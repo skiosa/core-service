@@ -1,13 +1,13 @@
 import dotenv from "dotenv";
-import express, { NextFunction, Request, Response } from "express";
+import express from "express";
 import "reflect-metadata";
 import { dataSource } from "skiosa-orm/lib/db";
 import { defaultController } from "./controller/defaultController";
 import { errorController } from "./controller/errorController";
 import { graphqlController } from "./controller/graphqlController";
-import expressSession from "express-session";
-import KeycloakConnect, { KeycloakConfig } from "keycloak-connect";
+import KeycloakConnect from "keycloak-connect";
 import session from "express-session";
+import { UserInfo } from "./model/jwt";
 
 /**
  * Configuration Part
@@ -24,6 +24,12 @@ dataSource.initialize().catch((err) => console.error(err));
  */
 const api = express();
 
+declare module "express-serve-static-core" {
+  interface Request {
+    UserInfo?: UserInfo;
+  }
+}
+
 api.listen(process.env.API_PORT, () => {
   console.log(
     `Core-Service running at http://localhost:${process.env.API_PORT}`
@@ -31,46 +37,42 @@ api.listen(process.env.API_PORT, () => {
 });
 
 /**
- * Keycloak Configuration
+ * Session Store Configuration
  */
-
 var memoryStore = new session.MemoryStore();
-var keycloak = new KeycloakConnect(
-  { store: memoryStore },
-  {
-    "auth-server-url": "https://keycloak.skiosa.de/auth",
-    realm: "Skiosa",
-    resource: "core-service",
-    "confidential-port": "443",
-    "ssl-required": "true",
-    "bearer-only": true,
-  }
-);
-
 api.use(
   session({
-    secret: "mySecret",
+    secret: process.env.MEMORYSTORE_SECRET || "secret",
     resave: false,
     saveUninitialized: true,
     store: memoryStore,
   })
 );
 
-api.use(keycloak.middleware());
-
-api.get(
-  "/protected",
-  keycloak.protect("realm:skiosa-user"),
-  function (req, res) {
-    console.log("User is authenticated!");
-    res.json("Hello User");
+/**
+ * Keycloak Configuration
+ */
+var keycloak = new KeycloakConnect(
+  { store: memoryStore },
+  {
+    "auth-server-url": process.env.KEYCLOAK_URL || "http://localhost:5000/auth",
+    realm: process.env.KEYCLOAK_REALM || "skiosa",
+    resource: process.env.KEYCLOAK_RESOURCE || "skiosa-core-service",
+    "confidential-port": process.env.KEYCLOAK_PORT || "443",
+    "ssl-required": "true",
+    "bearer-only": true,
   }
 );
 
 /**
- * Express Routes
+ * Express Middleware
  */
 
+api.use(keycloak.middleware());
+
+/**
+ * Express Routes
+ */
 api.use("/", defaultController);
 api.use("/graphql", graphqlController);
 api.use("*", errorController);
