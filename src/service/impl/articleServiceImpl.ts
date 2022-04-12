@@ -4,6 +4,7 @@ import { Arg, FieldResolver, Query, Resolver, Root } from "type-graphql";
 import { ArticleService } from "../articleService";
 import { PaginationArg } from "../../model/paginationArg";
 import { shuffle } from "shuffle-seed";
+import { paginate } from "../../util/paginate";
 
 @Resolver(Article)
 export class ArticleServiceImpl implements ArticleService {
@@ -27,9 +28,7 @@ export class ArticleServiceImpl implements ArticleService {
         order: { id: "ASC" },
       })
       .then((articles) => shuffle(articles, seed))
-      .then((articles) =>
-        paginated ? articles.slice(paginated.skip ?? 0, paginated.skip ?? 0 + paginated.take) : articles
-      );
+      .then((articles) => paginate(articles, paginated));
   }
 
   @Query((_returns) => Article)

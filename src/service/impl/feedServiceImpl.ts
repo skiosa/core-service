@@ -3,6 +3,7 @@ import { Article, Category, Feed, User } from "skiosa-orm";
 import { dataSource } from "skiosa-orm/lib/db";
 import { Arg, FieldResolver, Int, Query, Resolver, Root } from "type-graphql";
 import { PaginationArg } from "../../model/paginationArg";
+import { paginate } from "../../util/paginate";
 import { FeedService } from "../feedService";
 
 @Resolver((_of) => Feed)
@@ -29,7 +30,7 @@ export class FeedServiceImpl implements FeedService {
         order: { id: "ASC" },
       })
       .then((feeds) => shuffle(feeds, seed))
-      .then((feeds) => (paginated ? feeds.slice(paginated.skip ?? 0, paginated.skip ?? 0 + paginated.take) : feeds));
+      .then((feeds) => paginate(feeds, paginated));
   }
 
   @Query(() => Feed)
@@ -91,10 +92,7 @@ export class FeedServiceImpl implements FeedService {
           throw new Error(`Feed with id ${feed.id} not found`);
         } else {
           const categories = f.categories || [];
-          if (paginated) {
-            return categories.slice(paginated.skip || 0, (paginated.skip || 0) + paginated.take);
-          }
-          return categories;
+          return paginate(categories, paginated);
         }
       });
   }
@@ -136,10 +134,7 @@ export class FeedServiceImpl implements FeedService {
           throw new Error(`Feed with id ${feed.id} not found`);
         } else {
           const subscribers = f.subscribers || [];
-          if (paginated) {
-            return subscribers.slice(paginated.skip || 0, (paginated.skip || 0) + paginated.take);
-          }
-          return subscribers;
+          return paginate(subscribers, paginated);
         }
       });
   }
