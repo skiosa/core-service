@@ -8,7 +8,11 @@ import { paginate } from "../../util/paginate";
 
 @Resolver(Article)
 export class ArticleServiceMock extends MockService implements ArticleService {
-  recommendedArticles(seed: number, paginated?: PaginationArg): Promise<Article[]> {
+  @Query((_of) => [Article])
+  recommendedArticles(
+    @Arg("seed") seed: number,
+    @Arg("PaginationArg", { nullable: true }) paginated?: PaginationArg
+  ): Promise<Article[]> {
     return new Promise<Article[]>((resolve, reject) => {
       try {
         resolve(paginate(shuffle(this.articlesMock, seed), paginated));

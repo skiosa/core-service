@@ -1196,8 +1196,8 @@
 									"var data = JSON.parse(responseBody);\r",
 									"\r",
 									"pm.test(\"Correct Data\", function () {\r",
-									"    pm.expect(data.data.recommendedArticles[0].id).equal(1);\r",
-									"    pm.expect(data.data.recommendedArticles[1].id).equal(2);\r",
+									"    pm.expect(data.data.recommendedFeeds[0].id).equal(1);\r",
+									"    pm.expect(data.data.recommendedFeeds[1].id).equal(2);\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -1243,8 +1243,8 @@
 									"var data = JSON.parse(responseBody);\r",
 									"\r",
 									"pm.test(\"Correct Data\", function () {\r",
-									"    pm.expect(data.data.recommendedArticles[0].id).equal(2);\r",
-									"    pm.expect(data.data.recommendedArticles[1].id).equal(1);\r",
+									"    pm.expect(data.data.recommendedFeeds[0].id).equal(2);\r",
+									"    pm.expect(data.data.recommendedFeeds[1].id).equal(1);\r",
 									"});"
 								],
 								"type": "text/javascript"
