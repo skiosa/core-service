@@ -9,12 +9,17 @@ services:
     volumes:
       - ..:/core-service:cached
     environment:
-    - POSTGRES_HOST=database
-    - POSTGRES_PORT=5432
-    - POSTGRES_DB=skiosa-db-dev
-    - POSTGRES_USER=skiosa-user-dev
-    - POSTGRES_PASSWORD=skiosa-password-dev
-    - API_PORT=8080
+      - POSTGRES_HOST=database
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=skiosa-db-dev
+      - POSTGRES_USER=skiosa-user-dev
+      - POSTGRES_PASSWORD=skiosa-password-dev
+      - API_PORT=8080
+      - KEYCLOAK_URL=https://keycloak.skiosa.de/auth
+      - KEYCLOAK_REALM=Skiosa-test
+      - KEYCLOAK_RESOURCE=core-service
+      - KEYCLOAK_PORT=443
+      - MEMORYSTORE_SECRET=ultra_secret_secret
     command: /bin/zsh -c "while sleep 1000; do :; done"
   database:
     image: postgres:14
@@ -28,7 +33,6 @@ services:
       - postgres-data:/var/lib/postgresql/data
     ports:
       - 5432:5432
-
 
 volumes:
   postgres-data:

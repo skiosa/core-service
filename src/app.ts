@@ -56,7 +56,7 @@ var keycloak = new KeycloakConnect(
   { store: memoryStore },
   {
     "auth-server-url": process.env.KEYCLOAK_URL || "http://localhost:5000/auth",
-    realm: process.env.KEYCLOAK_REALM || "skiosa",
+    realm: process.env.KEYCLOAK_REALM || "skiosa-test",
     resource: process.env.KEYCLOAK_RESOURCE || "skiosa-core-service",
     "confidential-port": process.env.KEYCLOAK_PORT || "443",
     "ssl-required": "true",
