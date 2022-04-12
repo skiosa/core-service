@@ -1,7 +1,5 @@
 import { Article, Author, Category, Feed } from "skiosa-orm";
 import { dataSource } from "skiosa-orm/lib/db";
-import { ID } from "type-graphql";
-
 /**
  * @author Jonas Eppard
  * @summary Initialise Database
