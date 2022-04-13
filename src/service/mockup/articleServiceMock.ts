@@ -1,6 +1,6 @@
 import { shuffle } from "shuffle-seed";
-import { Article, Author, Category, Feed, User } from "skiosa-orm";
-import { Arg, FieldResolver, Query, Resolver, Root, Int, Field } from "type-graphql";
+import { Article, Author, Category, Feed } from "skiosa-orm";
+import { Arg, FieldResolver, Query, Resolver, Root, Int } from "type-graphql";
 import { PaginationArg } from "../../model/paginationArg";
 import { ArticleService } from "../articleService";
 import { MockService } from "./mockService";

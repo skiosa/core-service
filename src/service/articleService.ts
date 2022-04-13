@@ -1,4 +1,4 @@
-import { Category, User } from "skiosa-orm";
+import { Category } from "skiosa-orm";
 import { Article } from "skiosa-orm/lib/model/article";
 import { Author } from "skiosa-orm/lib/model/author";
 import { Feed } from "skiosa-orm/lib/model/feed";
