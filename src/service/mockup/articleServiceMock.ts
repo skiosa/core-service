@@ -1,15 +1,13 @@
 import { shuffle } from "shuffle-seed";
 import { Article, Author, Category, Feed, User } from "skiosa-orm";
-import { Arg, FieldResolver, Query, Resolver, Root, Int, Field } from 'type-graphql';
+import { Arg, FieldResolver, Query, Resolver, Root, Int, Field } from "type-graphql";
 import { PaginationArg } from "../../model/paginationArg";
 import { ArticleService } from "../articleService";
 import { MockService } from "./mockService";
 import { paginate } from "../../util/paginate";
-import { __Type } from 'graphql';
 
 @Resolver(Article)
 export class ArticleServiceMock extends MockService implements ArticleService {
-
   @Query((_of) => [Article])
   recommendedArticles(
     @Arg("seed") seed: number,
@@ -24,12 +22,17 @@ export class ArticleServiceMock extends MockService implements ArticleService {
     });
   }
 
-  @FieldResolver((_type) => Author)
+  @FieldResolver((_of) => Author)
   author(@Root() article: Article): Promise<Author> {
-    return Promise.resolve(article.author as Author);
+    const a = this.articlesMock.find((articlesMock) => articlesMock.id === article.id);
+    if (a && a.author) {
+      return Promise.resolve(a.author);
+    } else {
+      throw new Error(`Internal Error Article with ID ${article.id} has invalid Format`);
+    }
   }
 
-  @FieldResolver((_type) => Feed)
+  @FieldResolver((_of) => Feed)
   feed(@Root() article: Article): Promise<Feed> {
     const feed = this.articlesMock.find((a) => a.id === article.id)?.feed;
     if (feed) {
@@ -39,43 +42,44 @@ export class ArticleServiceMock extends MockService implements ArticleService {
     }
   }
 
-  @FieldResolver((_type) => Category)
+  @FieldResolver((_of) => Category)
   categories(@Root() article: Article): Promise<Category[]> {
     const categories = this.articlesMock.find((a) => a.id === article.id)?.categories;
-    if (categories) {
-      return Promise.resolve(categories);
-    } else {
-      return Promise.resolve([]);
-    }
+    return Promise.resolve(categories ?? []);
   }
 
-  @FieldResolver(__Type => Int)
-  categoryCount(article: Article): Promise<number> {
+  @FieldResolver((_of) => Int)
+  categoryCount(@Root() article: Article): Promise<number> {
     const categories = this.articlesMock.find((a) => a.id === article.id)?.categories;
-    if (categories) {
-      return Promise.resolve(categories.length);
-    } else {
-      return Promise.resolve(0);
-    }
+    return Promise.resolve(categories?.length ?? 0);
   }
-  
-  @FieldResolver(__Type => Int)
-  likeCount(article: Article): Promise<number> {
-    return Promise.resolve(0);
+
+  @FieldResolver((_of) => Int)
+  likeCount(@Root() article: Article): Promise<number> {
+    return Promise.resolve(
+      this.articlesMock.find((articlesMock) => articlesMock.id === article.id)?.likes?.length ?? 0
+    );
   }
-  
-  @FieldResolver(__Type => Int)
-  bookmarkCount(article: Article): Promise<number> {
-    return Promise.resolve(0);
+
+  @FieldResolver((_of) => Int)
+  bookmarkCount(@Root() article: Article): Promise<number> {
+    return Promise.resolve(
+      this.articlesMock.find((articlesMock) => articlesMock.id === article.id)?.bookmarks?.length ?? 0
+    );
   }
 
   @Query((_returns) => [Article])
-  articles(): Promise<Article[]> {
-    return Promise.resolve(this.articlesMock);
+  articles(@Arg("PaginationArg", { nullable: true }) paginated?: PaginationArg): Promise<Article[]> {
+    return Promise.resolve(paginate(this.articlesMock, paginated));
   }
 
   @Query((_returns) => Article)
   article(@Arg("id") id: number): Promise<Article> {
-    return Promise.resolve(this.articlesMock.filter((articlesMock) => articlesMock.id === id)[0]);
+    const article = this.articlesMock.find((articlesMock) => articlesMock.id === id);
+    if (article) {
+      return Promise.resolve(article);
+    } else {
+      throw new Error(`Article with id: ${id} not found!`);
+    }
   }
 }
