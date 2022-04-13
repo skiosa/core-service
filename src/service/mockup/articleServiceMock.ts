@@ -7,7 +7,7 @@ import { Category } from 'skiosa-orm/lib/model/category';
 
 
 @Resolver(Article)
-export class ArticleServiceMock implements ArticleService {
+export class ArticleServiceMock {
   private feedMock: Feed = { id: 1, link: "https://asciiflix.de", ttl: 3600, name: "Asciiflix.de", description: " A cheap and data-saving YouTube alternative for poor People with Bad Internet Connections" };
 
   private authorMock: Author[] = [
@@ -101,12 +101,12 @@ export class ArticleServiceMock implements ArticleService {
   }
 
   @Query((_returns) => [Article])
-  getArticles(): Promise<Article[]> {
+  articles(): Promise<Article[]> {
     return Promise.resolve(this.articlesMock);
   }
 
   @Query((_returns) => Article)
-  getArticle(@Arg("id") id: number): Promise<Article> {
+  article(@Arg("id") id: number): Promise<Article> {
     return Promise.resolve(this.articlesMock.filter((articlesMock) => articlesMock.id === id)[0]);
   }
 }
