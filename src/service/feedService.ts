@@ -14,6 +14,16 @@ export interface FeedService {
   feeds(paginated?: PaginationArg): Promise<Feed[]>;
 
   /**
+   * @author Jonas Eppard
+   * @summary Get all recommended Feeds for a User
+   * @description Get all recommended Feeds for a User
+   * @param {number} seed - Seed for random feeds to insure proper pagination
+   * @param {PaginationArg} paginated - Pagination Arguments for return
+   * @returns {Feed[]} List of recommended Feeds
+   */
+  recommendedFeeds(seed: number, paginated?: PaginationArg): Promise<Feed[]>;
+
+  /**
    * @author Marcel Alex, Jonas Eppard
    * @summary Get a feed by id
    * @description Get a feed by id from the database without relations, errors if Feed is not found
@@ -45,14 +55,13 @@ export interface FeedService {
    */
   articleCount(feed: Feed): Promise<number>;
 
-
   /**
    * @author Jonas Eppard
    * @summary Get list of categories from a feed
    * @description Get list of categories from a feed from the database with respect to pagination Argument
    * @param {Feed} feed - Feed from which to get categories
    * @param {PaginationArg} paginated - Pagination Arguments for categories
-   * @returns {Category[]} List of Queried Categories 
+   * @returns {Category[]} List of Queried Categories
    */
   categories(feed: Feed, paginated?: PaginationArg): Promise<Category[]>;
 
@@ -64,7 +73,6 @@ export interface FeedService {
    * @returns {number} Number of categories in feed
    */
   categoryCount(feed: Feed): Promise<number>;
-
 
   /**
    * @author Jonas Eppard
@@ -81,7 +89,7 @@ export interface FeedService {
    * @summary Get number of subscribed users from a feed
    * @description Get number of subscribed users from a feed from the database
    * @param {Feed} feed - Feed from which to get number of subscribed users
-   * @returns {number} Number of subscribed users in feed 
+   * @returns {number} Number of subscribed users in feed
    */
   subscriberCount(feed: Feed): Promise<number>;
 }

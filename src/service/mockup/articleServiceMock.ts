@@ -1,10 +1,26 @@
+import { shuffle } from "shuffle-seed";
 import { Article, Author, Category, Feed } from "skiosa-orm";
 import { Arg, FieldResolver, Query, Resolver, Root } from "type-graphql";
+import { PaginationArg } from "../../model/paginationArg";
 import { ArticleService } from "../articleService";
 import { MockService } from "./mockService";
+import { paginate } from "../../util/paginate";
 
 @Resolver(Article)
 export class ArticleServiceMock extends MockService implements ArticleService {
+  @Query((_of) => [Article])
+  recommendedArticles(
+    @Arg("seed") seed: number,
+    @Arg("PaginationArg", { nullable: true }) paginated?: PaginationArg
+  ): Promise<Article[]> {
+    return new Promise<Article[]>((resolve, reject) => {
+      try {
+        resolve(paginate(shuffle(this.articlesMock, seed), paginated));
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
   @FieldResolver((_type) => Author)
   author(@Root() article: Article): Author | undefined {
     return article.author;
@@ -16,17 +32,13 @@ export class ArticleServiceMock extends MockService implements ArticleService {
     if (feed) {
       return feed;
     } else {
-      throw new Error(
-        `Internal Error Article with ID ${article.id} has invalid Format`
-      );
+      throw new Error(`Internal Error Article with ID ${article.id} has invalid Format`);
     }
   }
 
   @FieldResolver((_type) => Feed)
   categories(@Root() article: Article): Category[] {
-    const categories = this.articlesMock.find(
-      (a) => a.id === article.id
-    )?.categories;
+    const categories = this.articlesMock.find((a) => a.id === article.id)?.categories;
     if (categories) {
       return categories;
     } else {

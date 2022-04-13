@@ -9,7 +9,6 @@ import KeycloakConnect from "keycloak-connect";
 import session from "express-session";
 import { UserInfo } from "./model/jwt";
 
-
 /**
  * Configuration Part
  */
@@ -18,9 +17,7 @@ dotenv.config({ path: "./src/config/app.env" });
 /**
  * Database Setup
  */
-dataSource
-  .initialize()
-  .catch((err: any) => console.error(err));
+dataSource.initialize().catch((err: any) => console.error(err));
 
 /**
  * Express Configuration
@@ -34,9 +31,7 @@ declare module "express-serve-static-core" {
 }
 
 api.listen(process.env.API_PORT, () => {
-  console.log(
-    `Core-Service running at http://localhost:${process.env.API_PORT}`
-  );
+  console.log(`Core-Service running at http://localhost:${process.env.API_PORT}`);
 });
 
 /**
