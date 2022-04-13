@@ -53,33 +53,13 @@ export interface ArticleService {
 
   /**
    * @author Theo Krinitz
-   * @summary Get users who liked this article
-   * @description Get the users who liked this article from database with relations
-   * @param {Article} article - Article from which to get the likes
-   * @returns {User[]} Users who liked the article
-   *
-   */
-  likes(article: Article) : Promise<User[]>
-
-  /**
-   * @author Theo Krinitz
    * @summary Get amount of categories from article
    * @description Get the amount of likes of this article from database with relations
    * @param {Article} article - Article from which to get the number of likes
    * @returns {number} number of likes of this article
    *
    */
-  likesCount(article: Article) : Promise<number>
-
-  /**
-   * @author Theo Krinitz
-   * @summary Get users who bookmarked this article
-   * @description Get the users who bookmarked this article from database with relations
-   * @param {Article} article - Article from which to get the bookmarks
-   * @returns {User[]} Users who bookmarked the article
-   *
-   */
-  bookmarks(article: Article) : Promise<User[]>
+  likeCount(article: Article) : Promise<number>
 
   /**
    * @author Theo Krinitz
@@ -89,5 +69,5 @@ export interface ArticleService {
    * @returns {number} Users who bookmarked the article
    *
    */
-  bookmarksCount(article: Article) : Promise<number>
+  bookmarkCount(article: Article): Promise<number>
 }

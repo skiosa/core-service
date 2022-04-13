@@ -2,6 +2,7 @@ import { makeExecutableSchema } from "@graphql-tools/schema";
 import express from "express";
 import { graphqlHTTP } from "express-graphql";
 import { buildTypeDefsAndResolvers } from "type-graphql";
+import { FeedServiceImpl } from "../service/impl/feedServiceImpl";
 import { ArticleServiceMock } from "../service/mockup/articleServiceMock";
 import { ArticleServiceImpl } from '../service/impl/articleServiceImpl';
 
@@ -11,15 +12,15 @@ const router = express.Router();
 bootstrap();
 
 /**
-* @author LukasLJL
-* @summary main graphql function
-* @description Initialize the GraphQL Types and Resolvers, also manages the GraphQL Route
-* @route   GET /graphql
-* @access  Public
-*/
+ * @author LukasLJL
+ * @summary main graphql function
+ * @description Initialize the GraphQL Types and Resolvers, also manages the GraphQL Route
+ * @route   GET /graphql
+ * @access  Public
+ */
 async function bootstrap() {
   const { typeDefs, resolvers } = await buildTypeDefsAndResolvers({
-    resolvers: [ArticleServiceImpl],
+    resolvers: [ArticleServiceImpl, FeedServiceImpl],
   });
 
   const schema = makeExecutableSchema({ typeDefs, resolvers });

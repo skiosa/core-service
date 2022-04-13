@@ -8,6 +8,10 @@ import { Feed } from 'skiosa-orm/lib/model/feed';
 import { Category } from 'skiosa-orm/lib/model/category';
 import { Like } from "typeorm";
 import { User } from 'skiosa-orm';
+import { shuffle } from 'shuffle-seed';
+import { paginate } from '../../util/paginate';
+import { PaginationArg } from "../../model/paginationArg";
+
 
 @Resolver(Article)
 export class ArticleServiceImpl implements ArticleService {
@@ -22,6 +26,18 @@ export class ArticleServiceImpl implements ArticleService {
         .then((articles) => resolve(articles))
         .catch((err) => reject(err));
     });
+  }
+
+  @Query((_of) => [Article])
+  recommendedArticles(@Arg("seed") seed: number, @Arg("PaginationArg", { nullable: true }) paginated?: PaginationArg) {
+    return dataSource
+      .getRepository(Article)
+      .find({
+        relations: [],
+        order: { id: "ASC" },
+      })
+      .then((articles) => shuffle(articles, seed))
+      .then((articles) => paginate(articles, paginated));
   }
 
   @Query((_returns) => Article)
@@ -61,30 +77,10 @@ export class ArticleServiceImpl implements ArticleService {
     })
   }
 
-  @FieldResolver(__Type => Feed)
-  feed(@Root() article: Article) :Promise<Feed> {
-    return dataSource.getRepository(Article).findOne({
-      relations: ["feed"],
-      where: {
-        id: article.id
-      }
-    }).then((a) => {
-      if (!a) {
-        throw new Error(`Article with id: ${article.id} not found!`);
-      }
-      else if (!a.feed) {
-        throw new Error(`Article with id: ${article.id} has invalid format!`);
-      }
-      else {
-        return a.feed
-      }
-    })
-  }
-
   @FieldResolver(__Type => Category)
   categories(
     @Root() article:Article,
-    //@Arg("paginationArg", { nullable: true }) paginated?: PaginationArg
+    @Arg("paginationArg", { nullable: true }) paginated?: PaginationArg
     ) : Promise<Category[]> {
     return dataSource.getRepository(Article).findOne({
       relations: ["categories"],
@@ -100,11 +96,9 @@ export class ArticleServiceImpl implements ArticleService {
       }
       else {
         const categories = a.categories || [];
-        /*
-          if (paginated) {
-            return categories.slice(paginated.skip || 0, (paginated.skip || 0) + paginated.take);
-          }
-        */
+        if (paginated) {
+          return categories.slice(paginated.skip || 0, (paginated.skip || 0) + paginated.take);
+        }
         return categories
       }
     })
@@ -130,31 +124,8 @@ export class ArticleServiceImpl implements ArticleService {
     })
   }
 
-  @FieldResolver(__Type => User)
-  likes(@Root() article:Article) : Promise<User[]> {
-    return dataSource.getRepository(Article).findOne({
-      relations: ["likes"],
-      where: {
-        id: article.id
-      }
-    }).then((a) => {
-      if (!a) {
-        throw new Error(`Article with id: ${article.id} not found!`);
-      }
-      else {
-        const likes = a.likes ?? [];
-        /*
-          if (paginated) {
-            return likes.slice(paginated.skip || 0, (paginated.skip || 0) + paginated.take);
-          }
-        */
-        return likes
-      }
-    })
-  }
-
   @FieldResolver(__Type => Int)
-  likesCount(@Root() article:Article) : Promise<number> {
+  likeCount(@Root() article:Article) : Promise<number> {
     return dataSource.getRepository(Article).findOne({
       relations: ["likes"],
       where: {
@@ -171,31 +142,10 @@ export class ArticleServiceImpl implements ArticleService {
     })
   }
 
-  @FieldResolver(__Type => User)
-  bookmarks(@Root() article: Article) : Promise<User[]> {
-    return dataSource.getRepository(Article).findOne({
-      relations: ["bookmarks"],
-      where: {
-        id: article.id
-      }
-    }).then((a) => {
-      if (!a) {
-        throw new Error(`Article with id: ${article.id} not found!`);
-      }
-      else {
-        const bookmarks = a.bookmarks ?? [];
-        /*
-          if (paginated) {
-            return likes.slice(paginated.skip || 0, (paginated.skip || 0) + paginated.take);
-          }
-        */
-        return bookmarks
-      }
-    })
-  }
+  
 
-  @FieldResolver(__Type => User)
-  bookmarksCount(@Root() article: Article) : Promise<number> {
+  @FieldResolver(__Type => Int)
+  bookmarkCount(@Root() article: Article) : Promise<number> {
     return dataSource.getRepository(Article).findOne({
       relations: ["bookmarks"],
       where: {
@@ -211,4 +161,21 @@ export class ArticleServiceImpl implements ArticleService {
     })
   }
 
+  @FieldResolver((_returns) => Feed)
+  feed(@Root() article: Article): Promise<Feed> {
+    return dataSource
+      .getRepository(Article)
+      .find({
+        relations: ["feed"],
+        where: {
+          id: article.id,
+        },
+      })
+      .then((articles) => {
+        if (articles.length !== 1 || !articles[0].feed) {
+          throw new Error(`Article with ID ${article.id} has invalid Format`);
+        }
+        return articles[0].feed;
+      });
+  }
 }
