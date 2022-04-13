@@ -1,5 +1,5 @@
 {
-    "cSpell.words": [
+  "cSpell.words": [
         "Asciiflix",
         "datalayer",
         "devcontainer",
@@ -14,5 +14,9 @@
         "resave",
         "Skiosa",
         "typeorm"
-    ]
+  ],
+  "eslint.validate": ["javascript"],
+  "editor.formatOnSave": true,
+  "editor.formatOnType": true,
+  "javascript.format.semicolons": "insert"
 }
