@@ -1,10 +1,10 @@
+import { shuffle } from "shuffle-seed";
 import { Article, Feed } from "skiosa-orm";
 import { dataSource } from "skiosa-orm/lib/db";
-import { Arg, FieldResolver, Query, Resolver, Root } from "type-graphql";
-import { ArticleService } from "../articleService";
+import { Arg, FieldResolver, Query, Resolver, Root } from 'type-graphql';
 import { PaginationArg } from "../../model/paginationArg";
-import { shuffle } from "shuffle-seed";
 import { paginate } from "../../util/paginate";
+import { ArticleService } from "../articleService";
 
 @Resolver(Article)
 export class ArticleServiceImpl implements ArticleService {
