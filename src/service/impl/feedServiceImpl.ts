@@ -8,7 +8,7 @@ import { FeedService } from "../feedService";
 
 @Resolver((_of) => Feed)
 export class FeedServiceImpl implements FeedService {
-  @Query(() => [Feed])
+  @Query((_returns) => [Feed])
   async feeds(@Arg("PaginationArg", { nullable: true }) paginated?: PaginationArg): Promise<Feed[]> {
     return dataSource.getRepository(Feed).find({
       relations: [],
@@ -18,7 +18,7 @@ export class FeedServiceImpl implements FeedService {
     });
   }
 
-  @Query((_of) => [Feed])
+  @Query((_returns) => [Feed])
   async recommendedFeeds(
     @Arg("seed") seed: number,
     @Arg("PaginationArg", { nullable: true }) paginated?: PaginationArg
@@ -33,7 +33,7 @@ export class FeedServiceImpl implements FeedService {
       .then((feeds) => paginate(feeds, paginated));
   }
 
-  @Query(() => Feed)
+  @Query((_returns) => Feed)
   async feed(@Arg("id") id: number): Promise<Feed> {
     return dataSource
       .getRepository(Feed)
@@ -47,7 +47,7 @@ export class FeedServiceImpl implements FeedService {
       });
   }
 
-  @FieldResolver((_type) => [Article])
+  @FieldResolver((_of) => [Article])
   articles(
     @Root() feed: Feed,
     @Arg("PaginationArg", { nullable: true }) paginated?: PaginationArg
@@ -65,7 +65,7 @@ export class FeedServiceImpl implements FeedService {
     });
   }
 
-  @FieldResolver((type) => Int)
+  @FieldResolver((_of) => Int)
   async articleCount(@Root() feed: Feed): Promise<number> {
     return dataSource.getRepository(Article).count({
       where: {
@@ -74,7 +74,7 @@ export class FeedServiceImpl implements FeedService {
     });
   }
 
-  @FieldResolver((_type) => [Category])
+  @FieldResolver((_of) => [Category])
   categories(
     @Root() feed: Feed,
     @Arg("paginationArg", { nullable: true }) paginated?: PaginationArg
@@ -97,7 +97,7 @@ export class FeedServiceImpl implements FeedService {
       });
   }
 
-  @FieldResolver((_type) => Int)
+  @FieldResolver((_of) => Int)
   categoryCount(@Root() feed: Feed): Promise<number> {
     return dataSource
       .getRepository(Feed)
@@ -116,7 +116,7 @@ export class FeedServiceImpl implements FeedService {
       });
   }
 
-  @FieldResolver((_type) => [User])
+  @FieldResolver((_of) => [User])
   subscribers(
     @Root() feed: Feed,
     @Arg("PaginationArg", { nullable: true }) paginated?: PaginationArg
@@ -139,7 +139,7 @@ export class FeedServiceImpl implements FeedService {
       });
   }
 
-  @FieldResolver((_type) => Int)
+  @FieldResolver((_of) => Int)
   subscriberCount(@Root() feed: Feed): Promise<number> {
     return dataSource
       .getRepository(Feed)
