@@ -1208,6 +1208,199 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "User-Info",
+			"item": [
+				{
+					"name": "GET - Keycloak User Information - No Auth",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query userInfo {\r\n    user {\r\n        id\r\n        username\r\n        firstName\r\n        lastName\r\n        email\r\n    }\r\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/graphql",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET - Keycloak User Information - Wrong Key",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJqM1NBUmkzNTczckpNSTEzTmFOdklJUjZXTG9jQlliZkQwSkVmUW9yUF80In0.eyJleHAiOjE2NTAwMzc5NDEsImlhdCI6MTY1MDAzNzY0MSwianRpIjoiYmZiYjY5Y2MtZWVlMC00YmVmLThiZTktMGVjNjBhMTJiNDcyIiwiaXNzIjoiaHR0cHM6Ly9rZXljbG9hay5za2lvc2EuZGUvYXV0aC9yZWFsbXMvU2tpb3NhLXRlc3QiLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiY2M5ZGU3ZWEtMzE3Mi00MjBjLWE1MGItZTA4MmY2YzdhN2JmIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiY29yZS1zZXJ2aWNlIiwic2Vzc2lvbl9zdGF0ZSI6ImMxOGUzMTY0LWI3NmUtNDhjMS1iOGJlLTBkY2YwNTI5MGJlNSIsImFjciI6IjEiLCJhbGxvd2VkLW9yaWdpbnMiOlsiaHR0cDovL2xvY2FsaG9zdDo4MDgwIiwiaHR0cHM6Ly9hcGkuc2tpb3NhLmRlIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJkZWZhdWx0LXJvbGVzLXRlc3QiLCJvZmZsaW5lX2FjY2VzcyIsInVtYV9hdXRob3JpemF0aW9uIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJwcm9maWxlIGVtYWlsIiwic2lkIjoiYzE4ZTMxNjQtYjc2ZS00OGMxLWI4YmUtMGRjZjA1MjkwYmU1IiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJuYW1lIjoiVGVzdCBVc2VyIiwicHJlZmVycmVkX3VzZXJuYW1lIjoidGVzdC11c2VyIiwiZ2l2ZW5fbmFtZSI6IlRlc3QiLCJmYW1pbHlfbmFtZSI6IlVzZXIiLCJlbWFpbCI6InRlc3RAdGVzdC5kZSJ9.EtoWMY2Uz88d2UQQlGNW6lMEuOKrQqAodaKkppbB6ROXH_LzDWtUEvcspZmrotcbG4Jq49YE4UcgXTh3f9dERn0yOaTvgWSoiEZ7_WekiQL56nrekfFGRND-oCcswmU0y61eIelVD7Svrpt7zE_33S8TPQChqVogzqxRsDWC5ekAScqLyanGu9obSyYD8IJwSsQlssjiJhjBWLPcC7k0idarXkvIS7aFxmkYzGyrM2lpWhs-IRJZXP2MBADR63aiu2xhIzXfWvbfjajG_LSVa9CWGBg38CrQ6yzgk1vcXP7aJmuetIgij1BAU5n4hnKMOdhTmBtNh1oI2GcsLVep7g",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query userInfo {\r\n    user {\r\n        id\r\n        username\r\n        firstName\r\n        lastName\r\n        email\r\n    }\r\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/graphql",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET - Keycloak User Information - Correct Key",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query userInfo {\r\n    user {\r\n        id\r\n        username\r\n        firstName\r\n        lastName\r\n        email\r\n    }\r\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/graphql",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{keycloakAccessToken}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"if (pm.environment.name != 'LOCAL') {",
+					"    const postRequest = {",
+					"        url: pm.collectionVariables.get('keycloak-url'),",
+					"        method: 'POST',",
+					"        header: [",
+					"            'Content-Type:application/x-www-form-urlencoded',",
+					"        ],",
+					"        body: {",
+					"            mode: 'urlencoded',",
+					"            urlencoded: [",
+					"                {key: \"grant_type\", value: \"password\", disabled: false},",
+					"                {key: \"client_id\", value: \"core-service\", disabled: false},",
+					"                {key: \"username\", value: pm.environment.get(\"keycloak-test-user-name\"), disabled: false},",
+					"                {key: \"password\", value: pm.environment.get(\"keycloak-test-user-pw\"), disabled: false},",
+					"            ]",
+					"        }",
+					"    };",
+					"",
+					"    let tokeRequest = true;",
+					"",
+					"    // Check if the current token is expired",
+					"    if (pm.environment.name != pm.collectionVariables.get('tokenEnvironment')) {",
+					"        console.log(\"env change -> New Token required!\");",
+					"    } else if (!pm.collectionVariables.get('keycloakAccessToken')) {",
+					"        console.log('Token is missing!');",
+					"    } else if (pm.collectionVariables.get('tokenExpiry') <= (new Date().getTime())) {",
+					"        console.log('Token is expired!');",
+					"    } else {",
+					"        tokeRequest = false;",
+					"        console.log('Token is still valid!');",
+					"    }",
+					"",
+					"",
+					"// Request a new token",
+					"    if (tokeRequest === true) {",
+					"        pm.sendRequest(postRequest, function (err, res) {",
+					"            if (res.code === 404) {",
+					"                console.log('Keycloak Credentials not configured!');",
+					"            } else {",
+					"                console.log(err ? err : res.json());",
+					"                if (err === null) {",
+					"                    let responseJson = res.json();",
+					"                    pm.collectionVariables.set('keycloakAccessToken', responseJson.access_token);",
+					"",
+					"                    // Save the expiry date",
+					"                    let expiryDate = new Date();",
+					"                    expiryDate.setSeconds(expiryDate.getSeconds() + responseJson.expires_in);",
+					"                    pm.collectionVariables.set('tokenExpiry', expiryDate.getTime());",
+					"                    pm.collectionVariables.set('tokenEnvironment', pm.environment.name);",
+					"                }",
+					"            }",
+					"        });",
+					"    }",
+					"}"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "keycloak-url",
+			"value": "https://keycloak.skiosa.de/auth/realms/Skiosa-test/protocol/openid-connect/token",
+			"type": "string"
+		},
+		{
+			"key": "tokenEnvironment",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "keycloakAccessToken",
+			"value": ""
+		},
+		{
+			"key": "tokenExpiry",
+			"value": ""
 		}
 	]
 }
