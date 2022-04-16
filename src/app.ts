@@ -17,7 +17,7 @@ dotenv.config({ path: "./src/config/app.env" });
 /**
  * Database Setup
  */
-dataSource.initialize().catch((err: any) => console.error(err));
+dataSource.initialize().catch((err: unknown) => console.error(err));
 
 /**
  * Express Configuration
@@ -37,7 +37,7 @@ api.listen(process.env.API_PORT, () => {
 /**
  * Session Store Configuration
  */
-var memoryStore = new session.MemoryStore();
+const memoryStore = new session.MemoryStore();
 api.use(
   session({
     secret: process.env.MEMORYSTORE_SECRET || "secret",
@@ -50,7 +50,7 @@ api.use(
 /**
  * Keycloak Configuration
  */
-var keycloak = new KeycloakConnect(
+const keycloak = new KeycloakConnect(
   { store: memoryStore },
   {
     "auth-server-url": process.env.KEYCLOAK_URL || "http://localhost:5000/auth",

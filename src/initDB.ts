@@ -9,7 +9,7 @@ dataSource
     console.log("Database initialized");
     exit(0);
   })
-  .catch((err: any) => {
+  .catch((err: unknown) => {
     console.error(err);
     exit(1);
   });

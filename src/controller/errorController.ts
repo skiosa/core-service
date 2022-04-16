@@ -10,7 +10,7 @@ const router = express.Router();
  * @access  Public
  */
 router.get("/", (req: express.Request, res: express.Response) => {
-  let response = {
+  const response = {
     message: "no endpoint found",
     status: "404",
   };
