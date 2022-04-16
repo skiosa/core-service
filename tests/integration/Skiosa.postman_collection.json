@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "15b45e13-51bd-4fb1-9f43-22f3e64feda5",
+		"_postman_id": "abed1b2a-842f-4a72-b340-9d1f23ea3170",
 		"name": "Skiosa",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -1261,6 +1261,150 @@
 							"mode": "graphql",
 							"graphql": {
 								"query": "{\r\n  recommendedFeeds(seed:3){\r\n    id\r\n  }\r\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/graphql",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Similar Articles",
+			"item": [
+				{
+					"name": "Similar Articles - Seed 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status Code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var data = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.test(\"Correct Data\", function () {\r",
+									"    pm.expect(data.data.similarArticles[0].id).equal(1);\r",
+									"    pm.expect(data.data.similarArticles[1].id).equal(2);\r",
+									"    pm.expect(data.data.similarArticles[2].id).equal(4);\r",
+									"    pm.expect(data.data.similarArticles[3].id).equal(5);\r",
+									"    pm.expect(data.data.similarArticles[4].id).equal(3);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "{\r\n  similarArticles(articleID:1){\r\n    id\r\n  }\r\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/graphql",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Similar Articles  Pagination - Seed 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status Code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var data = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.test(\"Correct Data\", function () {\r",
+									"    pm.expect(data.data.similarArticles[0].id).equal(2);\r",
+									"    pm.expect(data.data.similarArticles[1].id).equal(4);\r",
+									"    pm.expect(data.data.similarArticles[2].id).equal(5);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "{\r\n  similarArticles(articleID:1, PaginationArg: {skip:1, take:3}){\r\n    id\r\n  }\r\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/graphql",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Similar Articles - Seed 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status Code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var data = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.test(\"Correct Data\", function () {\r",
+									"    pm.expect(data.data.similarArticles[0].id).equal(2);\r",
+									"    pm.expect(data.data.similarArticles[1].id).equal(4);\r",
+									"    pm.expect(data.data.similarArticles[2].id).equal(1);\r",
+									"    pm.expect(data.data.similarArticles[3].id).equal(3);\r",
+									"    pm.expect(data.data.similarArticles[4].id).equal(5);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "{\r\n  similarArticles(articleID:2){\r\n    id\r\n  }\r\n}",
 								"variables": ""
 							}
 						},
