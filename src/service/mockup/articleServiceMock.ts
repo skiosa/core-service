@@ -32,6 +32,14 @@ export class ArticleServiceMock extends MockService implements ArticleService {
     }
   }
 
+  @Query((_returns) => [Article])
+  similarArticles(
+    @Arg("articleID") articleId: number,
+    @Arg("PaginationArg", { nullable: true }) paginated?: PaginationArg
+  ): Promise<Article[]> {
+    return this.recommendedArticles(articleId, paginated);
+  }
+
   @FieldResolver((_of) => Feed)
   feed(@Root() article: Article): Promise<Feed> {
     const feed = this.articlesMock.find((a) => a.id === article.id)?.feed;
