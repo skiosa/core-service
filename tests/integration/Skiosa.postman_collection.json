@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "15b45e13-51bd-4fb1-9f43-22f3e64feda5",
+		"_postman_id": "3fd66290-6a6f-4ab4-b0a5-3a8ae69d13d7",
 		"name": "Skiosa",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -100,13 +100,13 @@
 									"var id_array = pm.environment.get(\"article-id\") - 1;\r",
 									"\r",
 									"pm.test(\"Correct Data\", function () {\r",
-									"    pm.expect(data.data.getArticles[id_array].id).equal(parseInt(pm.environment.get(\"article-id\")));\r",
-									"    pm.expect(data.data.getArticles[id_array].title).equal(\"How installing linux made me gain 20lbs of muscle\");\r",
-									"    pm.expect(data.data.getArticles[id_array].description).equal(\"After installing arch linux, I did one pushup every time I told someone, that I use...\");\r",
-									"    pm.expect(data.data.getArticles[id_array].content).to.exist;\r",
-									"    pm.expect(data.data.getArticles[id_array].url).equal(\"https://asciiflix.de/watch/814bd1ab-18a7-41f2-8b23-7feb2bab9de2\");\r",
+									"    pm.expect(data.data.articles[id_array].id).equal(parseInt(pm.environment.get(\"article-id\")));\r",
+									"    pm.expect(data.data.articles[id_array].title).equal(\"How installing linux made me gain 20lbs of muscle\");\r",
+									"    pm.expect(data.data.articles[id_array].description).equal(\"After installing arch linux, I did one pushup every time I told someone, that I use...\");\r",
+									"    pm.expect(data.data.articles[id_array].content).to.exist;\r",
+									"    pm.expect(data.data.articles[id_array].url).equal(\"https://asciiflix.de/watch/814bd1ab-18a7-41f2-8b23-7feb2bab9de2\");\r",
 									"\r",
-									"    pm.expect(data.data.getArticles[2]).to.exist;\r",
+									"    pm.expect(data.data.articles[2]).to.exist;\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -122,7 +122,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query articles{\r\n  getArticles{\r\n    id\r\n    title\r\n    description\r\n    content\r\n    url    \r\n  }\r\n}",
+								"query": "query articles{\r\n  articles{\r\n    id\r\n    title\r\n    description\r\n    content\r\n    url    \r\n  }\r\n}",
 								"variables": ""
 							}
 						},
@@ -153,14 +153,14 @@
 									"var id_array = pm.environment.get(\"article-id\") - 1;\r",
 									"\r",
 									"pm.test(\"Correct Data\", function () {\r",
-									"    pm.expect(data.data.getArticles[id_array].id).equal(parseInt(pm.environment.get(\"article-id\")));\r",
-									"    pm.expect(data.data.getArticles[id_array].title).equal(\"How installing linux made me gain 20lbs of muscle\");\r",
-									"    pm.expect(data.data.getArticles[id_array].description).equal(\"After installing arch linux, I did one pushup every time I told someone, that I use...\");\r",
-									"    pm.expect(data.data.getArticles[id_array].content).to.exist;\r",
-									"    pm.expect(data.data.getArticles[id_array].url).equal(\"https://asciiflix.de/watch/814bd1ab-18a7-41f2-8b23-7feb2bab9de2\");\r",
-									"    pm.expect(data.data.getArticles[id_array].author).to.exist;\r",
+									"    pm.expect(data.data.articles[id_array].id).equal(parseInt(pm.environment.get(\"article-id\")));\r",
+									"    pm.expect(data.data.articles[id_array].title).equal(\"How installing linux made me gain 20lbs of muscle\");\r",
+									"    pm.expect(data.data.articles[id_array].description).equal(\"After installing arch linux, I did one pushup every time I told someone, that I use...\");\r",
+									"    pm.expect(data.data.articles[id_array].content).to.exist;\r",
+									"    pm.expect(data.data.articles[id_array].url).equal(\"https://asciiflix.de/watch/814bd1ab-18a7-41f2-8b23-7feb2bab9de2\");\r",
+									"    pm.expect(data.data.articles[id_array].author).to.exist;\r",
 									"\r",
-									"    pm.expect(data.data.getArticles[2]).to.exist;\r",
+									"    pm.expect(data.data.articles[2]).to.exist;\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -176,7 +176,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query articles{\r\n  getArticles{\r\n    id\r\n    title\r\n    description\r\n    content\r\n    url\r\n    author {\r\n        id\r\n        name\r\n    }\r\n  }\r\n}",
+								"query": "query articles{\r\n  articles{\r\n    id\r\n    title\r\n    description\r\n    content\r\n    url\r\n    author {\r\n        id\r\n        name\r\n    }\r\n  }\r\n}",
 								"variables": ""
 							}
 						},
@@ -207,14 +207,14 @@
 									"var id_array = pm.environment.get(\"article-id\") - 1;\r",
 									"\r",
 									"pm.test(\"Correct Data\", function () {\r",
-									"    pm.expect(data.data.getArticles[id_array].id).equal(parseInt(pm.environment.get(\"article-id\")));\r",
-									"    pm.expect(data.data.getArticles[id_array].title).equal(\"How installing linux made me gain 20lbs of muscle\");\r",
-									"    pm.expect(data.data.getArticles[id_array].description).equal(\"After installing arch linux, I did one pushup every time I told someone, that I use...\");\r",
-									"    pm.expect(data.data.getArticles[id_array].content).to.exist;\r",
-									"    pm.expect(data.data.getArticles[id_array].url).equal(\"https://asciiflix.de/watch/814bd1ab-18a7-41f2-8b23-7feb2bab9de2\");\r",
-									"    pm.expect(data.data.getArticles[id_array].categories).to.exist;\r",
+									"    pm.expect(data.data.articles[id_array].id).equal(parseInt(pm.environment.get(\"article-id\")));\r",
+									"    pm.expect(data.data.articles[id_array].title).equal(\"How installing linux made me gain 20lbs of muscle\");\r",
+									"    pm.expect(data.data.articles[id_array].description).equal(\"After installing arch linux, I did one pushup every time I told someone, that I use...\");\r",
+									"    pm.expect(data.data.articles[id_array].content).to.exist;\r",
+									"    pm.expect(data.data.articles[id_array].url).equal(\"https://asciiflix.de/watch/814bd1ab-18a7-41f2-8b23-7feb2bab9de2\");\r",
+									"    pm.expect(data.data.articles[id_array].categories).to.exist;\r",
 									"\r",
-									"    pm.expect(data.data.getArticles[2]).to.exist;\r",
+									"    pm.expect(data.data.articles[2]).to.exist;\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -230,7 +230,63 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query articles{\r\n  getArticles{\r\n    id\r\n    title\r\n    description\r\n    content\r\n    url\r\n    categories {\r\n        id\r\n        name\r\n    }\r\n  }\r\n}",
+								"query": "query articles{\r\n  articles{\r\n    id\r\n    title\r\n    description\r\n    content\r\n    url\r\n    categories {\r\n        id\r\n        name\r\n    }\r\n  }\r\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/graphql",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET - All Articles - Category Count",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status Code is 200\", function() {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var data = JSON.parse(responseBody);",
+									"var id_array = pm.environment.get(\"article-id\") - 1;",
+									"",
+									"pm.test(\"Correct Data\", function () {",
+									"    pm.expect(data.data.articles[id_array].id).equal(parseInt(pm.environment.get(\"article-id\")));",
+									"    pm.expect(data.data.articles[id_array].title).equal(\"How installing linux made me gain 20lbs of muscle\");",
+									"    pm.expect(data.data.articles[id_array].description).equal(\"After installing arch linux, I did one pushup every time I told someone, that I use...\");",
+									"    pm.expect(data.data.articles[id_array].content).to.exist;",
+									"    pm.expect(data.data.articles[id_array].url).equal(\"https://asciiflix.de/watch/814bd1ab-18a7-41f2-8b23-7feb2bab9de2\");",
+									"    pm.expect(data.data.articles[id_array].categories).to.exist;",
+									"",
+									"    pm.expect(data.data.articles[id_array].categoryCount).equal(2);",
+									"",
+									"    pm.expect(data.data.articles[2]).to.exist;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query articles{\n  articles{\n    id\n    title\n    description\n    content\n    url\n    categories {\n        id\n        name\n    }\n    categoryCount\n  }\n}",
 								"variables": ""
 							}
 						},
@@ -261,14 +317,14 @@
 									"var id_array = pm.environment.get(\"article-id\") - 1;\r",
 									"\r",
 									"pm.test(\"Correct Data\", function () {\r",
-									"    pm.expect(data.data.getArticles[id_array].id).equal(parseInt(pm.environment.get(\"article-id\")));\r",
-									"    pm.expect(data.data.getArticles[id_array].title).equal(\"How installing linux made me gain 20lbs of muscle\");\r",
-									"    pm.expect(data.data.getArticles[id_array].description).equal(\"After installing arch linux, I did one pushup every time I told someone, that I use...\");\r",
-									"    pm.expect(data.data.getArticles[id_array].content).to.exist;\r",
-									"    pm.expect(data.data.getArticles[id_array].url).equal(\"https://asciiflix.de/watch/814bd1ab-18a7-41f2-8b23-7feb2bab9de2\");\r",
-									"    pm.expect(data.data.getArticles[id_array].feed).to.exist;\r",
+									"    pm.expect(data.data.articles[id_array].id).equal(parseInt(pm.environment.get(\"article-id\")));\r",
+									"    pm.expect(data.data.articles[id_array].title).equal(\"How installing linux made me gain 20lbs of muscle\");\r",
+									"    pm.expect(data.data.articles[id_array].description).equal(\"After installing arch linux, I did one pushup every time I told someone, that I use...\");\r",
+									"    pm.expect(data.data.articles[id_array].content).to.exist;\r",
+									"    pm.expect(data.data.articles[id_array].url).equal(\"https://asciiflix.de/watch/814bd1ab-18a7-41f2-8b23-7feb2bab9de2\");\r",
+									"    pm.expect(data.data.articles[id_array].feed).to.exist;\r",
 									"\r",
-									"    pm.expect(data.data.getArticles[2]).to.exist;\r",
+									"    pm.expect(data.data.articles[2]).to.exist;\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -284,7 +340,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query articles{\r\n  getArticles{\r\n    id\r\n    title\r\n    description\r\n    content\r\n    url\r\n    feed {\r\n        id\r\n        name\r\n        link\r\n        ttl\r\n    }\r\n  }\r\n}",
+								"query": "query articles{\r\n  articles{\r\n    id\r\n    title\r\n    description\r\n    content\r\n    url\r\n    feed {\r\n        id\r\n        name\r\n        link\r\n        ttl\r\n    }\r\n  }\r\n}",
 								"variables": ""
 							}
 						},
@@ -315,16 +371,16 @@
 									"var id_array = pm.environment.get(\"article-id\") - 1;\r",
 									"\r",
 									"pm.test(\"Correct Data\", function () {\r",
-									"    pm.expect(data.data.getArticles[id_array].id).equal(parseInt(pm.environment.get(\"article-id\")));\r",
-									"    pm.expect(data.data.getArticles[id_array].title).equal(\"How installing linux made me gain 20lbs of muscle\");\r",
-									"    pm.expect(data.data.getArticles[id_array].description).equal(\"After installing arch linux, I did one pushup every time I told someone, that I use...\");\r",
-									"    pm.expect(data.data.getArticles[id_array].content).to.exist;\r",
-									"    pm.expect(data.data.getArticles[id_array].url).equal(\"https://asciiflix.de/watch/814bd1ab-18a7-41f2-8b23-7feb2bab9de2\");\r",
-									"    pm.expect(data.data.getArticles[id_array].author).to.exist;\r",
-									"    pm.expect(data.data.getArticles[id_array].categories).to.exist;\r",
-									"    pm.expect(data.data.getArticles[id_array].feed).to.exist;\r",
+									"    pm.expect(data.data.articles[id_array].id).equal(parseInt(pm.environment.get(\"article-id\")));\r",
+									"    pm.expect(data.data.articles[id_array].title).equal(\"How installing linux made me gain 20lbs of muscle\");\r",
+									"    pm.expect(data.data.articles[id_array].description).equal(\"After installing arch linux, I did one pushup every time I told someone, that I use...\");\r",
+									"    pm.expect(data.data.articles[id_array].content).to.exist;\r",
+									"    pm.expect(data.data.articles[id_array].url).equal(\"https://asciiflix.de/watch/814bd1ab-18a7-41f2-8b23-7feb2bab9de2\");\r",
+									"    pm.expect(data.data.articles[id_array].author).to.exist;\r",
+									"    pm.expect(data.data.articles[id_array].categories).to.exist;\r",
+									"    pm.expect(data.data.articles[id_array].feed).to.exist;\r",
 									"\r",
-									"    pm.expect(data.data.getArticles[2]).to.exist;\r",
+									"    pm.expect(data.data.articles[2]).to.exist;\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -340,7 +396,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query articles{\r\n  getArticles{\r\n    id\r\n    title\r\n    description\r\n    content\r\n    url\r\n    author {\r\n        id\r\n        name\r\n    }\r\n    categories {\r\n        id\r\n        name\r\n    }\r\n        feed {\r\n        id\r\n        name\r\n        link\r\n        ttl\r\n    }\r\n  }\r\n}",
+								"query": "query articles{\r\n  articles{\r\n    id\r\n    title\r\n    description\r\n    content\r\n    url\r\n    author {\r\n        id\r\n        name\r\n    }\r\n    categories {\r\n        id\r\n        name\r\n    }\r\n        feed {\r\n        id\r\n        name\r\n        link\r\n        ttl\r\n    }\r\n  }\r\n}",
 								"variables": ""
 							}
 						},
@@ -370,11 +426,11 @@
 									"var data = JSON.parse(responseBody);\r",
 									"\r",
 									"pm.test(\"Correct Data\", function () {\r",
-									"    pm.expect(data.data.getArticle.id).equal(parseInt(pm.environment.get(\"article-id\")));\r",
-									"    pm.expect(data.data.getArticle.title).equal(\"How installing linux made me gain 20lbs of muscle\");\r",
-									"    pm.expect(data.data.getArticle.description).equal(\"After installing arch linux, I did one pushup every time I told someone, that I use...\");\r",
-									"    pm.expect(data.data.getArticle.content).to.exist;\r",
-									"    pm.expect(data.data.getArticle.url).equal(\"https://asciiflix.de/watch/814bd1ab-18a7-41f2-8b23-7feb2bab9de2\");\r",
+									"    pm.expect(data.data.article.id).equal(parseInt(pm.environment.get(\"article-id\")));\r",
+									"    pm.expect(data.data.article.title).equal(\"How installing linux made me gain 20lbs of muscle\");\r",
+									"    pm.expect(data.data.article.description).equal(\"After installing arch linux, I did one pushup every time I told someone, that I use...\");\r",
+									"    pm.expect(data.data.article.content).to.exist;\r",
+									"    pm.expect(data.data.article.url).equal(\"https://asciiflix.de/watch/814bd1ab-18a7-41f2-8b23-7feb2bab9de2\");\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -390,7 +446,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query article ($id: Float!){\r\n  getArticle(id: $id){\r\n    id\r\n    title\r\n    description\r\n    content\r\n    url\r\n  }\r\n}\r\n",
+								"query": "query article ($id: Float!){\r\n  article(id: $id){\r\n    id\r\n    title\r\n    description\r\n    content\r\n    url\r\n  }\r\n}\r\n",
 								"variables": "{\r\n    \"id\": {{article-id}}\r\n}"
 							}
 						},
@@ -420,12 +476,12 @@
 									"var data = JSON.parse(responseBody);\r",
 									"\r",
 									"pm.test(\"Correct Data\", function () {\r",
-									"    pm.expect(data.data.getArticle.id).equal(parseInt(pm.environment.get(\"article-id\")));\r",
-									"    pm.expect(data.data.getArticle.title).equal(\"How installing linux made me gain 20lbs of muscle\");\r",
-									"    pm.expect(data.data.getArticle.description).equal(\"After installing arch linux, I did one pushup every time I told someone, that I use...\");\r",
-									"    pm.expect(data.data.getArticle.content).to.exist;\r",
-									"    pm.expect(data.data.getArticle.url).equal(\"https://asciiflix.de/watch/814bd1ab-18a7-41f2-8b23-7feb2bab9de2\");\r",
-									"    pm.expect(data.data.getArticle.author).to.exist;\r",
+									"    pm.expect(data.data.article.id).equal(parseInt(pm.environment.get(\"article-id\")));\r",
+									"    pm.expect(data.data.article.title).equal(\"How installing linux made me gain 20lbs of muscle\");\r",
+									"    pm.expect(data.data.article.description).equal(\"After installing arch linux, I did one pushup every time I told someone, that I use...\");\r",
+									"    pm.expect(data.data.article.content).to.exist;\r",
+									"    pm.expect(data.data.article.url).equal(\"https://asciiflix.de/watch/814bd1ab-18a7-41f2-8b23-7feb2bab9de2\");\r",
+									"    pm.expect(data.data.article.author).to.exist;\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -441,7 +497,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query article ($id: Float!){\r\n  getArticle(id: $id){\r\n    id\r\n    title\r\n    description\r\n    content\r\n    url\r\n    author {\r\n      id\r\n      name      \r\n    }\r\n  }\r\n}\r\n",
+								"query": "query article ($id: Float!){\r\n  article(id: $id){\r\n    id\r\n    title\r\n    description\r\n    content\r\n    url\r\n    author {\r\n      id\r\n      name      \r\n    }\r\n  }\r\n}\r\n",
 								"variables": "{\r\n    \"id\": {{article-id}}\r\n}"
 							}
 						},
@@ -471,12 +527,12 @@
 									"var data = JSON.parse(responseBody);\r",
 									"\r",
 									"pm.test(\"Correct Data\", function () {\r",
-									"    pm.expect(data.data.getArticle.id).equal(parseInt(pm.environment.get(\"article-id\")));\r",
-									"    pm.expect(data.data.getArticle.title).equal(\"How installing linux made me gain 20lbs of muscle\");\r",
-									"    pm.expect(data.data.getArticle.description).equal(\"After installing arch linux, I did one pushup every time I told someone, that I use...\");\r",
-									"    pm.expect(data.data.getArticle.content).to.exist;\r",
-									"    pm.expect(data.data.getArticle.url).equal(\"https://asciiflix.de/watch/814bd1ab-18a7-41f2-8b23-7feb2bab9de2\");\r",
-									"    pm.expect(data.data.getArticle.categories).to.exist;\r",
+									"    pm.expect(data.data.article.id).equal(parseInt(pm.environment.get(\"article-id\")));\r",
+									"    pm.expect(data.data.article.title).equal(\"How installing linux made me gain 20lbs of muscle\");\r",
+									"    pm.expect(data.data.article.description).equal(\"After installing arch linux, I did one pushup every time I told someone, that I use...\");\r",
+									"    pm.expect(data.data.article.content).to.exist;\r",
+									"    pm.expect(data.data.article.url).equal(\"https://asciiflix.de/watch/814bd1ab-18a7-41f2-8b23-7feb2bab9de2\");\r",
+									"    pm.expect(data.data.article.categories).to.exist;\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -492,8 +548,61 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query article ($id: Float!){\r\n  getArticle(id: $id){\r\n    id\r\n    title\r\n    description\r\n    content\r\n    url\r\n    categories {\r\n        id\r\n        name\r\n    }\r\n  }\r\n}\r\n",
+								"query": "query article ($id: Float!){\r\n  article(id: $id){\r\n    id\r\n    title\r\n    description\r\n    content\r\n    url\r\n    categories {\r\n        id\r\n        name\r\n    }\r\n  }\r\n}\r\n",
 								"variables": "{\r\n    \"id\": {{article-id}}\r\n}"
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/graphql",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET  - Single Articles - Category Count",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status Code is 200\", function() {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var data = JSON.parse(responseBody);",
+									"",
+									"pm.test(\"Correct Data\", function () {",
+									"    pm.expect(data.data.article.id).equal(parseInt(pm.environment.get(\"article-id\")));",
+									"    pm.expect(data.data.article.title).equal(\"How installing linux made me gain 20lbs of muscle\");",
+									"    pm.expect(data.data.article.description).equal(\"After installing arch linux, I did one pushup every time I told someone, that I use...\");",
+									"    pm.expect(data.data.article.content).to.exist;",
+									"    pm.expect(data.data.article.url).equal(\"https://asciiflix.de/watch/814bd1ab-18a7-41f2-8b23-7feb2bab9de2\");",
+									"    pm.expect(data.data.article.categories).to.exist;",
+									"",
+									"    pm.expect(data.data.article.categoryCount).equal(2)",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query article ($id: Float!){\n  article(id: $id){\n    id\n    title\n    description\n    content\n    url\n    categories {\n        id\n        name\n    }\n    categoryCount\n  }\n}\n",
+								"variables": "{\n    \"id\": {{article-id}}\n}"
 							}
 						},
 						"url": {
@@ -522,12 +631,12 @@
 									"var data = JSON.parse(responseBody);\r",
 									"\r",
 									"pm.test(\"Correct Data\", function () {\r",
-									"    pm.expect(data.data.getArticle.id).equal(parseInt(pm.environment.get(\"article-id\")));\r",
-									"    pm.expect(data.data.getArticle.title).equal(\"How installing linux made me gain 20lbs of muscle\");\r",
-									"    pm.expect(data.data.getArticle.description).equal(\"After installing arch linux, I did one pushup every time I told someone, that I use...\");\r",
-									"    pm.expect(data.data.getArticle.content).to.exist;\r",
-									"    pm.expect(data.data.getArticle.url).equal(\"https://asciiflix.de/watch/814bd1ab-18a7-41f2-8b23-7feb2bab9de2\");\r",
-									"    pm.expect(data.data.getArticle.feed).to.exist;\r",
+									"    pm.expect(data.data.article.id).equal(parseInt(pm.environment.get(\"article-id\")));\r",
+									"    pm.expect(data.data.article.title).equal(\"How installing linux made me gain 20lbs of muscle\");\r",
+									"    pm.expect(data.data.article.description).equal(\"After installing arch linux, I did one pushup every time I told someone, that I use...\");\r",
+									"    pm.expect(data.data.article.content).to.exist;\r",
+									"    pm.expect(data.data.article.url).equal(\"https://asciiflix.de/watch/814bd1ab-18a7-41f2-8b23-7feb2bab9de2\");\r",
+									"    pm.expect(data.data.article.feed).to.exist;\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -543,7 +652,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query article ($id: Float!){\r\n  getArticle(id: $id){\r\n    id\r\n    title\r\n    description\r\n    content\r\n    url\r\n    feed {\r\n        id\r\n        name\r\n        link\r\n        ttl\r\n    }\r\n  }\r\n}\r\n",
+								"query": "query article ($id: Float!){\r\n  article(id: $id){\r\n    id\r\n    title\r\n    description\r\n    content\r\n    url\r\n    feed {\r\n        id\r\n        name\r\n        link\r\n        ttl\r\n    }\r\n  }\r\n}\r\n",
 								"variables": "{\r\n    \"id\": {{article-id}}\r\n}"
 							}
 						},
@@ -573,14 +682,14 @@
 									"var data = JSON.parse(responseBody);\r",
 									"\r",
 									"pm.test(\"Correct Data\", function () {\r",
-									"    pm.expect(data.data.getArticle.id).equal(parseInt(pm.environment.get(\"article-id\")));\r",
-									"    pm.expect(data.data.getArticle.title).equal(\"How installing linux made me gain 20lbs of muscle\");\r",
-									"    pm.expect(data.data.getArticle.description).equal(\"After installing arch linux, I did one pushup every time I told someone, that I use...\");\r",
-									"    pm.expect(data.data.getArticle.content).to.exist;\r",
-									"    pm.expect(data.data.getArticle.url).equal(\"https://asciiflix.de/watch/814bd1ab-18a7-41f2-8b23-7feb2bab9de2\");\r",
-									"    pm.expect(data.data.getArticle.author).to.exist;\r",
-									"    pm.expect(data.data.getArticle.categories).to.exist;\r",
-									"    pm.expect(data.data.getArticle.feed).to.exist;\r",
+									"    pm.expect(data.data.article.id).equal(parseInt(pm.environment.get(\"article-id\")));\r",
+									"    pm.expect(data.data.article.title).equal(\"How installing linux made me gain 20lbs of muscle\");\r",
+									"    pm.expect(data.data.article.description).equal(\"After installing arch linux, I did one pushup every time I told someone, that I use...\");\r",
+									"    pm.expect(data.data.article.content).to.exist;\r",
+									"    pm.expect(data.data.article.url).equal(\"https://asciiflix.de/watch/814bd1ab-18a7-41f2-8b23-7feb2bab9de2\");\r",
+									"    pm.expect(data.data.article.author).to.exist;\r",
+									"    pm.expect(data.data.article.categories).to.exist;\r",
+									"    pm.expect(data.data.article.feed).to.exist;\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -596,8 +705,194 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query article ($id: Float!){\r\n  getArticle(id: $id){\r\n    id\r\n    title\r\n    description\r\n    content\r\n    url\r\n    author {\r\n        id\r\n        name\r\n    }\r\n    categories {\r\n        id\r\n        name\r\n    }\r\n    feed {\r\n        id\r\n        name\r\n        link\r\n        ttl\r\n    }\r\n  }\r\n}\r\n",
+								"query": "query article ($id: Float!){\r\n  article(id: $id){\r\n    id\r\n    title\r\n    description\r\n    content\r\n    url\r\n    author {\r\n        id\r\n        name\r\n    }\r\n    categories {\r\n        id\r\n        name\r\n    }\r\n    feed {\r\n        id\r\n        name\r\n        link\r\n        ttl\r\n    }\r\n  }\r\n}\r\n",
 								"variables": "{\r\n    \"id\": {{article-id}}\r\n}"
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/graphql",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET - All Articles - Like Count",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status Code is 200\", function() {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var data = JSON.parse(responseBody);",
+									"var id_array = pm.environment.get(\"article-id\") - 1;",
+									"",
+									"pm.test(\"Correct Data\", function () {",
+									"    pm.expect(data.data.articles[id_array].likeCount).to.exist;",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query articles{\n  articles{\n    likeCount\n  }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/graphql",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET - Single Article - Like Count",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status Code is 200\", function() {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var data = JSON.parse(responseBody);",
+									"",
+									"pm.test(\"Correct Data\", function () {",
+									"    pm.expect(data.data.article.likeCount).to.exist;",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query article ($id: Float!){\n  article(id: $id){\n    likeCount\n  }\n}",
+								"variables": "{\n    \"id\": {{article-id}}\n}"
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/graphql",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET - All Articles - Bookmark Count",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status Code is 200\", function() {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var data = JSON.parse(responseBody);",
+									"var id_array = pm.environment.get(\"article-id\") - 1;",
+									"",
+									"pm.test(\"Correct Data\", function () {",
+									"    pm.expect(data.data.articles[id_array].bookmarkCount).to.exist;",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query articles{\n  articles{\n    bookmarkCount\n  }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/graphql",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET - Single Article - Bookmark Count",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status Code is 200\", function() {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var data = JSON.parse(responseBody);",
+									"",
+									"pm.test(\"Correct Data\", function () {",
+									"    pm.expect(data.data.article.bookmarkCount).to.exist;",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query article ($id: Float!){\n  article(id: $id){\n    bookmarkCount\n  }\n}",
+								"variables": "{\n    \"id\": {{article-id}}\n}"
 							}
 						},
 						"url": {
@@ -1261,6 +1556,150 @@
 							"mode": "graphql",
 							"graphql": {
 								"query": "{\r\n  recommendedFeeds(seed:3){\r\n    id\r\n  }\r\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/graphql",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Similar Articles",
+			"item": [
+				{
+					"name": "Similar Articles - Seed 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status Code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var data = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.test(\"Correct Data\", function () {\r",
+									"    pm.expect(data.data.similarArticles[0].id).equal(1);\r",
+									"    pm.expect(data.data.similarArticles[1].id).equal(2);\r",
+									"    pm.expect(data.data.similarArticles[2].id).equal(4);\r",
+									"    pm.expect(data.data.similarArticles[3].id).equal(5);\r",
+									"    pm.expect(data.data.similarArticles[4].id).equal(3);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "{\r\n  similarArticles(articleId:1){\r\n    id\r\n  }\r\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/graphql",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Similar Articles  Pagination - Seed 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status Code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var data = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.test(\"Correct Data\", function () {\r",
+									"    pm.expect(data.data.similarArticles[0].id).equal(2);\r",
+									"    pm.expect(data.data.similarArticles[1].id).equal(4);\r",
+									"    pm.expect(data.data.similarArticles[2].id).equal(5);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "{\r\n  similarArticles(articleId:1, PaginationArg: {skip:1, take:3}){\r\n    id\r\n  }\r\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/graphql",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Similar Articles - Seed 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status Code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var data = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.test(\"Correct Data\", function () {\r",
+									"    pm.expect(data.data.similarArticles[0].id).equal(2);\r",
+									"    pm.expect(data.data.similarArticles[1].id).equal(4);\r",
+									"    pm.expect(data.data.similarArticles[2].id).equal(1);\r",
+									"    pm.expect(data.data.similarArticles[3].id).equal(3);\r",
+									"    pm.expect(data.data.similarArticles[4].id).equal(5);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "{\r\n  similarArticles(articleId:2){\r\n    id\r\n  }\r\n}",
 								"variables": ""
 							}
 						},

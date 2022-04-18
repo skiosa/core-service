@@ -10,7 +10,7 @@ const router = express.Router();
  * @access  Public
  */
 router.get("/", (req: express.Request, res: express.Response) => {
-  let response = {
+  const response = {
     message: "Welcome to the Skiosa Core-Service!",
     git: "https://github.com/skiosa/core-service",
     status: "/status",

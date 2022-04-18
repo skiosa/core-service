@@ -22,7 +22,7 @@ export function getUserInfo(req: express.Request, _res: express.Response, next: 
     next();
   } else {
     jwtToken = jwtToken.replace("Bearer ", "");
-    let decoded = jwt.decode(jwtToken) as jwt.JwtPayload;
+    const decoded = jwt.decode(jwtToken) as jwt.JwtPayload;
     if (decoded) {
       req.UserInfo = jwtPayloadContentTransformer(decoded);
     }
