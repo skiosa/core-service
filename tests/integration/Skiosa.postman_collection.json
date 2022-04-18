@@ -1214,6 +1214,25 @@
 			"item": [
 				{
 					"name": "GET - Keycloak User Information - No Auth",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status Code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var data = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.test(\"Correct Data\", function () {\r",
+									"    pm.expect(data.errors[0].message).equal(\"Access denied! You need to be authorized to perform this action!\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "noauth"
@@ -1241,6 +1260,25 @@
 				},
 				{
 					"name": "GET - Keycloak User Information - Wrong Key",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status Code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var data = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.test(\"Correct Data\", function () {\r",
+									"    pm.expect(data.errors[0].message).equal(\"Access denied! You need to be authorized to perform this action!\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -1275,6 +1313,29 @@
 				},
 				{
 					"name": "GET - Keycloak User Information - Correct Key",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status Code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var data = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.test(\"Correct Data\", function () {\r",
+									"    pm.expect(data.data.user.id).equal(\"cc9de7ea-3172-420c-a50b-e082f6c7a7bf\");\r",
+									"    pm.expect(data.data.user.username).equal(\"test-user\");\r",
+									"    pm.expect(data.data.user.firstName).equal(\"Test\");\r",
+									"    pm.expect(data.data.user.lastName).equal(\"User\");\r",
+									"    pm.expect(data.data.user.email).equal(\"test@test.de\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
