@@ -18,7 +18,7 @@ import { UserInfo } from "../model/jwt";
     res.json("Hello " + req.UserInfo?.username);
   }
 );
-* @deprecated
+ * @deprecated
  */
 export function getUserInfo(req: express.Request, _res: express.Response, next: express.NextFunction) {
   let jwtToken: string = req.headers.authorization as string;

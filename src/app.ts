@@ -1,18 +1,17 @@
-import { Context } from "apollo-server-core";
+import { ApolloServerPluginLandingPageDisabled, ApolloServerPluginLandingPageLocalDefault, Context } from "apollo-server-core";
 import { ApolloServer } from "apollo-server-express";
 import dotenv from "dotenv";
 import express from "express";
 import session from "express-session";
 import http from 'http';
 import KeycloakConnect from "keycloak-connect";
-import { KeycloakContext, KeycloakSchemaDirectives, KeycloakTypeDefs } from "keycloak-connect-graphql";
+import { KeycloakContext } from "keycloak-connect-graphql";
 import "reflect-metadata";
 import { dataSource } from "skiosa-orm/lib/db";
 import { buildSchema } from "type-graphql";
 import { defaultController } from "./controller/defaultController";
 import { errorController } from "./controller/errorController";
 import { UserInfo } from "./model/jwt";
-import { ArticleServiceImpl } from './service/impl/articleServiceImpl';
 import { FeedServiceImpl } from "./service/impl/feedServiceImpl";
 import { UserInfoServiceImpl } from "./service/impl/userInfoServiceImpl";
 import { ArticleServiceMock } from "./service/mockup/articleServiceMock";
@@ -24,19 +23,17 @@ import { authChecker, userInfo } from './util/middelwares';
 dotenv.config({ path: "./src/config/app.env" });
 
 /**
- * Database Setup
+ * Database Initialization & Server Startup
  */
-dataSource.initialize().catch((err: any) => console.error(err));
+dataSource.initialize()
+  .then(() => startApolloServer())
+  .catch((err: any) => console.error(err));
 
 declare module "express-serve-static-core" {
   interface Request {
     UserInfo?: UserInfo;
   }
 }
-
-
-startApolloServer();
-
 
 async function startApolloServer() {
   /**
@@ -78,12 +75,6 @@ async function startApolloServer() {
   app.use(keycloak.middleware());
 
   /**
-   * Express Routes
-   */
-  app.use("/", defaultController);
-  app.use("*", errorController);
-
-  /**
    * Security Configuration
    */
   app.disable("x-powered-by");
@@ -101,22 +92,33 @@ async function startApolloServer() {
    * Apollo Server Configuration
    */
   const httpServer = http.createServer(app);
-
   const server = new ApolloServer({
-    typeDefs: [KeycloakTypeDefs],
-    schemaDirectives: KeycloakSchemaDirectives,
-    schema,
+    schema: schema,
+    plugins: [
+      process.env.NODE_ENV === 'production'
+        ? ApolloServerPluginLandingPageDisabled()
+        : ApolloServerPluginLandingPageLocalDefault(),
+    ],
     context: ({ req }) => {
       const ctx: Context = {
-        kauth: new KeycloakContext({ req: req as any }, keycloak), // 3. add the KeycloakContext to `kauth`
-        userInfo: userInfo(new KeycloakContext({ req: req as any }, keycloak)), // 4. add the userInfo to `userInfo`
+        kauth: new KeycloakContext({ req: req as any }, keycloak),
+        userInfo: userInfo(new KeycloakContext({ req: req as any }, keycloak)),
       };
       return ctx;
     }
   });
-
   await server.start();
-  server.applyMiddleware({ app, path: "/" })
-  await new Promise<void>(resolve => httpServer.listen({ port: 4000 }, resolve));
-  console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`);
+
+  /**
+   * Express Routes
+   */
+  app.use("/", defaultController);
+  server.applyMiddleware({ app, path: "/graphql" })
+  app.use("*", errorController);
+
+  /**
+   * Launch HTTP Server
+   */
+  await new Promise<void>(resolve => httpServer.listen({ port: process.env.API_PORT }, resolve));
+  console.log(`🚀 Server ready at http://localhost:${process.env.API_PORT}${server.graphqlPath}`);
 }

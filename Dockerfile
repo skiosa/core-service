@@ -6,5 +6,6 @@ COPY tsconfig.json /opt/core-service/
 
 WORKDIR /opt/core-service
 RUN npm install
+ENV NODE_ENV=production
 
 CMD [ "npm", "run", "start" ]
