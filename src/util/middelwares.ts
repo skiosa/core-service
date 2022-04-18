@@ -58,8 +58,9 @@ function jwtPayloadContentTransformer(payload: jwt.JwtPayload): UserInfo {
  * @returns {Boolean} - authenticated
  */
 export const authChecker: AuthChecker<Context> = ({ context }) => {
-  let localContext: any = context;
-  let kauth: KeycloakContext = localContext.kauth as KeycloakContext;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const localContext: any = context;
+  const kauth: KeycloakContext = localContext.kauth as KeycloakContext;
 
   if (kauth.isAuthenticated()) {
     return true;
@@ -76,8 +77,9 @@ export const authChecker: AuthChecker<Context> = ({ context }) => {
  */
 export function userInfo(keyCloakContext: KeycloakContext): UserInfo | undefined {
   if (keyCloakContext.isAuthenticated() && keyCloakContext.accessToken) {
-    let tempAccessToken: any = keyCloakContext.accessToken;
-    let decoded = jwt.decode(tempAccessToken.token) as jwt.JwtPayload;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const tempAccessToken: any = keyCloakContext.accessToken;
+    const decoded = jwt.decode(tempAccessToken.token) as jwt.JwtPayload;
     if (decoded) {
       return jwtPayloadContentTransformer(decoded);
     }

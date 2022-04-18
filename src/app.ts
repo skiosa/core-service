@@ -27,7 +27,7 @@ dotenv.config({ path: "./src/config/app.env" });
  */
 dataSource.initialize()
   .then(() => startApolloServer())
-  .catch((err: any) => console.error(err));
+  .catch((err) => console.error(err));
 
 declare module "express-serve-static-core" {
   interface Request {
@@ -101,7 +101,9 @@ async function startApolloServer() {
     ],
     context: ({ req }) => {
       const ctx: Context = {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         kauth: new KeycloakContext({ req: req as any }, keycloak),
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         userInfo: userInfo(new KeycloakContext({ req: req as any }, keycloak)),
       };
       return ctx;
