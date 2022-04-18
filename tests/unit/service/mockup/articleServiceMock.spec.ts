@@ -1,18 +1,17 @@
 import { assert } from "chai";
-import { ArticleServiceMock } from '../../../../src/service/mockup/articleServiceMock';
+import { ArticleServiceMock } from "../../../../src/service/mockup/articleServiceMock";
 
 describe("Mock-ArticleService", () => {
-    const mockArticleService = new ArticleServiceMock();
+  const mockArticleService = new ArticleServiceMock();
 
     it("should return a list of articles", async () => {
-        let articles = await mockArticleService.articles();
-
-        assert.isArray(articles);
-        assert.equal(articles.length, 5);
+      const articles = await mockArticleService.articles();
+      assert.isArray(articles);
+      assert.equal(articles.length, 5);
     });
 
     it("should return a single article", async () => {
-        let article = await mockArticleService.article(1);
+        const article = await mockArticleService.article(1);
         
         assert.isObject(article);
         assert.equal(article.id, 1);

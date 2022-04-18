@@ -18,17 +18,24 @@ export class FeedServiceMock extends MockService implements FeedService {
     });
   }
 
-  categories(feed: Feed, paginated?: PaginationArg): Promise<Category[]> {
-    throw new Error("Method not implemented.");
+  @FieldResolver((_of) => [Category])
+  categories(
+    @Root() feed: Feed,
+    @Arg("PaginationArg", { nullable: true }) paginated?: PaginationArg
+  ): Promise<Category[]> {
+    return Promise.resolve(paginate(this.feedMock.find((f) => f.id === feed.id)?.categories ?? [], paginated));
   }
-  categoryCount(feed: Feed): Promise<number> {
-    throw new Error("Method not implemented.");
+  categoryCount(@Root() feed: Feed): Promise<number> {
+    return Promise.resolve(this.feedMock.find((f) => f.id === feed.id)?.categories?.length ?? 0);
   }
-  subscribers(feed: Feed, paginated?: PaginationArg): Promise<User[]> {
-    throw new Error("Method not implemented.");
+  subscribers(
+    @Root() feed: Feed,
+    @Arg("PaginationArg", { nullable: true }) paginated?: PaginationArg
+  ): Promise<User[]> {
+    return Promise.resolve(paginate(this.feedMock.find((f) => f.id === feed.id)?.subscribers ?? [], paginated));
   }
-  subscriberCount(feed: Feed): Promise<number> {
-    throw new Error("Method not implemented.");
+  subscriberCount(@Root() feed: Feed): Promise<number> {
+    return Promise.resolve(this.feedMock.find((f) => f.id === feed.id)?.subscribers?.length ?? 0);
   }
   @Query((_of) => [Feed])
   feeds(@Arg("PaginationArg", { nullable: true }) paginated?: PaginationArg): Promise<Feed[]> {
