@@ -1,9 +1,13 @@
-import { ApolloServerPluginLandingPageDisabled, ApolloServerPluginLandingPageLocalDefault, Context } from "apollo-server-core";
+import {
+  ApolloServerPluginLandingPageDisabled,
+  ApolloServerPluginLandingPageLocalDefault,
+  Context,
+} from "apollo-server-core";
 import { ApolloServer } from "apollo-server-express";
 import dotenv from "dotenv";
 import express from "express";
 import session from "express-session";
-import http from 'http';
+import http from "http";
 import KeycloakConnect from "keycloak-connect";
 import { KeycloakContext } from "keycloak-connect-graphql";
 import "reflect-metadata";
@@ -15,7 +19,7 @@ import { UserInfo } from "./model/jwt";
 import { FeedServiceImpl } from "./service/impl/feedServiceImpl";
 import { UserInfoServiceImpl } from "./service/impl/userInfoServiceImpl";
 import { ArticleServiceMock } from "./service/mockup/articleServiceMock";
-import { authChecker, userInfo } from './util/middelwares';
+import { authChecker, userInfo } from "./util/middelwares";
 
 /**
  * Configuration Part
@@ -25,7 +29,8 @@ dotenv.config({ path: "./src/config/app.env" });
 /**
  * Database Initialization & Server Startup
  */
-dataSource.initialize()
+dataSource
+  .initialize()
   .then(() => startApolloServer())
   .catch((err) => console.error(err));
 
@@ -79,7 +84,6 @@ async function startApolloServer() {
    */
   app.disable("x-powered-by");
 
-
   /**
    * GraphQL Schema Builder
    */
@@ -95,7 +99,7 @@ async function startApolloServer() {
   const server = new ApolloServer({
     schema: schema,
     plugins: [
-      process.env.NODE_ENV === 'production'
+      process.env.NODE_ENV === "production"
         ? ApolloServerPluginLandingPageDisabled()
         : ApolloServerPluginLandingPageLocalDefault(),
     ],
@@ -107,7 +111,7 @@ async function startApolloServer() {
         userInfo: userInfo(new KeycloakContext({ req: req as any }, keycloak)),
       };
       return ctx;
-    }
+    },
   });
   await server.start();
 
@@ -115,13 +119,13 @@ async function startApolloServer() {
    * Express Routes
    */
   app.use("/", defaultController);
-  server.applyMiddleware({ app, path: "/graphql" })
+  server.applyMiddleware({ app, path: "/graphql" });
   app.use("*", errorController);
 
   /**
    * Launch HTTP Server
    */
-  await new Promise<void>(resolve => httpServer.listen({ port: process.env.API_PORT }, resolve));
+  await new Promise<void>((resolve) => httpServer.listen({ port: process.env.API_PORT }, resolve));
   console.log(`🚀 Server ready at http://localhost:${process.env.API_PORT}/`);
   console.log(`🚀 GraphQL ready at http://localhost:${process.env.API_PORT}${server.graphqlPath}`);
 }

@@ -1,7 +1,7 @@
 import { Context } from "apollo-server-core";
 import express from "express";
 import * as jwt from "jsonwebtoken";
-import { KeycloakContext } from 'keycloak-connect-graphql';
+import { KeycloakContext } from "keycloak-connect-graphql";
 import { AuthChecker } from "type-graphql/dist/interfaces";
 import { UserInfo } from "../model/jwt";
 
