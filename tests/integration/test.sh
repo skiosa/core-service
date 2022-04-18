@@ -1,3 +1,5 @@
 #!/bin/bash
+path=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
+cd "$path"
 
-newman run /core-service/tests/integration/Skiosa.postman_collection.json -e /core-service/tests/integration/skiosa-local-dev.postman_environment.json
+newman run ./Skiosa.postman_collection.json -e ./skiosa-local-dev.postman_environment.json
