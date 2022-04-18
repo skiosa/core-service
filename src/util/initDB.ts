@@ -6,10 +6,10 @@ import { dataSource } from "skiosa-orm/lib/db";
  * @description Truncates Database and injects Mock Database content for testing
  */
 export async function initDB() {
-  await dataSource.getRepository(Feed).query(`TRUNCATE TABLE "feed" RESTART IDENTITY CASCADE`);
-  await dataSource.getRepository(Article).query(`TRUNCATE TABLE "article" RESTART IDENTITY CASCADE`);
-  await dataSource.getRepository(Author).query(`TRUNCATE TABLE "author" RESTART IDENTITY CASCADE`);
-  await dataSource.getRepository(Category).query(`TRUNCATE TABLE "category" RESTART IDENTITY CASCADE`);
+  await dataSource.getRepository(Feed).query('TRUNCATE TABLE "feed" RESTART IDENTITY CASCADE');
+  await dataSource.getRepository(Article).query('TRUNCATE TABLE "article" RESTART IDENTITY CASCADE');
+  await dataSource.getRepository(Author).query('TRUNCATE TABLE "author" RESTART IDENTITY CASCADE');
+  await dataSource.getRepository(Category).query('TRUNCATE TABLE "category" RESTART IDENTITY CASCADE');
 
   await dataSource
     .getRepository(Category)

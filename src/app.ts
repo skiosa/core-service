@@ -44,7 +44,7 @@ async function startApolloServer() {
   /**
    * Session Store Configuration
    */
-  var memoryStore = new session.MemoryStore();
+  const memoryStore = new session.MemoryStore();
   app.use(
     session({
       secret: process.env.MEMORYSTORE_SECRET || "secret",
@@ -57,7 +57,7 @@ async function startApolloServer() {
   /**
    * Keycloak Configuration
    */
-  var keycloak = new KeycloakConnect(
+  const keycloak = new KeycloakConnect(
     { store: memoryStore },
     {
       "auth-server-url": process.env.KEYCLOAK_URL || "http://localhost:5000/auth",
