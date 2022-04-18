@@ -30,6 +30,13 @@ export class ArticleServiceImpl implements ArticleService {
       .then((articles) => shuffle(articles, seed))
       .then((articles) => paginate(articles, paginated));
   }
+  @Query((_returns) => [Article])
+  similarArticles(
+    @Arg("articleId") articleId: number,
+    @Arg("PaginationArg", { nullable: true }) paginated?: PaginationArg
+  ): Promise<Article[]> {
+    return this.recommendedArticles(articleId, paginated);
+  }
 
   @Query((_returns) => Article)
   getArticle(@Arg("id") id: number): Promise<Article> {
