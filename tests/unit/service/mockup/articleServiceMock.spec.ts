@@ -5,14 +5,13 @@ describe("Mock-ArticleService", () => {
   const mockArticleService = new ArticleServiceMock();
 
   it("should return a list of articles", async () => {
-    const articles = await mockArticleService.getArticles();
-
+    const articles = await mockArticleService.articles();
     assert.isArray(articles);
     assert.equal(articles.length, 5);
   });
 
   it("should return a single article", async () => {
-    const article = await mockArticleService.getArticle(1);
+    const article = await mockArticleService.article(1);
 
     assert.isObject(article);
     assert.equal(article.id, 1);

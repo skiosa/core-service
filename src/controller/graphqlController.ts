@@ -3,7 +3,7 @@ import express from "express";
 import { graphqlHTTP } from "express-graphql";
 import { buildTypeDefsAndResolvers } from "type-graphql";
 import { FeedServiceImpl } from "../service/impl/feedServiceImpl";
-import { ArticleServiceMock } from "../service/mockup/articleServiceMock";
+import { ArticleServiceImpl } from "../service/impl/articleServiceImpl";
 
 const router = express.Router();
 
@@ -19,7 +19,7 @@ bootstrap();
  */
 async function bootstrap() {
   const { typeDefs, resolvers } = await buildTypeDefsAndResolvers({
-    resolvers: [ArticleServiceMock, FeedServiceImpl],
+    resolvers: [ArticleServiceImpl, FeedServiceImpl],
   });
 
   const schema = makeExecutableSchema({ typeDefs, resolvers });
