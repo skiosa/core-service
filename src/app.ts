@@ -122,7 +122,7 @@ async function startApolloServer() {
    * Express Routes
    */
   app.use("/", defaultController);
-  server.applyMiddleware({ app, path: "/graphql", cors: false });
+  server.applyMiddleware({ app, path: "/graphql" });
   app.use("*", errorController);
 
   /**
