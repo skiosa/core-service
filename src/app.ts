@@ -4,6 +4,7 @@ import {
   Context,
 } from "apollo-server-core";
 import { ApolloServer } from "apollo-server-express";
+import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 import session from "express-session";
@@ -45,6 +46,8 @@ async function startApolloServer() {
    * Express Configuration
    */
   const app = express();
+
+  app.use(cors());
 
   /**
    * Session Store Configuration
@@ -119,7 +122,7 @@ async function startApolloServer() {
    * Express Routes
    */
   app.use("/", defaultController);
-  server.applyMiddleware({ app, path: "/graphql" });
+  server.applyMiddleware({ app, path: "/graphql", cors: false });
   app.use("*", errorController);
 
   /**

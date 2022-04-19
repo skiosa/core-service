@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "description": "main backend service to serve content and actions",
   "main": "src/app.ts",
+
+
   "scripts": {
     "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha -r ts-node/register 'tests/**/*.spec.ts'",
     "test:ci": "nyc npm run test",
@@ -56,6 +58,7 @@
     "@graphql-tools/schema": "^8.3.6",
     "@istanbuljs/nyc-config-typescript": "^1.0.2",
     "@types/chai": "^4.3.0",
+    "@types/cors": "^2.8.12",
     "@types/express": "^4.17.13",
     "@types/express-session": "^1.17.4",
     "@types/jsonwebtoken": "^8.5.8",
@@ -84,6 +87,7 @@
     "apollo-server-core": "^3.6.7",
     "apollo-server-express": "^3.6.7",
     "class-validator": "^0.13.2",
+    "cors": "^2.8.5",
     "dataloader": "^2.0.0",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
