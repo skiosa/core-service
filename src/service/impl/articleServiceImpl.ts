@@ -1,11 +1,10 @@
+import { shuffle } from "shuffle-seed";
+import { Article, Feed } from "skiosa-orm";
 import { dataSource } from "skiosa-orm/lib/db";
-import { Article } from "skiosa-orm/lib/model/article";
 import { Arg, FieldResolver, Query, Resolver, Root, Int } from "type-graphql";
 import { ArticleService } from "../articleService";
 import { Author } from "skiosa-orm/lib/model/author";
-import { Feed } from "skiosa-orm/lib/model/feed";
 import { Category } from "skiosa-orm/lib/model/category";
-import { shuffle } from "shuffle-seed";
 import { paginate } from "../../util/paginate";
 import { PaginationArg } from "../../model/paginationArg";
 

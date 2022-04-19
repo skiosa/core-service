@@ -34,7 +34,7 @@ export class ArticleServiceMock extends MockService implements ArticleService {
 
   @Query((_returns) => [Article])
   similarArticles(
-    @Arg("articleID") articleId: number,
+    @Arg("articleId") articleId: number,
     @Arg("PaginationArg", { nullable: true }) paginated?: PaginationArg
   ): Promise<Article[]> {
     return this.recommendedArticles(articleId, paginated);
