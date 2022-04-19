@@ -8,6 +8,11 @@ export interface UserInfo {
   lastName: string | undefined;
 }
 
+/**
+ * @author LukasLJL
+ * @summary UserInfo Object which Stores the information of the user
+ * @description After a User has been authenticated, the information of the user is stored in this object. The Content from this object is been transformed from a JWT Token.
+ */
 @ObjectType()
 export class UserInfo implements UserInfo {
   @Field((_type) => String)
