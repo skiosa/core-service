@@ -12,7 +12,9 @@
     "format": "prettier --write \"src/**/*.ts\" \"tests/**/*.ts\"",
     "lint": "eslint -c .eslintrc.json --fix .",
     "start": "ts-node .",
-    "initDB": "ts-node ./src/initDB.ts"
+    "initDB": "ts-node ./src/initDB.ts",
+    "newman": "./tests/integration/test.sh",
+    "test:all": "npm run-script test && npm run-script newman"
   },
   "nyc": {
     "extends": "@istanbuljs/nyc-config-typescript",
