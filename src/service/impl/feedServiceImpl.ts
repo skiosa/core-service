@@ -1,5 +1,3 @@
-import { link } from "fs";
-import { auth, hasRole } from "keycloak-connect-graphql";
 import { shuffle } from "shuffle-seed";
 import { Article, Category, Feed, User, FeedInput } from "skiosa-orm";
 import { dataSource } from "skiosa-orm/lib/db";
@@ -162,11 +160,13 @@ export class FeedServiceImpl implements FeedService {
   }
 
   @Mutation(() => Feed)
+  @Authorized()
   createFeed(@Arg("feed") feed: FeedInput): Promise<Feed> {
     return dataSource.getRepository(Feed).save(feed);
   }
 
   @Mutation(() => String)
+  @Authorized("realm:skiosa-admin")
   deleteFeed(@Arg("feedId") feedId: number): Promise<string> {
     return dataSource
       .getRepository(Article)

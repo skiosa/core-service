@@ -1,5 +1,4 @@
 import { Article, Category, Feed, User, FeedInput } from "skiosa-orm";
-import { DeleteResult } from "typeorm";
 import { PaginationArg } from "../model/paginationArg";
 
 export interface FeedService {
