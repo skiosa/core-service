@@ -160,7 +160,7 @@ export class FeedServiceImpl implements FeedService {
   }
 
   @Mutation(() => Feed)
-  @Authorized()
+  @Authorized("realm:skiosa-user")
   createFeed(@Arg("feed") feed: FeedInput): Promise<Feed> {
     return dataSource.getRepository(Feed).save(feed);
   }
@@ -179,7 +179,7 @@ export class FeedServiceImpl implements FeedService {
             if (result.affected === 0) {
               throw new Error(`Feed with id ${feedId} not found`);
             } else {
-              return "Feed deleted";
+              return `Feed with the id ${feedId} was deleted.`;
             }
           });
       });

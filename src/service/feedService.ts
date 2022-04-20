@@ -96,8 +96,8 @@ export interface FeedService {
   /**
    * @author Marcel Alex, Tim Horlacher
    * @summary Creating feed
-   * @description Creating a feed in the database
-   * @param {FeedInput} feed - Link to feed
+   * @description Creating a feed in the database if user is logged in
+   * @param {FeedInput} feed - Feed-information
    * @returns {Feed} Created Feed
    */
   createFeed(feed: FeedInput): Promise<Feed>;
@@ -105,7 +105,7 @@ export interface FeedService {
   /**
    * @author Marcel Alex, Tim Horlacher
    * @summary Deleting feed
-   * @description Deleting a feed in the database
+   * @description Deleting a feed in the database if user is logged in as an admin
    * @param {number} feedId  - Feed to delete
    * @returns {string} Result of deletion
    */
