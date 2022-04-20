@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "b9131322-6d0f-4e2c-83e7-2b80cfae61c4",
+		"_postman_id": "d94c98be-cd49-4286-8d37-ed56cf39ce7a",
 		"name": "Skiosa",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -1238,6 +1238,185 @@
 							"graphql": {
 								"query": "query countArticlesFromFeed($id: Float!){\r\n  feed(id: $id){\r\n  id\r\n    link\r\n    ttl\r\n    name\r\n    description\r\n    categoryCount\r\n  }\r\n}",
 								"variables": "{\r\n    \"id\": {{feed-id}}\r\n}"
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/graphql",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST  - Create Feed Unauthorized",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status Code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var data = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.test(\"Correct Data\", function () {\r",
+									"    pm.expect(data.data.createFeed.link).equal(\"NewTestFeed.de\");\r",
+									"    pm.expect(data.data.createFeed.name).equal(\"Test Feed\");\r",
+									"    pm.expect(data.data.createFeed.ttl).equal(\"187\")\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation Mutation($feed: FeedInput!) {\r\n  createFeed(feed: $feed) {\r\n    id\r\n    link\r\n    ttl\r\n    name\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"feed\": {\r\n    \"link\": \"NewTestFeed.de\",\r\n    \"ttl\": \"187\",\r\n    \"name\": \"Test Feed\",\r\n    \"description\": \"Description\"\r\n  }\r\n}"
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/graphql",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST  - Create Feed Authorized",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status Code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var data = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.test(\"Correct Data\", function () {\r",
+									"    pm.globals.set(\"new-feed-id\", data.data.createFeed.id);\r",
+									"    pm.expect(data.data.createFeed.link).equal(\"NewTestFeed.de\");\r",
+									"    pm.expect(data.data.createFeed.name).equal(\"Test Feed\");\r",
+									"    pm.expect(data.data.createFeed.ttl).equal(\"187\")\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation Mutation($feed: FeedInput!) {\r\n  createFeed(feed: $feed) {\r\n    id\r\n    link\r\n    ttl\r\n    name\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"feed\": {\r\n    \"link\": \"NewTestFeed.de\",\r\n    \"ttl\": \"187\",\r\n    \"name\": \"Test Feed\",\r\n    \"description\": \"Description\"\r\n  }\r\n}"
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/graphql",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete  - Delete Feed as User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status Code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var data = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.test(\"Correct Data\", function () {\r",
+									"    pm.expect(data.errors[0].message).equal(\"Access denied! You don't have permission for this action!\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "\r\nmutation Mutation($feedId: Float!) {\r\n  deleteFeed(feedId: $feedId)\r\n}",
+								"variables": "{\r\n    \"feedId\": 10\r\n}"
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/graphql",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete  - Delete Feed as Admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status Code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var data = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.test(\"Correct Data\", function () {\r",
+									"    pm.expect(data.data.feed.id).equal(parseInt(pm.environment.get(\"feed-id\")));\r",
+									"    pm.expect(data.data.feed.name).equal(\"Asciiflix.de\");\r",
+									"    pm.expect(data.data.feed.categoryCount).equal(2)\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "\r\nmutation Mutation($feedId: Float!) {\r\n  deleteFeed(feedId: $feedId)\r\n}",
+								"variables": "{\r\n    \"feedId\": {{new-feed-id}}\r\n}"
 							}
 						},
 						"url": {
