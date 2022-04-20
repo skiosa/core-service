@@ -1,8 +1,6 @@
-import { notEqual } from "assert";
 import { shuffle } from "shuffle-seed";
 import { Article, Category, Feed, FeedInput, User } from "skiosa-orm";
 import { Arg, FieldResolver, Int, Mutation, Query, Resolver, Root } from "type-graphql";
-import { DeleteResult } from "typeorm";
 import { PaginationArg } from "../../model/paginationArg";
 import { FeedService } from "../feedService";
 import { paginate } from "../../util/paginate";
