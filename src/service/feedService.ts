@@ -1,4 +1,5 @@
-import { Article, Category, Feed, User } from "skiosa-orm";
+import { Article, Category, Feed, User, FeedInput } from "skiosa-orm";
+import { DeleteResult } from "typeorm";
 import { PaginationArg } from "../model/paginationArg";
 
 export interface FeedService {
@@ -92,4 +93,22 @@ export interface FeedService {
    * @returns {number} Number of subscribed users in feed
    */
   subscriberCount(feed: Feed): Promise<number>;
+
+  /**
+   * @author Marcel Alex, Tim Horlacher
+   * @summary Creating feed
+   * @description Creating a feed in the database
+   * @param {FeedInput} feed - Link to feed
+   * @returns {Feed} Created Feed
+   */
+  createFeed(feed: FeedInput): Promise<Feed>;
+
+  /**
+   * @author Marcel Alex, Tim Horlacher
+   * @summary Deleting feed
+   * @description Deleting a feed in the database
+   * @param {number} feedId  - Feed to delete
+   * @returns {string} Result of deletion
+   */
+  deleteFeed(feedId: number): Promise<string>;
 }

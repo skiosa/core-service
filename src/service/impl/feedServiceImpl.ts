@@ -1,7 +1,10 @@
+import { link } from "fs";
+import { auth, hasRole } from "keycloak-connect-graphql";
 import { shuffle } from "shuffle-seed";
-import { Article, Category, Feed, User } from "skiosa-orm";
+import { Article, Category, Feed, User, FeedInput } from "skiosa-orm";
 import { dataSource } from "skiosa-orm/lib/db";
-import { Arg, FieldResolver, Int, Query, Resolver, Root } from "type-graphql";
+import { Arg, FieldResolver, Mutation, Int, Query, Resolver, Root, Authorized } from "type-graphql";
+import { DeleteResult } from "typeorm";
 import { PaginationArg } from "../../model/paginationArg";
 import { paginate } from "../../util/paginate";
 import { FeedService } from "../feedService";
@@ -154,6 +157,25 @@ export class FeedServiceImpl implements FeedService {
           throw new Error(`Feed with id ${feed.id} not found`);
         } else {
           return (f.subscribers || []).length;
+        }
+      });
+  }
+
+  @Mutation(() => Feed)
+  createFeed(@Arg("feed") feed: FeedInput): Promise<Feed> {
+    return dataSource.getRepository(Feed).save(feed);
+  }
+
+  @Mutation(() => String)
+  deleteFeed(@Arg("feedId") feedId: number): Promise<string> {
+    return dataSource
+      .getRepository(Feed)
+      .delete({ id: feedId })
+      .then((result: DeleteResult) => {
+        if (result.affected === 0) {
+          throw new Error(`Feed with id ${feedId} not found`);
+        } else {
+          return "Feed deleted";
         }
       });
   }
