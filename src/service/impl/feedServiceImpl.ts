@@ -169,14 +169,19 @@ export class FeedServiceImpl implements FeedService {
   @Mutation(() => String)
   deleteFeed(@Arg("feedId") feedId: number): Promise<string> {
     return dataSource
-      .getRepository(Feed)
-      .delete({ id: feedId })
-      .then((result: DeleteResult) => {
-        if (result.affected === 0) {
-          throw new Error(`Feed with id ${feedId} not found`);
-        } else {
-          return "Feed deleted";
-        }
+      .getRepository(Article)
+      .delete({ feed: { id: feedId } })
+      .then(() => {
+        return dataSource
+          .getRepository(Feed)
+          .delete({ id: feedId })
+          .then((result: DeleteResult) => {
+            if (result.affected === 0) {
+              throw new Error(`Feed with id ${feedId} not found`);
+            } else {
+              return "Feed deleted";
+            }
+          });
       });
   }
 }
