@@ -3,8 +3,6 @@
   "version": "1.0.0",
   "description": "main backend service to serve content and actions",
   "main": "src/app.ts",
-
-
   "scripts": {
     "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha -r ts-node/register 'tests/**/*.spec.ts'",
     "test:ci": "nyc npm run test",
@@ -101,7 +99,7 @@
     "pg": "^8.7.3",
     "reflect-metadata": "^0.1.13",
     "shuffle-seed": "^1.1.6",
-    "skiosa-orm": "github:skiosa/orm#v1.0.0",
+    "skiosa-orm": "github:skiosa/orm#v1.2.5",
     "type-graphql": "^1.2.0-rc.1",
     "type-graphql-dataloader": "^0.5.0",
     "typeorm": "^0.3.4"
