@@ -21,6 +21,8 @@ services:
       - KEYCLOAK_PORT=443
       - MEMORYSTORE_SECRET=ultra_secret_secret
     command: /bin/zsh -c "while sleep 1000; do :; done"
+    ports:
+      - 8080:8080
   database:
     image: postgres:14
     restart: unless-stopped
