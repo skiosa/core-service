@@ -82,6 +82,7 @@ export class SubscriptionServiceImpl implements SubscriptionService {
 * @author Amos Gross
 * @summary fetch user entity for subscriptions
 * @param userRepository - repository to search in
+* @param userInfo - jwt info from user
 * @description fetches the user entity from the database and joins with subscriptions
 * @returns {User} currently logged in user entity
 */

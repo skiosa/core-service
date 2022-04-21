@@ -11,6 +11,7 @@ export interface SubscriptionService {
    * @description either create or delete a subscription to the current user
    * @param feedId - to subscribe to 
    * @param isSubscribed - new subscription status
+   * @param currentUserInfo - jwt info of logged in user
    * @returns {boolean} new subscription status
    */
     changeSubscription(currentUserInfo: UserInfo, feedId: number, isSubscribed: boolean): Promise<boolean>,
@@ -27,8 +28,7 @@ export interface SubscriptionService {
    * @author Amos Gross
    * @summary list subscription articles
    * @description list recent articles of feeds that a user is subscribed to
-   * @param offset - index to start at
-   * @param limit - maximum items per page
+   * @param {PaginationArg} paginated - Pagination arguments
    * @returns {boolean} new subscription status
    */
     articlesOfSubscriptions(currentUserInfo: UserInfo, paginated?: PaginationArg): Promise<Article[]>, 
