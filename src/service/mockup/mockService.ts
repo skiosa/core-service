@@ -8,6 +8,7 @@ export abstract class MockService {
       ttl: 3600,
       name: "Asciiflix.de",
       description: " A cheap and data-saving YouTube alternative for poor People with Bad Internet Connections",
+      lastPolledAt: new Date(),
     },
     {
       id: 2,
@@ -15,6 +16,7 @@ export abstract class MockService {
       ttl: 4200,
       name: "testwebsite",
       description: "I am a test website",
+      lastPolledAt: new Date("2022-01-01"),
     },
   ];
 
@@ -44,6 +46,7 @@ export abstract class MockService {
       content:
         "After installing arch linux, I did one pushup every time I told someone, that I use it by the way. And it worked!",
       url: "https://asciiflix.de/watch/814bd1ab-18a7-41f2-8b23-7feb2bab9de2",
+      publishedAt: new Date("2020-01-01"),
       categories: [this.categoryMock[1], this.categoryMock[4]],
       author: this.authorMock[0],
       feed: this.feedMock[0],
@@ -54,6 +57,7 @@ export abstract class MockService {
       description: "A new study has come up with something we all know to be true, windows users suck...",
       content: "A new study has come up with something we all know to be true, windows users suck...",
       url: "https://asciiflix.de/watch/814bd1ab-18a7-41f2-8b23-7feb2bab9de2",
+      publishedAt: new Date("2020-01-02"),
       categories: [this.categoryMock[1], this.categoryMock[4]],
       author: this.authorMock[1],
       feed: this.feedMock[1],
@@ -64,6 +68,7 @@ export abstract class MockService {
       description: "After winning the Olympia in 2021, Big Ramy started talking about his distro of choice...",
       content: "After winning the Olympia in 2021, Big Ramy started talking about his distro of choice...",
       url: "https://asciiflix.de/watch/814bd1ab-18a7-41f2-8b23-7feb2bab9de2",
+      publishedAt: new Date("2020-01-03"),
       categories: [this.categoryMock[1], this.categoryMock[4]],
       author: this.authorMock[2],
       feed: this.feedMock[0],
@@ -74,6 +79,7 @@ export abstract class MockService {
       description: "When looking to download tinder for the seventh time, this alternative may be better...",
       content: "When looking to download tinder for the seventh time, this alternative may be better...",
       url: "https://asciiflix.de/watch/814bd1ab-18a7-41f2-8b23-7feb2bab9de2",
+      publishedAt: new Date("2020-01-04"),
       categories: [this.categoryMock[1], this.categoryMock[4]],
       author: this.authorMock[0],
       feed: this.feedMock[1],
@@ -84,6 +90,7 @@ export abstract class MockService {
       description: "After installing arch linux, I did one pushup every time I told someone, that I use...",
       content: "After installing arch linux, I did one pushup every time I told someone, that I use...",
       url: "https://asciiflix.de/watch/814bd1ab-18a7-41f2-8b23-7feb2bab9de2",
+      publishedAt: new Date("2020-01-05"),
       categories: [this.categoryMock[1], this.categoryMock[4]],
       author: this.authorMock[1],
       feed: this.feedMock[0],
