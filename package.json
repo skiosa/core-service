@@ -3,8 +3,6 @@
   "version": "1.0.0",
   "description": "main backend service to serve content and actions",
   "main": "src/app.ts",
-
-
   "scripts": {
     "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha -r ts-node/register 'tests/**/*.spec.ts'",
     "test:ci": "nyc npm run test",

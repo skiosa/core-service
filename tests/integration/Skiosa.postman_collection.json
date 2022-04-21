@@ -105,7 +105,7 @@
 									"    pm.expect(data.data.articles[id_array].description).equal(\"After installing arch linux, I did one pushup every time I told someone, that I use...\");\r",
 									"    pm.expect(data.data.articles[id_array].content).to.exist;\r",
 									"    pm.expect(data.data.articles[id_array].url).equal(\"https://asciiflix.de/watch/814bd1ab-18a7-41f2-8b23-7feb2bab9de2\");\r",
-									"\r",
+									"    pm.expect(data.data.articles[id_array].publishedAt).equal(new Date('2020-01-01').toISOString());\r",
 									"    pm.expect(data.data.articles[2]).to.exist;\r",
 									"});"
 								],
@@ -119,7 +119,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query articles{\r\n  articles{\r\n    id\r\n    title\r\n    description\r\n    content\r\n    url    \r\n  }\r\n}",
+								"query": "query articles{\r\n  articles{\r\n    id\r\n    title\r\n    description\r\n    content\r\n    url\r\n    publishedAt  \r\n  }\r\n}",
 								"variables": ""
 							}
 						},
@@ -155,6 +155,7 @@
 									"    pm.expect(data.data.articles[id_array].description).equal(\"After installing arch linux, I did one pushup every time I told someone, that I use...\");\r",
 									"    pm.expect(data.data.articles[id_array].content).to.exist;\r",
 									"    pm.expect(data.data.articles[id_array].url).equal(\"https://asciiflix.de/watch/814bd1ab-18a7-41f2-8b23-7feb2bab9de2\");\r",
+									"    pm.expect(data.data.articles[id_array].publishedAt).equal(new Date('2020-01-01').toISOString());\r",
 									"    pm.expect(data.data.articles[id_array].author).to.exist;\r",
 									"\r",
 									"    pm.expect(data.data.articles[2]).to.exist;\r",
@@ -170,7 +171,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query articles{\r\n  articles{\r\n    id\r\n    title\r\n    description\r\n    content\r\n    url\r\n    author {\r\n        id\r\n        name\r\n    }\r\n  }\r\n}",
+								"query": "query articles{\r\n  articles{\r\n    id\r\n    title\r\n    description\r\n    content\r\n    url\r\n    publishedAt\r\n    author {\r\n        id\r\n        name\r\n    }\r\n  }\r\n}",
 								"variables": ""
 							}
 						},
@@ -206,6 +207,7 @@
 									"    pm.expect(data.data.articles[id_array].description).equal(\"After installing arch linux, I did one pushup every time I told someone, that I use...\");\r",
 									"    pm.expect(data.data.articles[id_array].content).to.exist;\r",
 									"    pm.expect(data.data.articles[id_array].url).equal(\"https://asciiflix.de/watch/814bd1ab-18a7-41f2-8b23-7feb2bab9de2\");\r",
+									"    pm.expect(data.data.articles[id_array].publishedAt).equal(new Date('2020-01-01').toISOString());\r",
 									"    pm.expect(data.data.articles[id_array].categories).to.exist;\r",
 									"\r",
 									"    pm.expect(data.data.articles[2]).to.exist;\r",
@@ -221,7 +223,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query articles{\r\n  articles{\r\n    id\r\n    title\r\n    description\r\n    content\r\n    url\r\n    categories {\r\n        id\r\n        name\r\n    }\r\n  }\r\n}",
+								"query": "query articles{\r\n  articles{\r\n    id\r\n    title\r\n    description\r\n    content\r\n    url\r\n    publishedAt\r\n    categories {\r\n        id\r\n        name\r\n    }\r\n  }\r\n}",
 								"variables": ""
 							}
 						},
@@ -257,6 +259,8 @@
 									"    pm.expect(data.data.articles[id_array].description).equal(\"After installing arch linux, I did one pushup every time I told someone, that I use...\");",
 									"    pm.expect(data.data.articles[id_array].content).to.exist;",
 									"    pm.expect(data.data.articles[id_array].url).equal(\"https://asciiflix.de/watch/814bd1ab-18a7-41f2-8b23-7feb2bab9de2\");",
+									"    pm.expect(data.data.articles[id_array].publishedAt).equal(new Date('2020-01-01').toISOString());",
+									"",
 									"    pm.expect(data.data.articles[id_array].categories).to.exist;",
 									"",
 									"    pm.expect(data.data.articles[id_array].categoryCount).equal(2);",
@@ -274,7 +278,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query articles{\n  articles{\n    id\n    title\n    description\n    content\n    url\n    categories {\n        id\n        name\n    }\n    categoryCount\n  }\n}",
+								"query": "query articles{\n  articles{\n    id\n    title\n    description\n    content\n    url\n    publishedAt\n    categories {\n        id\n        name\n    }\n    categoryCount\n  }\n}",
 								"variables": ""
 							}
 						},
@@ -310,6 +314,8 @@
 									"    pm.expect(data.data.articles[id_array].description).equal(\"After installing arch linux, I did one pushup every time I told someone, that I use...\");\r",
 									"    pm.expect(data.data.articles[id_array].content).to.exist;\r",
 									"    pm.expect(data.data.articles[id_array].url).equal(\"https://asciiflix.de/watch/814bd1ab-18a7-41f2-8b23-7feb2bab9de2\");\r",
+									"    pm.expect(data.data.articles[id_array].publishedAt).equal(new Date('2020-01-01').toISOString());\r",
+									"\r",
 									"    pm.expect(data.data.articles[id_array].feed).to.exist;\r",
 									"\r",
 									"    pm.expect(data.data.articles[2]).to.exist;\r",
@@ -325,7 +331,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query articles{\r\n  articles{\r\n    id\r\n    title\r\n    description\r\n    content\r\n    url\r\n    feed {\r\n        id\r\n        name\r\n        link\r\n        ttl\r\n    }\r\n  }\r\n}",
+								"query": "query articles{\r\n  articles{\r\n    id\r\n    title\r\n    description\r\n    content\r\n    url\r\n    publishedAt\r\n    feed {\r\n        id\r\n        name\r\n        link\r\n        ttl\r\n    }\r\n  }\r\n}",
 								"variables": ""
 							}
 						},
@@ -361,6 +367,8 @@
 									"    pm.expect(data.data.articles[id_array].description).equal(\"After installing arch linux, I did one pushup every time I told someone, that I use...\");\r",
 									"    pm.expect(data.data.articles[id_array].content).to.exist;\r",
 									"    pm.expect(data.data.articles[id_array].url).equal(\"https://asciiflix.de/watch/814bd1ab-18a7-41f2-8b23-7feb2bab9de2\");\r",
+									"    pm.expect(data.data.articles[id_array].publishedAt).equal(new Date('2020-01-01').toISOString());\r",
+									"\r",
 									"    pm.expect(data.data.articles[id_array].author).to.exist;\r",
 									"    pm.expect(data.data.articles[id_array].categories).to.exist;\r",
 									"    pm.expect(data.data.articles[id_array].feed).to.exist;\r",
@@ -378,7 +386,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query articles{\r\n  articles{\r\n    id\r\n    title\r\n    description\r\n    content\r\n    url\r\n    author {\r\n        id\r\n        name\r\n    }\r\n    categories {\r\n        id\r\n        name\r\n    }\r\n        feed {\r\n        id\r\n        name\r\n        link\r\n        ttl\r\n    }\r\n  }\r\n}",
+								"query": "query articles{\r\n  articles{\r\n    id\r\n    title\r\n    description\r\n    content\r\n    url\r\n    publishedAt\r\n    author {\r\n        id\r\n        name\r\n    }\r\n    categories {\r\n        id\r\n        name\r\n    }\r\n        feed {\r\n        id\r\n        name\r\n        link\r\n        ttl\r\n    }\r\n  }\r\n}",
 								"variables": ""
 							}
 						},
@@ -413,6 +421,8 @@
 									"    pm.expect(data.data.article.description).equal(\"After installing arch linux, I did one pushup every time I told someone, that I use...\");\r",
 									"    pm.expect(data.data.article.content).to.exist;\r",
 									"    pm.expect(data.data.article.url).equal(\"https://asciiflix.de/watch/814bd1ab-18a7-41f2-8b23-7feb2bab9de2\");\r",
+									"    pm.expect(data.data.article.publishedAt).equal(new Date('2020-01-01').toISOString());\r",
+									"\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -425,7 +435,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query article ($id: Float!){\r\n  article(id: $id){\r\n    id\r\n    title\r\n    description\r\n    content\r\n    url\r\n  }\r\n}\r\n",
+								"query": "query article ($id: Float!){\r\n  article(id: $id){\r\n    id\r\n    title\r\n    description\r\n    content\r\n    url\r\n    publishedAt\r\n  }\r\n}\r\n",
 								"variables": "{\r\n    \"id\": {{article-id}}\r\n}"
 							}
 						},
@@ -461,6 +471,8 @@
 									"    pm.expect(data.data.article.content).to.exist;\r",
 									"    pm.expect(data.data.article.url).equal(\"https://asciiflix.de/watch/814bd1ab-18a7-41f2-8b23-7feb2bab9de2\");\r",
 									"    pm.expect(data.data.article.author).to.exist;\r",
+									"    pm.expect(data.data.article.publishedAt).equal(new Date('2020-01-01').toISOString());\r",
+									"\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -473,7 +485,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query article ($id: Float!){\r\n  article(id: $id){\r\n    id\r\n    title\r\n    description\r\n    content\r\n    url\r\n    author {\r\n      id\r\n      name      \r\n    }\r\n  }\r\n}\r\n",
+								"query": "query article ($id: Float!){\r\n  article(id: $id){\r\n    id\r\n    title\r\n    description\r\n    content\r\n    url\r\n    publishedAt\r\n    author {\r\n      id\r\n      name      \r\n    }\r\n  }\r\n}\r\n",
 								"variables": "{\r\n    \"id\": {{article-id}}\r\n}"
 							}
 						},
@@ -509,6 +521,8 @@
 									"    pm.expect(data.data.article.content).to.exist;\r",
 									"    pm.expect(data.data.article.url).equal(\"https://asciiflix.de/watch/814bd1ab-18a7-41f2-8b23-7feb2bab9de2\");\r",
 									"    pm.expect(data.data.article.categories).to.exist;\r",
+									"    pm.expect(data.data.article.publishedAt).equal(new Date('2020-01-01').toISOString());\r",
+									"\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -521,7 +535,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query article ($id: Float!){\r\n  article(id: $id){\r\n    id\r\n    title\r\n    description\r\n    content\r\n    url\r\n    categories {\r\n        id\r\n        name\r\n    }\r\n  }\r\n}\r\n",
+								"query": "query article ($id: Float!){\r\n  article(id: $id){\r\n    id\r\n    title\r\n    description\r\n    content\r\n    url\r\n    publishedAt\r\n    categories {\r\n        id\r\n        name\r\n    }\r\n  }\r\n}\r\n",
 								"variables": "{\r\n    \"id\": {{article-id}}\r\n}"
 							}
 						},
@@ -557,6 +571,8 @@
 									"    pm.expect(data.data.article.content).to.exist;",
 									"    pm.expect(data.data.article.url).equal(\"https://asciiflix.de/watch/814bd1ab-18a7-41f2-8b23-7feb2bab9de2\");",
 									"    pm.expect(data.data.article.categories).to.exist;",
+									"    pm.expect(data.data.article.publishedAt).equal(new Date('2020-01-01').toISOString());",
+									"",
 									"",
 									"    pm.expect(data.data.article.categoryCount).equal(2)",
 									"});"
@@ -571,7 +587,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query article ($id: Float!){\n  article(id: $id){\n    id\n    title\n    description\n    content\n    url\n    categories {\n        id\n        name\n    }\n    categoryCount\n  }\n}\n",
+								"query": "query article ($id: Float!){\n  article(id: $id){\n    id\n    title\n    description\n    content\n    url\n    publishedAt\n    categories {\n        id\n        name\n    }\n    categoryCount\n  }\n}\n",
 								"variables": "{\n    \"id\": {{article-id}}\n}"
 							}
 						},
@@ -607,6 +623,8 @@
 									"    pm.expect(data.data.article.content).to.exist;\r",
 									"    pm.expect(data.data.article.url).equal(\"https://asciiflix.de/watch/814bd1ab-18a7-41f2-8b23-7feb2bab9de2\");\r",
 									"    pm.expect(data.data.article.feed).to.exist;\r",
+									"    pm.expect(data.data.article.publishedAt).equal(new Date('2020-01-01').toISOString());\r",
+									"\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -619,7 +637,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query article ($id: Float!){\r\n  article(id: $id){\r\n    id\r\n    title\r\n    description\r\n    content\r\n    url\r\n    feed {\r\n        id\r\n        name\r\n        link\r\n        ttl\r\n    }\r\n  }\r\n}\r\n",
+								"query": "query article ($id: Float!){\r\n  article(id: $id){\r\n    id\r\n    title\r\n    description\r\n    content\r\n    url\r\n    publishedAt\r\n    feed {\r\n        id\r\n        name\r\n        link\r\n        ttl\r\n    }\r\n  }\r\n}\r\n",
 								"variables": "{\r\n    \"id\": {{article-id}}\r\n}"
 							}
 						},
@@ -654,6 +672,8 @@
 									"    pm.expect(data.data.article.description).equal(\"After installing arch linux, I did one pushup every time I told someone, that I use...\");\r",
 									"    pm.expect(data.data.article.content).to.exist;\r",
 									"    pm.expect(data.data.article.url).equal(\"https://asciiflix.de/watch/814bd1ab-18a7-41f2-8b23-7feb2bab9de2\");\r",
+									"    pm.expect(data.data.article.publishedAt).equal(new Date('2020-01-01').toISOString());\r",
+									"\r",
 									"    pm.expect(data.data.article.author).to.exist;\r",
 									"    pm.expect(data.data.article.categories).to.exist;\r",
 									"    pm.expect(data.data.article.feed).to.exist;\r",
@@ -669,7 +689,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query article ($id: Float!){\r\n  article(id: $id){\r\n    id\r\n    title\r\n    description\r\n    content\r\n    url\r\n    author {\r\n        id\r\n        name\r\n    }\r\n    categories {\r\n        id\r\n        name\r\n    }\r\n    feed {\r\n        id\r\n        name\r\n        link\r\n        ttl\r\n    }\r\n  }\r\n}\r\n",
+								"query": "query article ($id: Float!){\r\n  article(id: $id){\r\n    id\r\n    title\r\n    description\r\n    content\r\n    url\r\n    publishedAt\r\n    author {\r\n        id\r\n        name\r\n    }\r\n    categories {\r\n        id\r\n        name\r\n    }\r\n    feed {\r\n        id\r\n        name\r\n        link\r\n        ttl\r\n    }\r\n  }\r\n}\r\n",
 								"variables": "{\r\n    \"id\": {{article-id}}\r\n}"
 							}
 						},
@@ -883,6 +903,7 @@
 									"    pm.expect(data.data.feed.ttl).equal(\"3600\");\r",
 									"    pm.expect(data.data.feed.name).equal(\"Asciiflix.de\");\r",
 									"    pm.expect(data.data.feed.description).equal(\" A cheap and data-saving YouTube alternative for poor People with Bad Internet Connections\");\r",
+									"    pm.expect(data.data.feed.lastPolledAt).equal(new Date('1970-01-01').toISOString())\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -895,7 +916,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query feed ($id: Float!){ \r\n  feed(id: $id){\r\n      id\r\n      link\r\n      ttl\r\n      name\r\n      description\r\n  }\r\n}\r\n",
+								"query": "query feed ($id: Float!){ \r\n  feed(id: $id){\r\n      id\r\n      link\r\n      ttl\r\n      name\r\n      description\r\n      lastPolledAt\r\n  }\r\n}\r\n",
 								"variables": "{\r\n    \"id\": {{feed-id}}\r\n}"
 							}
 						},
@@ -931,7 +952,7 @@
 									"    pm.expect(data.data.feeds[id_array].ttl).equal(\"3600\");\r",
 									"    pm.expect(data.data.feeds[id_array].name).equal(\"Asciiflix.de\");\r",
 									"    pm.expect(data.data.feeds[id_array].description).equal(\" A cheap and data-saving YouTube alternative for poor People with Bad Internet Connections\");\r",
-									"\r",
+									"    pm.expect(data.data.feeds[id_array].lastPolledAt).equal(new Date('1970-01-01').toISOString())\r",
 									"    pm.expect(data.data.feeds[1]).to.exist;\r",
 									"});"
 								],
@@ -945,7 +966,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query feeds{\r\n  feeds{\r\n    id\r\n    link\r\n    ttl\r\n    name\r\n    description            \r\n  }\r\n}",
+								"query": "query feeds{\r\n  feeds{\r\n    id\r\n    link\r\n    ttl\r\n    name\r\n    description\r\n    lastPolledAt          \r\n  }\r\n}",
 								"variables": ""
 							}
 						},
@@ -979,6 +1000,7 @@
 									"    pm.expect(data.data.feed.id).equal(parseInt(pm.environment.get(\"feed-id\")));\r",
 									"    pm.expect(data.data.feed.categories[0].id).equal(2);\r",
 									"    pm.expect(data.data.feed.categories[0].name).equal(\"Technology\");\r",
+									"    pm.expect(data.data.feed.lastPolledAt).equal(new Date('1970-01-01').toISOString())\r",
 									"    pm.expect(data.data.feed.categories[1]).to.exist;\r",
 									"    pm.expect(data.data.feed.categories[0]).to.exist;\r",
 									"});"
@@ -993,7 +1015,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query feed ($id: Float!){ \r\n  feed(id: $id){\r\n      id\r\n      link\r\n      ttl\r\n      name\r\n      description\r\n      categories{\r\n        id\r\n        name\r\n      }\r\n  }\r\n}\r\n",
+								"query": "query feed ($id: Float!){ \r\n  feed(id: $id){\r\n      id\r\n      link\r\n      ttl\r\n      name\r\n      description\r\n      lastPolledAt\r\n      categories{\r\n        id\r\n        name\r\n      }\r\n  }\r\n}\r\n",
 								"variables": "{\r\n    \"id\": {{feed-id}}\r\n}"
 							}
 						},
@@ -1042,7 +1064,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query categoriesFromFeed{\r\n  feeds{\r\n    id\r\n    link\r\n    ttl\r\n    name\r\n    description\r\n    categories{\r\n        id\r\n        name\r\n    }\r\n  }\r\n}",
+								"query": "query categoriesFromFeed{\r\n  feeds{\r\n    id\r\n    link\r\n    ttl\r\n    name\r\n    description\r\n    lastPolledAt\r\n    categories{\r\n        id\r\n        name\r\n    }\r\n  }\r\n}",
 								"variables": ""
 							}
 						},
