@@ -8,6 +8,7 @@ export abstract class MockService {
       ttl: 3600,
       name: "Asciiflix.de",
       description: " A cheap and data-saving YouTube alternative for poor People with Bad Internet Connections",
+      lastPolledAt: new Date(),
     },
     {
       id: 2,
@@ -15,6 +16,7 @@ export abstract class MockService {
       ttl: 4200,
       name: "testwebsite",
       description: "I am a test website",
+      lastPolledAt: new Date(),
     },
   ];
 
@@ -47,6 +49,7 @@ export abstract class MockService {
       categories: [this.categoryMock[1], this.categoryMock[4]],
       author: this.authorMock[0],
       feed: this.feedMock[0],
+      publishedAt: new Date(),
     },
     {
       id: 2,
@@ -57,6 +60,7 @@ export abstract class MockService {
       categories: [this.categoryMock[1], this.categoryMock[4]],
       author: this.authorMock[1],
       feed: this.feedMock[1],
+      publishedAt: new Date(),
     },
     {
       id: 3,
@@ -67,6 +71,7 @@ export abstract class MockService {
       categories: [this.categoryMock[1], this.categoryMock[4]],
       author: this.authorMock[2],
       feed: this.feedMock[0],
+      publishedAt: new Date(),
     },
     {
       id: 4,
@@ -77,6 +82,7 @@ export abstract class MockService {
       categories: [this.categoryMock[1], this.categoryMock[4]],
       author: this.authorMock[0],
       feed: this.feedMock[1],
+      publishedAt: new Date(),
     },
     {
       id: 5,
@@ -87,6 +93,7 @@ export abstract class MockService {
       categories: [this.categoryMock[1], this.categoryMock[4]],
       author: this.authorMock[1],
       feed: this.feedMock[0],
+      publishedAt: new Date(),
     },
   ];
 }

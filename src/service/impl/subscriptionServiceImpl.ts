@@ -15,85 +15,66 @@ export class SubscriptionServiceImpl implements SubscriptionService {
 
     @Mutation(() => Boolean)
     @Authorized()
-    changeSubscription(@CurrentUser() currentUserInfo: UserInfo, @Arg("feedId") feedId: number, @Arg("isSubscribed") isSubscribed: boolean): Promise<boolean> {
+    async changeSubscription(@CurrentUser() currentUserInfo: UserInfo, @Arg("feedId") feedId: number, @Arg("isSubscribed") isSubscribed: boolean): Promise<boolean> {
         const userRepository = dataSource.getRepository(User)
         const feedRepository = dataSource.getRepository(Feed)
 
-        return new Promise(async (resolve, reject) => {
-            try {
-                // TODO: replace with actual userId
-                let currentUser = await getCurrentUserWithSubscriptions(userRepository, currentUserInfo);
+        let currentUser = await getCurrentUserWithSubscriptions(userRepository, currentUserInfo);
 
-                if (isSubscribed) {
-                    let feed = await feedRepository.findOneBy({
-                        id: feedId
-                    })
+        if (isSubscribed) {
+            let feed = await feedRepository.findOneBy({
+                id: feedId
+            })
 
-                    if (!feed) {
-                        reject(feed)
-                        return
-                    }
-                    
-                    currentUser.subscriptions?.push(feed);
-                } else {
-                    currentUser.subscriptions = currentUser.subscriptions?.filter((sub: Feed) => {
-                        return sub.id !== feedId
-                    })
-                }
-                userRepository
-                    .manager
-                    .save(currentUser)
-                    .then(() => {
-                        resolve(isSubscribed)
-                    })
-                    .catch((err) => {
-                        reject(err)
-                    })
-            } catch (err) {
+            if (!feed) {
+                throw new Error('Feed does not exist');
             }
 
-        })
+            currentUser.subscriptions?.push(feed);
+        } else {
+            currentUser.subscriptions = currentUser.subscriptions?.filter((sub: Feed) => {
+                return sub.id !== feedId;
+            })
+        }
+        await userRepository
+            .manager
+            .save(currentUser);
+
+        return isSubscribed;
     }
 
     @Query(() => [Feed])
     @Authorized()
-    subscriptions(@CurrentUser() currentUserInfo: UserInfo): Promise<Feed[]> {
-        const userRepository = dataSource.getRepository(User)
+    async subscriptions(@CurrentUser() currentUserInfo: UserInfo): Promise<Feed[]> {
+        const userRepository = dataSource.getRepository(User);
+        let currentUser = await getCurrentUserWithSubscriptions(userRepository, currentUserInfo);
 
-        return new Promise(async (resolve, reject) => {
-            let currentUser = await getCurrentUserWithSubscriptions(userRepository, currentUserInfo)
-            if (!currentUser.subscriptions) {
-                resolve([])
-            } else {
-                resolve(currentUser.subscriptions)
-            }
-        })
+        if (!currentUser.subscriptions) {
+            return [];
+        } else {
+            return currentUser.subscriptions;
+        }
     }
 
     @Authorized()
     @Query(() => [Article])
-    articlesOfSubscriptions(@CurrentUser() currentUserInfo: UserInfo, @Arg("PaginationArg", { nullable: true }) paginated?: PaginationArg): Promise<Article[]> {
+    async articlesOfSubscriptions(@CurrentUser() currentUserInfo: UserInfo, @Arg("PaginationArg", { nullable: true }) paginated?: PaginationArg): Promise<Article[]> {
         const userRepository = dataSource.getRepository(User)
         const articleRepository = dataSource.getRepository(Article)
 
-        return new Promise(async (resolve, _reject) => {
-            let currentUser = await getCurrentUserWithSubscriptions(userRepository, currentUserInfo);
-            if (!currentUser.subscriptions || currentUser.subscriptions.length === 0) {
-                resolve([] as Article[])
-                return
-            }
+        let currentUser = await getCurrentUserWithSubscriptions(userRepository, currentUserInfo);
+        if (!currentUser.subscriptions || currentUser.subscriptions.length === 0) {
+            return []
+        }
 
-            // TODO: sort articles by date, as soon as this is possible in the ORM
-            articleRepository
-                .createQueryBuilder("article")
-                .where("article.feedId IN (:...subs)", {subs: currentUser.subscriptions.map((val, _) => val.id)})
-                //.orderBy("article.publishedAt", "DESC")
-                .getMany()
-                .then((articles) => paginate(articles, paginated))
-                .then(vals => {
-                    resolve(vals)
-                })
-        })
+        
+
+        return articleRepository
+            .createQueryBuilder("article")
+            .where("article.feedId IN (:...subs)", {subs: currentUser.subscriptions.map((val, _) => val.id)})
+            .orderBy("article.publishedAt", "DESC")
+            .getMany()
+            .then((articles) => paginate(articles, paginated))
     }
 }
 
@@ -104,11 +85,9 @@ export class SubscriptionServiceImpl implements SubscriptionService {
 * @description fetches the user entity from the database and joins with subscriptions
 * @returns {User} currently logged in user entity
 */
-function getCurrentUserWithSubscriptions(userRepository: Repository<User>, userInfo: UserInfo): Promise<User> {
-    return new Promise(async (resolve, reject) => {
+async function getCurrentUserWithSubscriptions(userRepository: Repository<User>, userInfo: UserInfo): Promise<User> {
         if (!userInfo.id) {
-            reject('no userid in UserInfo of user');
-            return;
+            throw new Error('no userId in UserInfo of user, is keycloak broken?')
         }
         let currentUser = await userRepository
         .findOne({
@@ -121,11 +100,8 @@ function getCurrentUserWithSubscriptions(userRepository: Repository<User>, userI
         })
 
         if (!currentUser) {
-            reject(currentUser)
-            return
+            throw new Error('user not found')
         }
-        resolve(currentUser)
-    })
-
+        return currentUser
 }
 

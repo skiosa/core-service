@@ -101,7 +101,7 @@
     "pg": "^8.7.3",
     "reflect-metadata": "^0.1.13",
     "shuffle-seed": "^1.1.6",
-    "skiosa-orm": "github:skiosa/orm#v1.0.0",
+    "skiosa-orm": "github:skiosa/orm.git#v1.2.5",
     "type-graphql": "^1.2.0-rc.1",
     "type-graphql-dataloader": "^0.5.0",
     "typeorm": "^0.3.4"
