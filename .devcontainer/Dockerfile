@@ -15,3 +15,4 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
 # [Optional] Uncomment if you want to install more global node packages
 RUN su node -c "npm install -g nodemon"
 RUN su node -c "npm install -g ts-node"
+RUN su node -c "npm install -g newman"
