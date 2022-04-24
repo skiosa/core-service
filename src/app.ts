@@ -21,6 +21,7 @@ import { FeedServiceImpl } from "./service/impl/feedServiceImpl";
 import { UserInfoServiceImpl } from "./service/impl/userInfoServiceImpl";
 import { ArticleServiceMock } from "./service/mockup/articleServiceMock";
 import { authChecker, userInfo } from "./util/middelwares";
+import { SubscriptionServiceImpl } from "./service/impl/subscriptionServiceImpl";
 
 /**
  * Configuration Part
@@ -91,7 +92,7 @@ async function startApolloServer() {
    * GraphQL Schema Builder
    */
   const schema = await buildSchema({
-    resolvers: [ArticleServiceMock, FeedServiceImpl, UserInfoServiceImpl],
+    resolvers: [ArticleServiceMock, FeedServiceImpl, UserInfoServiceImpl, SubscriptionServiceImpl],
     authChecker: authChecker,
   });
 
