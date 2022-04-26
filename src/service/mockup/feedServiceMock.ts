@@ -1,9 +1,9 @@
 import { shuffle } from "shuffle-seed";
-import { Article, Category, Feed, User } from "skiosa-orm";
-import { Arg, FieldResolver, Int, Query, Resolver, Root } from "type-graphql";
+import { Article, Category, Feed, FeedInput, User } from "skiosa-orm";
+import { Arg, FieldResolver, Int, Mutation, Query, Resolver, Root } from "type-graphql";
 import { PaginationArg } from "../../model/paginationArg";
-import { paginate } from "../../util/paginate";
 import { FeedService } from "../feedService";
+import { paginate } from "../../util/paginate";
 import { MockService } from "./mockService";
 
 @Resolver((_of) => Feed)
@@ -67,5 +67,31 @@ export class FeedServiceMock extends MockService implements FeedService {
   @FieldResolver((_of) => Int)
   articleCount(@Root() feed: Feed): Promise<number> {
     return Promise.resolve(this.articlesMock.filter((a) => a.feed?.id === feed.id).length);
+  }
+
+  @Mutation()
+  createFeed(@Arg("feed") feed: FeedInput): Promise<Feed> {
+    const fullFeed: Feed = {
+      id: this.feedMock.length + 1,
+      link: feed.link,
+      ttl: feed.ttl || 187,
+      name: feed.name || "default name",
+      description: feed.description || "default description",
+      categories: [],
+      subscribers: [],
+    };
+
+    this.feedMock.push(fullFeed);
+    return Promise.resolve(fullFeed);
+  }
+
+  @Mutation()
+  deleteFeed(@Arg("id") id: number): Promise<string> {
+    const feed = this.feedMock.find((f) => f.id === id);
+    if (!feed) {
+      throw new Error(`Feed with id ${id} not found`);
+    }
+    this.feedMock = this.feedMock.filter((f) => f.id !== id);
+    return Promise.resolve("Feed was deleted");
   }
 }

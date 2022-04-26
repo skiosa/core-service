@@ -52,18 +52,24 @@ function jwtPayloadContentTransformer(payload: jwt.JwtPayload): UserInfo {
 }
 
 /**
- * @author LukasLJL
+ * @author LukasLJL, Tim Horlacher
  * @summary authChecker middleware
  * @description checks if a Auth Token is present in the request
  * @returns {Boolean} - authenticated
  */
-export const authChecker: AuthChecker<Context> = ({ context }) => {
+export const authChecker: AuthChecker<Context> = ({ context }, roles) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const localContext: any = context;
   const kauth: KeycloakContext = localContext.kauth as KeycloakContext;
 
-  if (kauth.isAuthenticated()) {
-    return true;
+  if (roles.length === 0) {
+    return kauth.isAuthenticated();
+  }
+
+  for (const role of roles) {
+    if (kauth.hasRole(role)) {
+      return true;
+    }
   }
 
   return false;

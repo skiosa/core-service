@@ -5,34 +5,34 @@ type: kubernetes
 name: basic-pipeline
 
 steps:
-- name: npm setup
-  image: node
-  commands:
-  - npm install
+  - name: npm setup
+    image: node
+    commands:
+      - npm install
 
-- name: unit tests
-  image: node:16
-  commands:
-  - npm run test:ci
+  - name: unit tests
+    image: node:16
+    commands:
+      - npm run test:ci
 
-- name: branch specific code-analysis
-  image: node:16
-  environment:
-    token:
-      from_secret: sonar_token
-  commands:
-  - npm install sonarqube-scanner -g
-  - sonar-scanner -Dsonar.branch.name=$${DRONE_TARGET_BRANCH} -Dsonar.login=$token
+  - name: branch specific code-analysis
+    image: node:16
+    environment:
+      token:
+        from_secret: sonar_token
+    commands:
+      - npm install sonarqube-scanner -g
+      - sonar-scanner -Dsonar.branch.name=$${DRONE_TARGET_BRANCH} -Dsonar.login=$token
 
 image_pull_secrets:
-- dockerconfig
+  - dockerconfig
 
 trigger:
   branch:
     exclude:
       - master
   event:
-  - push
+    - push
 
 ---
 # PR Pipeline
@@ -41,70 +41,70 @@ type: kubernetes
 name: pre-build-pipeline
 
 steps:
-- name: npm setup
-  image: node:16
-  commands:
-  - npm install
+  - name: npm setup
+    image: node:16
+    commands:
+      - npm install
 
-- name: unit tests
-  image: node:16
-  commands:
-  - npm run test:ci
+  - name: unit tests
+    image: node:16
+    commands:
+      - npm run test:ci
 
-- name: initialize db/api with Sample Data
-  image: node:16
-  environment:
-    POSTGRES_HOST: database
-    POSTGRES_DB: skiosa-db-integration-test
-    POSTGRES_USER: skiosa-user-integration-test
-    POSTGRES_PASSWORD: 
-      from_secret: database_password
-  commands:
-  - npm run initDB
+  - name: initialize db/api with Sample Data
+    image: node:16
+    environment:
+      POSTGRES_HOST: database
+      POSTGRES_DB: skiosa-db-integration-test
+      POSTGRES_USER: skiosa-user-integration-test
+      POSTGRES_PASSWORD:
+        from_secret: database_password
+    commands:
+      - npm run initDB
 
-- name: starting application
-  image: node:16
-  detach: true
-  environment:
-    POSTGRES_HOST: database
-    POSTGRES_DB: skiosa-db-integration-test
-    POSTGRES_USER: skiosa-user-integration-test
-    POSTGRES_PASSWORD: 
-      from_secret: database_password
-  commands:
-  - npm run start
+  - name: starting application
+    image: node:16
+    detach: true
+    environment:
+      POSTGRES_HOST: database
+      POSTGRES_DB: skiosa-db-integration-test
+      POSTGRES_USER: skiosa-user-integration-test
+      POSTGRES_PASSWORD:
+        from_secret: database_password
+    commands:
+      - npm run start
 
-- name: integration tests
-  image: postman/newman
-  commands:
-  - sleep 5
-  - cd tests/integration
-  - newman run Skiosa.postman_collection.json -e skiosa-local-dev.postman_environment.json
+  - name: integration tests
+    image: postman/newman
+    commands:
+      - sleep 10
+      - cd tests/integration
+      - newman run Skiosa.postman_collection.json -e skiosa-local-dev.postman_environment.json
 
-- name: code-analysis & coverage
-  image: node:16
-  environment:
-    token:
-      from_secret: sonar_token
-  commands:
-  - npm install sonarqube-scanner -g
-  - sonar-scanner -Dsonar.pullrequest.key=$${DRONE_PULL_REQUEST} -Dsonar.pullrequest.branch=$${DRONE_SOURCE_BRANCH} -Dsonar.pullrequest.base=$${DRONE_TARGET_BRANCH} -Dsonar.scm.disabled=true -Dsonar.login=$token
+  - name: code-analysis & coverage
+    image: node:16
+    environment:
+      token:
+        from_secret: sonar_token
+    commands:
+      - npm install sonarqube-scanner -g
+      - sonar-scanner -Dsonar.pullrequest.key=$${DRONE_PULL_REQUEST} -Dsonar.pullrequest.branch=$${DRONE_SOURCE_BRANCH} -Dsonar.pullrequest.base=$${DRONE_TARGET_BRANCH} -Dsonar.scm.disabled=true -Dsonar.login=$token
 
 services:
-- name: database
-  image: postgres:14
-  environment:
-    POSTGRES_DB: skiosa-db-integration-test
-    POSTGRES_USER: skiosa-user-integration-test
-    POSTGRES_PASSWORD: 
-      from_secret: database_password
+  - name: database
+    image: postgres:14
+    environment:
+      POSTGRES_DB: skiosa-db-integration-test
+      POSTGRES_USER: skiosa-user-integration-test
+      POSTGRES_PASSWORD:
+        from_secret: database_password
 
 image_pull_secrets:
-- dockerconfig
+  - dockerconfig
 
 trigger:
   event:
-  - pull_request
+    - pull_request
 
 ---
 # Master Pipeline
@@ -113,49 +113,48 @@ type: kubernetes
 name: final-build-pipeline
 
 steps:
+  - name: npm setup
+    image: node:16
+    commands:
+      - npm install
 
-- name: npm setup
-  image: node:16
-  commands:
-  - npm install
+  - name: unit tests
+    image: node:16
+    commands:
+      - npm run test:ci
 
-- name: unit tests
-  image: node:16
-  commands:
-  - npm run test:ci
+  - name: docker-build
+    image: plugins/docker
+    settings:
+      registry: registry.dev.skiosa.de
+      repo: registry.dev.skiosa.de/core-service
+      tags: [latest, "${DRONE_COMMIT_SHA:0:7}"]
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
 
-- name: docker-build
-  image: plugins/docker
-  settings:
-    registry: registry.dev.skiosa.de
-    repo: registry.dev.skiosa.de/core-service
-    tags: [ latest, "${DRONE_COMMIT_SHA:0:7}" ]
-    username:
-      from_secret: docker_username
-    password:
-      from_secret: docker_password
+  - name: promote-deployment
+    image: danihodovic/drone-promote
+    settings:
+      drone_token:
+        from_secret: drone_token
+      target: production
 
-- name: promote-deployment
-  image: danihodovic/drone-promote
-  settings:
-    drone_token:
-      from_secret: drone_token
-    target: production
-
-- name: master code-analysis
-  image: node:16
-  environment:
-    token:
-      from_secret: sonar_token
-  commands:
-  - npm install sonarqube-scanner -g
-  - sonar-scanner -Dsonar.branch.name=master -Dsonar.login=$token
+  - name: master code-analysis
+    image: node:16
+    environment:
+      token:
+        from_secret: sonar_token
+    commands:
+      - npm install sonarqube-scanner -g
+      - sonar-scanner -Dsonar.branch.name=master -Dsonar.login=$token
 
 trigger:
   branch:
-  - master
+    - master
   event:
-  - push
+    - push
 
 ---
 #CD Pipeline
@@ -173,21 +172,21 @@ steps:
       directory: core-service
       dockerImageVersion: ${DRONE_COMMIT_SHA:0:7}
     commands:
-    - apt update
-    - apt install -y git
-    - mkdir -p /root/.ssh
-    - echo -n "$SSH_KEY" > /root/.ssh/id_ed25519
-    - chmod 600 /root/.ssh/id_ed25519
-    - ssh-keyscan -t rsa github.com >> /root/.ssh/known_hosts
-    - eval "$(ssh-agent -s)"
-    - ssh-add /root/.ssh/id_ed25519
-    - git clone git@github.com:skiosa/deployments.git
-    - cd deployments
-    - git checkout master
-    - ./update.sh $dockerImage $directory $dockerImageVersion
-    - git add .
-    - git commit -m "updated image version"
-    - git push origin master
+      - apt update
+      - apt install -y git
+      - mkdir -p /root/.ssh
+      - echo -n "$SSH_KEY" > /root/.ssh/id_ed25519
+      - chmod 600 /root/.ssh/id_ed25519
+      - ssh-keyscan -t rsa github.com >> /root/.ssh/known_hosts
+      - eval "$(ssh-agent -s)"
+      - ssh-add /root/.ssh/id_ed25519
+      - git clone git@github.com:skiosa/deployments.git
+      - cd deployments
+      - git checkout master
+      - ./update.sh $dockerImage $directory $dockerImageVersion
+      - git add .
+      - git commit -m "updated image version"
+      - git push origin master
 
 trigger:
   event:
