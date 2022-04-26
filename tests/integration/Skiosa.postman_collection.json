@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "f9767643-1957-4af4-9412-4638732fc513",
+		"_postman_id": "91fd88df-a6a5-48cb-af8c-eaf9f778c7af",
 		"name": "Skiosa",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -1273,6 +1273,299 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "POST  - Create Feed Unauthorized",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status Code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var data = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.test(\"Correct Data\", function () {\r",
+									"    pm.expect(data.errors[0].message).equal(\"Access denied! You don't have permission for this action!\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation Mutation($feed: FeedInput!) {\r\n  createFeed(feed: $feed) {\r\n    id\r\n    link\r\n    ttl\r\n    name\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"feed\": {\r\n    \"link\": \"https://google.de\",\r\n    \"ttl\": 187,\r\n    \"name\": \"Test Feed\",\r\n    \"description\": \"Description\"\r\n  }\r\n}"
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/graphql",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST  - Create Feed Authorized",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status Code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var data = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.test(\"Correct Data\", function () {\r",
+									"    pm.globals.set(\"new-feed-id\", data.data.createFeed.id);\r",
+									"    pm.expect(data.data.createFeed.link).equal(\"https://www.g.de\");\r",
+									"    pm.expect(data.data.createFeed.name).equal(\"Test Feed\");\r",
+									"    pm.expect(data.data.createFeed.ttl).equal(\"187\")\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation Mutation($feed: FeedInput!) {\r\n  createFeed(feed: $feed) {\r\n    id\r\n    link\r\n    ttl\r\n    name\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"feed\": {\r\n    \"link\": \"https://www.g.de\",\r\n    \"ttl\": 187,\r\n    \"name\": \"Test Feed\",\r\n    \"description\": \"Description\"\r\n  }\r\n}"
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/graphql",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST  - Create Feed Invalid URL",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status Code is 400\", function() {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"var data = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.test(\"Correct Data\", function () {\r",
+									"    pm.expect(data.errors[0].message).equal(\"Variable \\\"$feed\\\" got invalid value \\\"187.de\\\" at \\\"feed.link\\\"; Query error: Not a valid URL\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation Mutation($feed: FeedInput!) {\r\n  createFeed(feed: $feed) {\r\n    id\r\n    link\r\n    ttl\r\n    name\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"feed\": {\r\n    \"link\": \"187.de\",\r\n    \"ttl\": 187,\r\n    \"name\": \"Test Feed\",\r\n    \"description\": \"Description\"\r\n  }\r\n}"
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/graphql",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete  - Delete Feed as User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status Code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var data = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.test(\"Correct Data\", function () {\r",
+									"    pm.expect(data.errors[0].message).equal(\"Access denied! You don't have permission for this action!\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "\r\nmutation Mutation($feedId: Float!) {\r\n  deleteFeed(feedId: $feedId)\r\n}",
+								"variables": "{\r\n    \"feedId\": 10\r\n}"
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/graphql",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete  - Delete Feed as Admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status Code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var data = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.test(\"Correct Data\", function () {\r",
+									"     pm.expect(data.data.deleteFeed).equal(\"Feed with the id \" + pm.globals.get(\"new-feed-id\") + \" was deleted.\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"if (pm.environment.name != 'LOCAL') {\r",
+									"    const postRequest = {\r",
+									"        url: pm.collectionVariables.get('keycloak-url'),\r",
+									"        method: 'POST',\r",
+									"        header: [\r",
+									"            'Content-Type:application/x-www-form-urlencoded',\r",
+									"        ],\r",
+									"        body: {\r",
+									"            mode: 'urlencoded',\r",
+									"            urlencoded: [\r",
+									"                {key: \"grant_type\", value: \"password\", disabled: false},\r",
+									"                {key: \"client_id\", value: \"core-service\", disabled: false},\r",
+									"                {key: \"username\", value: pm.environment.get(\"keycloak-test-admin-name\"), disabled: false},\r",
+									"                {key: \"password\", value: pm.environment.get(\"keycloak-test-admin-pw\"), disabled: false},\r",
+									"            ]\r",
+									"        }\r",
+									"    };\r",
+									"\r",
+									"    let tokeRequest = true;\r",
+									"\r",
+									"    // Check if the current token is expired\r",
+									"    if (pm.environment.name != pm.collectionVariables.get('adminadminTokenEnvironment')) {\r",
+									"        console.log(\"env change -> New Token required!\");\r",
+									"    } else if (!pm.collectionVariables.get('keycloakAdminAccessToken')) {\r",
+									"        console.log('Token is missing!');\r",
+									"    } else if (pm.collectionVariables.get('adminTokenExpiry') <= (new Date().getTime())) {\r",
+									"        console.log('Token is expired!');\r",
+									"    } else {\r",
+									"        tokeRequest = false;\r",
+									"        console.log('Token is still valid!');\r",
+									"    }\r",
+									"\r",
+									"\r",
+									"// Request a new token\r",
+									"    if (tokeRequest === true) {\r",
+									"        pm.sendRequest(postRequest, function (err, res) {\r",
+									"            if (res.code === 404) {\r",
+									"                console.log('Keycloak Credentials not configured!');\r",
+									"            } else {\r",
+									"                console.log(err ? err : res.json());\r",
+									"                if (err === null) {\r",
+									"                    let responseJson = res.json();\r",
+									"                    pm.collectionVariables.set('keycloakAdminAccessToken', responseJson.access_token);\r",
+									"\r",
+									"                    // Save the expiry date\r",
+									"                    let expiryDate = new Date();\r",
+									"                    expiryDate.setSeconds(expiryDate.getSeconds() + responseJson.expires_in);\r",
+									"                    pm.collectionVariables.set('adminTokenExpiry', expiryDate.getTime());\r",
+									"                    pm.collectionVariables.set('adminTokenEnvironment', pm.environment.name);\r",
+									"                }\r",
+									"            }\r",
+									"        });\r",
+									"    }\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{keycloakAdminAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "\r\nmutation Mutation($feedId: Float!) {\r\n  deleteFeed(feedId: $feedId)\r\n}",
+								"variables": "{\r\n    \"feedId\": {{new-feed-id}}\r\n}"
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/graphql",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -2126,6 +2419,18 @@
 		},
 		{
 			"key": "tokenExpiry",
+			"value": ""
+		},
+		{
+			"key": "keycloakAdminAccessToken",
+			"value": ""
+		},
+		{
+			"key": "adminTokenExpiry",
+			"value": ""
+		},
+		{
+			"key": "adminTokenEnvironment",
 			"value": ""
 		}
 	]

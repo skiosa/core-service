@@ -1,10 +1,12 @@
 import { shuffle } from "shuffle-seed";
 import { Article, Category, Feed, User } from "skiosa-orm";
 import { dataSource } from "skiosa-orm/lib/db";
-import { Arg, FieldResolver, Int, Query, Resolver, Root } from "type-graphql";
+import { Arg, FieldResolver, Mutation, Int, Query, Resolver, Root, Authorized } from "type-graphql";
+import { DeleteResult } from "typeorm";
 import { PaginationArg } from "../../model/paginationArg";
 import { paginate } from "../../util/paginate";
 import { FeedService } from "../feedService";
+import { FeedInput } from "../../model/models";
 
 @Resolver((_of) => Feed)
 export class FeedServiceImpl implements FeedService {
@@ -155,6 +157,32 @@ export class FeedServiceImpl implements FeedService {
         } else {
           return (f.subscribers || []).length;
         }
+      });
+  }
+
+  @Mutation(() => Feed)
+  @Authorized("realm:skiosa-user")
+  createFeed(@Arg("feed") feed: FeedInput): Promise<Feed> {
+    return dataSource.getRepository(Feed).save(feed);
+  }
+
+  @Mutation(() => String)
+  @Authorized("realm:skiosa-admin")
+  deleteFeed(@Arg("feedId") feedId: number): Promise<string> {
+    return dataSource
+      .getRepository(Article)
+      .delete({ feed: { id: feedId } })
+      .then(() => {
+        return dataSource
+          .getRepository(Feed)
+          .delete({ id: feedId })
+          .then((result: DeleteResult) => {
+            if (result.affected === 0) {
+              throw new Error(`Feed with id ${feedId} not found`);
+            } else {
+              return `Feed with the id ${feedId} was deleted.`;
+            }
+          });
       });
   }
 }

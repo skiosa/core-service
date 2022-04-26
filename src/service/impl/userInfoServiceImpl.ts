@@ -19,13 +19,13 @@ export class UserInfoServiceImpl implements UserInfoService {
     const userRepository = dataSource.getRepository(User);
     return new Promise(async (resolve, reject) => {
       if (!currentUser.id) {
-          reject('no userid in UserInfo of user');
-          return;
+        reject("no userid in UserInfo of user");
+        return;
       }
-      const user: User = {id: currentUser.id};
+      const user: User = { id: currentUser.id };
 
       await userRepository.save(user);
       resolve(user);
-    })
+    });
   }
 }
