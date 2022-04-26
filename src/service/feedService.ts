@@ -1,9 +1,8 @@
-import { Article, Category, Feed, User, FeedInput } from "skiosa-orm";
+import { Article, Category, Feed, User } from "skiosa-orm";
+import { FeedInput } from "../model/models";
 import { PaginationArg } from "../model/paginationArg";
 
 export interface FeedService {
-  //Querys:
-
   /**
    * @author Marcel Alex, Jonas Eppard
    * @summary Get all feeds

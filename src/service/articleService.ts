@@ -5,7 +5,7 @@ import { Feed } from "skiosa-orm/lib/model/feed";
 import { PaginationArg } from "../model/paginationArg";
 
 export interface ArticleService {
-  //Queries
+  // Queries
   /**
    * @author Theo Krinitz
    * @summary Returns all articles
@@ -24,7 +24,7 @@ export interface ArticleService {
    */
   article(id: number): Promise<Article>;
 
-  //Fieldresolvers:
+  //Field-Resolvers
   /**
    * @author Theo Krinitz, Jonas Eppard
    * @summary Get author from article

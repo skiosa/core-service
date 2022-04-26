@@ -9,6 +9,7 @@
     "Horlacher",
     "kauth",
     "Keycloak",
+    "Krinitz",
     "lcov",
     "Lukas",
     "MEMORYSTORE",
@@ -18,6 +19,7 @@
     "nvim",
     "resave",
     "Skiosa",
+    "Theo",
     "typeorm"
   ],
   "eslint.validate": ["javascript"],
