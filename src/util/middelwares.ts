@@ -4,6 +4,7 @@ import * as jwt from "jsonwebtoken";
 import { KeycloakContext } from "keycloak-connect-graphql";
 import { AuthChecker } from "type-graphql/dist/interfaces";
 import { UserInfo } from "../model/jwt";
+import { createUser } from "./userManager";
 
 /**
  * @author Tim Horlacher
@@ -54,13 +55,18 @@ function jwtPayloadContentTransformer(payload: jwt.JwtPayload): UserInfo {
 /**
  * @author LukasLJL, Tim Horlacher
  * @summary authChecker middleware
- * @description checks if a Auth Token is present in the request
+ * @description checks if a Auth Token is present in the request and adds user to our database if not present
  * @returns {Boolean} - authenticated
  */
 export const authChecker: AuthChecker<Context> = ({ context }, roles) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const localContext: any = context;
   const kauth: KeycloakContext = localContext.kauth as KeycloakContext;
+
+  if (kauth.isAuthenticated()) {
+    const userInformation = userInfo(kauth) as UserInfo;
+    createUser(userInformation);
+  }
 
   if (roles.length === 0) {
     return kauth.isAuthenticated();

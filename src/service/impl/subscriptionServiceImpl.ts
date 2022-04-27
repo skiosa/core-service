@@ -13,7 +13,7 @@ import { SubscriptionService } from "../subscriptionService";
 @Resolver()
 export class SubscriptionServiceImpl implements SubscriptionService {
   @Mutation(() => Boolean)
-  @Authorized()
+  @Authorized("realm:skiosa-user")
   async changeSubscription(
     @CurrentUser() currentUserInfo: UserInfo,
     @Arg("feedId") feedId: number,
@@ -45,7 +45,7 @@ export class SubscriptionServiceImpl implements SubscriptionService {
   }
 
   @Query(() => [Feed])
-  @Authorized()
+  @Authorized("realm:skiosa-user")
   async subscriptions(@CurrentUser() currentUserInfo: UserInfo): Promise<Feed[]> {
     const userRepository = dataSource.getRepository(User);
     const currentUser = await getCurrentUserWithSubscriptions(userRepository, currentUserInfo);
@@ -57,8 +57,8 @@ export class SubscriptionServiceImpl implements SubscriptionService {
     }
   }
 
-  @Authorized()
   @Query(() => [Article])
+  @Authorized("realm:skiosa-user")
   async articlesOfSubscriptions(
     @CurrentUser() currentUserInfo: UserInfo,
     @Arg("PaginationArg", { nullable: true }) paginated?: PaginationArg
