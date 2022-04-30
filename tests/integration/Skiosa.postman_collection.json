@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "a393caa7-826d-4d6d-baa2-a09ec31a520b",
+		"_postman_id": "bfed57be-12a1-4a0e-a1dd-83d3bf86a75a",
 		"name": "Skiosa",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -2258,6 +2258,185 @@
 							"mode": "graphql",
 							"graphql": {
 								"query": "mutation subscription {\n    changeSubscription(feedId: 1, isSubscribed: false)\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/graphql",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Bookmarks",
+			"item": [
+				{
+					"name": "POST - Add Article to Users Bookmarks",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status Code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var data = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.test(\"Correct Data\", function () {\r",
+									"    pm.expect(data.data.addBookmark).equal(true);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation bookmark {\r\n    addBookmark(articleId: 1)\r\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/graphql",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET - Articles of Users Bookmarks",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status Code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var data = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.test(\"Correct Data\", function () {\r",
+									"    pm.expect(data.data.bookmarks[0].id).equal(parseInt(pm.environment.get(\"article-id\")));\r",
+									"    pm.expect(data.data.bookmarks[0].title).equal(\"How installing linux made me gain 20lbs of muscle\");\r",
+									"    pm.expect(data.data.bookmarks[0].description).equal(\"After installing arch linux, I did one pushup every time I told someone, that I use...\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query bookmark {\r\n    bookmarks(PaginationArg: {skip:0, take:3}){\r\n        id\r\n        title\r\n        description\r\n    }\r\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/graphql",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET - Bookmark Status of Article",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status Code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var data = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.test(\"Correct Data\", function () {\r",
+									"    pm.expect(data.data.addedBookmark).equal(true);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query bookmarkStatus {\r\n\r\n    article(id: 1) {\r\n        id\r\n        title\r\n        bookmarkCount\r\n        bookmarkStatus\r\n    }\r\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/graphql",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST - Delete Article to Users Bookmarks",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status Code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var data = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.test(\"Correct Data\", function () {\r",
+									"    pm.expect(data.data.deleteBookmark).equal(true);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation bookmark {\r\n    deleteBookmark(articleId: 1)\r\n}",
 								"variables": ""
 							}
 						},
