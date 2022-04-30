@@ -5,9 +5,11 @@ import { PaginationArg } from "../../model/paginationArg";
 import { ArticleService } from "../articleService";
 import { MockService } from "./mockService";
 import { paginate } from "../../util/paginate";
+import { UserInfo } from "../../model/jwt";
 
 @Resolver(Article)
 export class ArticleServiceMock extends MockService implements ArticleService {
+
   @Query((_of) => [Article])
   recommendedArticles(
     @Arg("seed") seed: number,
@@ -89,5 +91,11 @@ export class ArticleServiceMock extends MockService implements ArticleService {
     } else {
       throw new Error(`Article with id: ${id} not found!`);
     }
+  }
+
+  bookmarkStatus(currentUserInfo: UserInfo, article: Article): Promise<boolean> {
+    console.log(currentUserInfo);
+    console.log(article);
+    throw new Error("Method not implemented.");
   }
 }

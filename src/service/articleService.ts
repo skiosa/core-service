@@ -2,6 +2,7 @@ import { Category } from "skiosa-orm";
 import { Article } from "skiosa-orm/lib/model/article";
 import { Author } from "skiosa-orm/lib/model/author";
 import { Feed } from "skiosa-orm/lib/model/feed";
+import { UserInfo } from "../model/jwt";
 import { PaginationArg } from "../model/paginationArg";
 
 export interface ArticleService {
@@ -84,6 +85,9 @@ export interface ArticleService {
    *
    */
   bookmarkCount(article: Article): Promise<number>;
+
+  bookmarkStatus(currentUserInfo: UserInfo, article: Article): Promise<boolean>;
+
   /**
    * @author Jonas Eppard
    * @summary Get recommended Articles
