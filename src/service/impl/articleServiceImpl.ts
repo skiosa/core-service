@@ -164,8 +164,6 @@ export class ArticleServiceImpl implements ArticleService {
   @FieldResolver((__Type) => Boolean)
   @Authorized("realm:skiosa-user")
   bookmarkStatus(@CurrentUser() currentUserInfo: UserInfo, @Root() article: Article): Promise<boolean> {
-    console.log(currentUserInfo);
-    console.log(article);
     return dataSource
       .getRepository(Article)
       .findOne({
@@ -175,12 +173,12 @@ export class ArticleServiceImpl implements ArticleService {
         },
       })
       .then((a) => {
+        console.log(a?.bookmarks);
         if (!a) {
           throw new Error(`Article with id: ${article.id} not found!`);
-        } else if (!a.feed) {
-          throw new Error(`Article with id: ${article.id} has invalid format!`);
+        } else {
+          return a.bookmarks?.some((b) => b.id === currentUserInfo.id) ?? false;
         }
-        return false;
       });
   }
 
