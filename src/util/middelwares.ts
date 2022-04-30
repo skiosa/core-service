@@ -63,6 +63,10 @@ export const authChecker: AuthChecker<Context> = ({ context }, roles) => {
   const localContext: any = context;
   const kauth: KeycloakContext = localContext.kauth as KeycloakContext;
 
+  if (roles.includes("PUBLIC")) {
+    return true;
+  }
+
   if (kauth.isAuthenticated()) {
     const userInformation = userInfo(kauth) as UserInfo;
     createUser(userInformation);

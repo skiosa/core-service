@@ -162,8 +162,11 @@ export class ArticleServiceImpl implements ArticleService {
   }
 
   @FieldResolver((__Type) => Boolean)
-  @Authorized("realm:skiosa-user")
+  @Authorized("realm:skiosa-user", "PUBLIC")
   bookmarkStatus(@CurrentUser() currentUserInfo: UserInfo, @Root() article: Article): Promise<boolean> {
+    if (!currentUserInfo) {
+      return Promise.resolve(false);
+    }
     return dataSource
       .getRepository(Article)
       .findOne({
