@@ -173,15 +173,13 @@ export class ArticleServiceImpl implements ArticleService {
         },
       })
       .then((a) => {
-        console.log(a?.bookmarks);
         if (!a) {
           throw new Error(`Article with id: ${article.id} not found!`);
         } else {
-          return a.bookmarks?.some((b) => b.id === currentUserInfo.id) ?? false;
+          return a.bookmarks?.some((userBookmark) => userBookmark.id === currentUserInfo.id) ?? false;
         }
       });
   }
-
 
   @FieldResolver((_returns) => Feed)
   feed(@Root() article: Article): Promise<Feed> {

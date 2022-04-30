@@ -86,6 +86,14 @@ export interface ArticleService {
    */
   bookmarkCount(article: Article): Promise<number>;
 
+  /**
+   * @author Lukas Huida
+   * @summary Check if User has bookmarked this article
+   * @description Check if current logged in user has bookmarked this article
+   * @param {Article} article - Article from which to get the bookmark status
+   * @param {UserInfo} currentUserInfo - UserInfo of the current logged in user
+   * @returns {boolean} Status of the Users bookmark for this specific article
+   */
   bookmarkStatus(currentUserInfo: UserInfo, article: Article): Promise<boolean>;
 
   /**
