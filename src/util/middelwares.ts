@@ -109,7 +109,9 @@ export function userInfo(keyCloakContext: KeycloakContext): UserInfo | undefined
  * @param next express next function
  */
 export function requestLogger(req: express.Request, _res: express.Response, next: express.NextFunction) {
-  console.log(`${new Date().toISOString()} - ${req.method} Request on ${req.url} - ${req.ip} - ${req.headers["user-agent"]}`);
+  console.log(
+    `${new Date().toISOString()} - ${req.method} Request on ${req.url} - ${req.ip} - ${req.headers["user-agent"]}`
+  );
   next();
 }
 
