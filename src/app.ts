@@ -20,9 +20,8 @@ import { UserInfo } from "./model/jwt";
 import { FeedServiceImpl } from "./service/impl/feedServiceImpl";
 import { UserInfoServiceImpl } from "./service/impl/userInfoServiceImpl";
 import { ArticleServiceMock } from "./service/mockup/articleServiceMock";
-import { authChecker, requestLogger, userInfo, logAccess } from "./util/middelwares";
+import { authChecker, requestLogger, userInfo } from "./util/middelwares";
 import { SubscriptionServiceImpl } from "./service/impl/subscriptionServiceImpl";
-import { MiddlewareFn } from "type-graphql/dist/interfaces";
 
 /**
  * Configuration Part
