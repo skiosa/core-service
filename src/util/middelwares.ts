@@ -2,7 +2,7 @@ import { Context } from "apollo-server-core";
 import express from "express";
 import * as jwt from "jsonwebtoken";
 import { KeycloakContext } from "keycloak-connect-graphql";
-import { AuthChecker } from "type-graphql/dist/interfaces";
+import { AuthChecker, MiddlewareFn } from "type-graphql/dist/interfaces";
 import { UserInfo } from "../model/jwt";
 import { createUser } from "./userManager";
 
@@ -99,3 +99,30 @@ export function userInfo(keyCloakContext: KeycloakContext): UserInfo | undefined
   }
   return undefined;
 }
+
+/**
+ * @author LukasLJL
+ * @summary Middleware to Log all Express Requests
+ * @description Middleware to Log all Express Requests
+ * @param req express request
+ * @param _res express response
+ * @param next express next function
+ */
+export function requestLogger(req: express.Request, _res: express.Response, next: express.NextFunction) {
+  console.log(
+    `${new Date().toISOString()} - ${req.method} Request on ${req.url} - ${req.ip} - ${req.headers["user-agent"]}`
+  );
+  next();
+}
+
+/**
+ * @author LukasLJL
+ * @summary Middleware to Log all GraphQL Requests
+ * @description Middleware to Log all GraphQL Requests
+ * @param info graphql request
+ * @param next graphql next function
+ */
+export const logAccess: MiddlewareFn<Context> = ({ info }, next) => {
+  console.info(`${new Date().toISOString()} - ${info.parentType.name}.${info.fieldName}`);
+  return next();
+};
