@@ -19,7 +19,7 @@ import { errorController } from "./controller/errorController";
 import { UserInfo } from "./model/jwt";
 import { FeedServiceImpl } from "./service/impl/feedServiceImpl";
 import { UserInfoServiceImpl } from "./service/impl/userInfoServiceImpl";
-import { authChecker, userInfo } from "./util/middelwares";
+import { authChecker, requestLogger, userInfo } from "./util/middelwares";
 import { SubscriptionServiceImpl } from "./service/impl/subscriptionServiceImpl";
 import { BookmarkServiceImpl } from "./service/impl/bookmarkServiceImpl";
 import { ArticleServiceImpl } from "./service/impl/articleServiceImpl";
@@ -83,6 +83,7 @@ async function startApolloServer() {
    * Express Middleware
    */
   app.use(keycloak.middleware());
+  app.use(requestLogger);
 
   /**
    * Security Configuration
@@ -95,6 +96,7 @@ async function startApolloServer() {
   const schema = await buildSchema({
     resolvers: [ArticleServiceImpl, FeedServiceImpl, UserInfoServiceImpl, SubscriptionServiceImpl, BookmarkServiceImpl],
     authChecker: authChecker,
+    //globalMiddlewares: [logAccess],
   });
 
   /**
