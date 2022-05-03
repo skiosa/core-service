@@ -19,9 +19,10 @@ import { errorController } from "./controller/errorController";
 import { UserInfo } from "./model/jwt";
 import { FeedServiceImpl } from "./service/impl/feedServiceImpl";
 import { UserInfoServiceImpl } from "./service/impl/userInfoServiceImpl";
-import { ArticleServiceMock } from "./service/mockup/articleServiceMock";
 import { authChecker, requestLogger, userInfo } from "./util/middelwares";
 import { SubscriptionServiceImpl } from "./service/impl/subscriptionServiceImpl";
+import { BookmarkServiceImpl } from "./service/impl/bookmarkServiceImpl";
+import { ArticleServiceImpl } from "./service/impl/articleServiceImpl";
 
 /**
  * Configuration Part
@@ -93,7 +94,7 @@ async function startApolloServer() {
    * GraphQL Schema Builder
    */
   const schema = await buildSchema({
-    resolvers: [ArticleServiceMock, FeedServiceImpl, UserInfoServiceImpl, SubscriptionServiceImpl],
+    resolvers: [ArticleServiceImpl, FeedServiceImpl, UserInfoServiceImpl, SubscriptionServiceImpl, BookmarkServiceImpl],
     authChecker: authChecker,
     //globalMiddlewares: [logAccess],
   });

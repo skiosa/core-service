@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "a393caa7-826d-4d6d-baa2-a09ec31a520b",
+		"_postman_id": "bfed57be-12a1-4a0e-a1dd-83d3bf86a75a",
 		"name": "Skiosa",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -105,9 +105,14 @@
 									"    pm.expect(data.data.articles[id_array].description).equal(\"After installing arch linux, I did one pushup every time I told someone, that I use...\");\r",
 									"    pm.expect(data.data.articles[id_array].content).to.exist;\r",
 									"    pm.expect(data.data.articles[id_array].url).equal(\"https://asciiflix.de/watch/814bd1ab-18a7-41f2-8b23-7feb2bab9de2\");\r",
-									"    pm.expect(data.data.articles[id_array].publishedAt).equal(new Date('2020-01-01').toISOString());\r",
 									"    pm.expect(data.data.articles[2]).to.exist;\r",
-									"});"
+									"});\r",
+									"\r",
+									"pm.test(\"Correct Date\", function(){\r",
+									"    let publishedDate = new Date(data.data.articles[id_array].publishedAt);\r",
+									"    pm.expect(publishedDate.getFullYear()).equal(2022); \r",
+									"});\r",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -155,11 +160,15 @@
 									"    pm.expect(data.data.articles[id_array].description).equal(\"After installing arch linux, I did one pushup every time I told someone, that I use...\");\r",
 									"    pm.expect(data.data.articles[id_array].content).to.exist;\r",
 									"    pm.expect(data.data.articles[id_array].url).equal(\"https://asciiflix.de/watch/814bd1ab-18a7-41f2-8b23-7feb2bab9de2\");\r",
-									"    pm.expect(data.data.articles[id_array].publishedAt).equal(new Date('2020-01-01').toISOString());\r",
 									"    pm.expect(data.data.articles[id_array].author).to.exist;\r",
-									"\r",
 									"    pm.expect(data.data.articles[2]).to.exist;\r",
-									"});"
+									"});\r",
+									"\r",
+									"pm.test(\"Correct Date\", function(){\r",
+									"    let publishedDate = new Date(data.data.articles[id_array].publishedAt);\r",
+									"    pm.expect(publishedDate.getFullYear()).equal(2022); \r",
+									"});\r",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -207,11 +216,15 @@
 									"    pm.expect(data.data.articles[id_array].description).equal(\"After installing arch linux, I did one pushup every time I told someone, that I use...\");\r",
 									"    pm.expect(data.data.articles[id_array].content).to.exist;\r",
 									"    pm.expect(data.data.articles[id_array].url).equal(\"https://asciiflix.de/watch/814bd1ab-18a7-41f2-8b23-7feb2bab9de2\");\r",
-									"    pm.expect(data.data.articles[id_array].publishedAt).equal(new Date('2020-01-01').toISOString());\r",
 									"    pm.expect(data.data.articles[id_array].categories).to.exist;\r",
-									"\r",
 									"    pm.expect(data.data.articles[2]).to.exist;\r",
-									"});"
+									"});\r",
+									"\r",
+									"pm.test(\"Correct Date\", function(){\r",
+									"    let publishedDate = new Date(data.data.articles[id_array].publishedAt);\r",
+									"    pm.expect(publishedDate.getFullYear()).equal(2022); \r",
+									"});\r",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -258,15 +271,16 @@
 									"    pm.expect(data.data.articles[id_array].title).equal(\"How installing linux made me gain 20lbs of muscle\");",
 									"    pm.expect(data.data.articles[id_array].description).equal(\"After installing arch linux, I did one pushup every time I told someone, that I use...\");",
 									"    pm.expect(data.data.articles[id_array].content).to.exist;",
-									"    pm.expect(data.data.articles[id_array].url).equal(\"https://asciiflix.de/watch/814bd1ab-18a7-41f2-8b23-7feb2bab9de2\");",
-									"    pm.expect(data.data.articles[id_array].publishedAt).equal(new Date('2020-01-01').toISOString());",
-									"",
 									"    pm.expect(data.data.articles[id_array].categories).to.exist;",
-									"",
 									"    pm.expect(data.data.articles[id_array].categoryCount).equal(2);",
-									"",
 									"    pm.expect(data.data.articles[2]).to.exist;",
-									"});"
+									"});",
+									"",
+									"pm.test(\"Correct Date\", function(){",
+									"    let publishedDate = new Date(data.data.articles[id_array].publishedAt);",
+									"    pm.expect(publishedDate.getFullYear()).equal(2022); ",
+									"});",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -314,12 +328,17 @@
 									"    pm.expect(data.data.articles[id_array].description).equal(\"After installing arch linux, I did one pushup every time I told someone, that I use...\");\r",
 									"    pm.expect(data.data.articles[id_array].content).to.exist;\r",
 									"    pm.expect(data.data.articles[id_array].url).equal(\"https://asciiflix.de/watch/814bd1ab-18a7-41f2-8b23-7feb2bab9de2\");\r",
-									"    pm.expect(data.data.articles[id_array].publishedAt).equal(new Date('2020-01-01').toISOString());\r",
 									"\r",
 									"    pm.expect(data.data.articles[id_array].feed).to.exist;\r",
 									"\r",
 									"    pm.expect(data.data.articles[2]).to.exist;\r",
-									"});"
+									"});\r",
+									"\r",
+									"pm.test(\"Correct Date\", function(){\r",
+									"    let publishedDate = new Date(data.data.articles[id_array].publishedAt);\r",
+									"    pm.expect(publishedDate.getFullYear()).equal(2022); \r",
+									"});\r",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -367,14 +386,19 @@
 									"    pm.expect(data.data.articles[id_array].description).equal(\"After installing arch linux, I did one pushup every time I told someone, that I use...\");\r",
 									"    pm.expect(data.data.articles[id_array].content).to.exist;\r",
 									"    pm.expect(data.data.articles[id_array].url).equal(\"https://asciiflix.de/watch/814bd1ab-18a7-41f2-8b23-7feb2bab9de2\");\r",
-									"    pm.expect(data.data.articles[id_array].publishedAt).equal(new Date('2020-01-01').toISOString());\r",
 									"\r",
 									"    pm.expect(data.data.articles[id_array].author).to.exist;\r",
 									"    pm.expect(data.data.articles[id_array].categories).to.exist;\r",
 									"    pm.expect(data.data.articles[id_array].feed).to.exist;\r",
 									"\r",
 									"    pm.expect(data.data.articles[2]).to.exist;\r",
-									"});"
+									"});\r",
+									"\r",
+									"pm.test(\"Correct Date\", function(){\r",
+									"    let publishedDate = new Date(data.data.articles[id_array].publishedAt);\r",
+									"    pm.expect(publishedDate.getFullYear()).equal(2022); \r",
+									"});\r",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -421,9 +445,13 @@
 									"    pm.expect(data.data.article.description).equal(\"After installing arch linux, I did one pushup every time I told someone, that I use...\");\r",
 									"    pm.expect(data.data.article.content).to.exist;\r",
 									"    pm.expect(data.data.article.url).equal(\"https://asciiflix.de/watch/814bd1ab-18a7-41f2-8b23-7feb2bab9de2\");\r",
-									"    pm.expect(data.data.article.publishedAt).equal(new Date('2020-01-01').toISOString());\r",
+									"});\r",
 									"\r",
-									"});"
+									"pm.test(\"Correct Date\", function(){\r",
+									"    let publishedDate = new Date(data.data.article.publishedAt);\r",
+									"    pm.expect(publishedDate.getFullYear()).equal(2022); \r",
+									"});\r",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -471,9 +499,13 @@
 									"    pm.expect(data.data.article.content).to.exist;\r",
 									"    pm.expect(data.data.article.url).equal(\"https://asciiflix.de/watch/814bd1ab-18a7-41f2-8b23-7feb2bab9de2\");\r",
 									"    pm.expect(data.data.article.author).to.exist;\r",
-									"    pm.expect(data.data.article.publishedAt).equal(new Date('2020-01-01').toISOString());\r",
+									"});\r",
 									"\r",
-									"});"
+									"pm.test(\"Correct Date\", function(){\r",
+									"    let publishedDate = new Date(data.data.article.publishedAt);\r",
+									"    pm.expect(publishedDate.getFullYear()).equal(2022); \r",
+									"});\r",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -521,9 +553,13 @@
 									"    pm.expect(data.data.article.content).to.exist;\r",
 									"    pm.expect(data.data.article.url).equal(\"https://asciiflix.de/watch/814bd1ab-18a7-41f2-8b23-7feb2bab9de2\");\r",
 									"    pm.expect(data.data.article.categories).to.exist;\r",
-									"    pm.expect(data.data.article.publishedAt).equal(new Date('2020-01-01').toISOString());\r",
+									"});\r",
 									"\r",
-									"});"
+									"pm.test(\"Correct Date\", function(){\r",
+									"    let publishedDate = new Date(data.data.article.publishedAt);\r",
+									"    pm.expect(publishedDate.getFullYear()).equal(2022); \r",
+									"});\r",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -571,11 +607,14 @@
 									"    pm.expect(data.data.article.content).to.exist;",
 									"    pm.expect(data.data.article.url).equal(\"https://asciiflix.de/watch/814bd1ab-18a7-41f2-8b23-7feb2bab9de2\");",
 									"    pm.expect(data.data.article.categories).to.exist;",
-									"    pm.expect(data.data.article.publishedAt).equal(new Date('2020-01-01').toISOString());",
+									"    pm.expect(data.data.article.categoryCount).equal(2);",
+									"});",
 									"",
-									"",
-									"    pm.expect(data.data.article.categoryCount).equal(2)",
-									"});"
+									"pm.test(\"Correct Date\", function(){",
+									"    let publishedDate = new Date(data.data.article.publishedAt);",
+									"    pm.expect(publishedDate.getFullYear()).equal(2022); ",
+									"});",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -623,9 +662,13 @@
 									"    pm.expect(data.data.article.content).to.exist;\r",
 									"    pm.expect(data.data.article.url).equal(\"https://asciiflix.de/watch/814bd1ab-18a7-41f2-8b23-7feb2bab9de2\");\r",
 									"    pm.expect(data.data.article.feed).to.exist;\r",
-									"    pm.expect(data.data.article.publishedAt).equal(new Date('2020-01-01').toISOString());\r",
+									"});\r",
 									"\r",
-									"});"
+									"pm.test(\"Correct Date\", function(){\r",
+									"    let publishedDate = new Date(data.data.article.publishedAt);\r",
+									"    pm.expect(publishedDate.getFullYear()).equal(2022); \r",
+									"});\r",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -672,12 +715,16 @@
 									"    pm.expect(data.data.article.description).equal(\"After installing arch linux, I did one pushup every time I told someone, that I use...\");\r",
 									"    pm.expect(data.data.article.content).to.exist;\r",
 									"    pm.expect(data.data.article.url).equal(\"https://asciiflix.de/watch/814bd1ab-18a7-41f2-8b23-7feb2bab9de2\");\r",
-									"    pm.expect(data.data.article.publishedAt).equal(new Date('2020-01-01').toISOString());\r",
-									"\r",
 									"    pm.expect(data.data.article.author).to.exist;\r",
 									"    pm.expect(data.data.article.categories).to.exist;\r",
 									"    pm.expect(data.data.article.feed).to.exist;\r",
-									"});"
+									"});\r",
+									"\r",
+									"pm.test(\"Correct Date\", function(){\r",
+									"    let publishedDate = new Date(data.data.article.publishedAt);\r",
+									"    pm.expect(publishedDate.getFullYear()).equal(2022); \r",
+									"});\r",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -2258,6 +2305,325 @@
 							"mode": "graphql",
 							"graphql": {
 								"query": "mutation subscription {\n    changeSubscription(feedId: 1, isSubscribed: false)\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/graphql",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Bookmarks",
+			"item": [
+				{
+					"name": "POST - Add Article to Users Bookmarks - Authorized",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status Code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var data = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.test(\"Correct Data\", function () {\r",
+									"    pm.expect(data.data.addBookmark).equal(true);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation bookmark {\r\n    addBookmark(articleId: 1)\r\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/graphql",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST - Add Article to Users Bookmarks - Unauthorized",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status Code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var data = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.test(\"Correct Data\", function () {\r",
+									"    pm.expect(data.errors[0].message).equal(\"Access denied! You don't have permission for this action!\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation bookmark {\r\n    addBookmark(articleId: 1)\r\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/graphql",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET - Articles of Users Bookmarks - Authorized",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status Code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var data = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.test(\"Correct Data\", function () {\r",
+									"    pm.expect(data.data.bookmarks[0].id).equal(parseInt(pm.environment.get(\"article-id\")));\r",
+									"    pm.expect(data.data.bookmarks[0].title).equal(\"How installing linux made me gain 20lbs of muscle\");\r",
+									"    pm.expect(data.data.bookmarks[0].description).equal(\"After installing arch linux, I did one pushup every time I told someone, that I use...\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query bookmark {\r\n    bookmarks(PaginationArg: {skip:0, take:4}){\r\n        id\r\n        title\r\n        description\r\n    }\r\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/graphql",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET - Articles of Users Bookmarks - Unauthorized",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status Code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var data = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.test(\"Correct Data\", function () {\r",
+									"    pm.expect(data.errors[0].message).equal(\"Access denied! You don't have permission for this action!\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query bookmark {\r\n    bookmarks(PaginationArg: {skip:0, take:4}){\r\n        id\r\n        title\r\n        description\r\n    }\r\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/graphql",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET - Bookmark Status of Article - Authorized",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status Code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var data = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.test(\"Correct Data\", function () {\r",
+									"    pm.expect(data.data.article.bookmarkCount).greaterThan(0);\r",
+									"    pm.expect(data.data.article.bookmarkStatus).equal(true);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query bookmarkStatus {\r\n\r\n    article(id: 1) {\r\n        id\r\n        title\r\n        bookmarkCount\r\n        bookmarkStatus\r\n    }\r\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/graphql",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET - Bookmark Status of Article - Unauthorized",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status Code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var data = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.test(\"Correct Data\", function () {\r",
+									"    pm.expect(data.data.article.bookmarkCount).greaterThan(0);\r",
+									"    pm.expect(data.data.article.bookmarkStatus).equal(false);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query bookmarkStatus {\r\n\r\n    article(id: 1) {\r\n        id\r\n        title\r\n        bookmarkCount\r\n        bookmarkStatus\r\n    }\r\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/graphql",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST - Delete Article of Users Bookmarks",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status Code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var data = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.test(\"Correct Data\", function () {\r",
+									"    pm.expect(data.data.deleteBookmark).equal(true);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation bookmark {\r\n    deleteBookmark(articleId: 1)\r\n}",
 								"variables": ""
 							}
 						},

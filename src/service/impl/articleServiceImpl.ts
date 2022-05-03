@@ -1,12 +1,14 @@
 import { shuffle } from "shuffle-seed";
 import { Article, Feed } from "skiosa-orm";
 import { dataSource } from "skiosa-orm/lib/db";
-import { Arg, FieldResolver, Query, Resolver, Root, Int } from "type-graphql";
+import { Arg, FieldResolver, Query, Resolver, Root, Int, Authorized } from "type-graphql";
 import { ArticleService } from "../articleService";
 import { Author } from "skiosa-orm/lib/model/author";
 import { Category } from "skiosa-orm/lib/model/category";
 import { paginate } from "../../util/paginate";
 import { PaginationArg } from "../../model/paginationArg";
+import { UserInfo } from "../../model/jwt";
+import { CurrentUser } from "../../model/context";
 
 @Resolver(Article)
 export class ArticleServiceImpl implements ArticleService {
@@ -155,6 +157,29 @@ export class ArticleServiceImpl implements ArticleService {
           throw new Error(`Article with id: ${article.id} not found!`);
         } else {
           return a.bookmarks?.length ?? 0;
+        }
+      });
+  }
+
+  @FieldResolver((__Type) => Boolean)
+  @Authorized("realm:skiosa-user", "PUBLIC")
+  bookmarkStatus(@CurrentUser() currentUserInfo: UserInfo, @Root() article: Article): Promise<boolean> {
+    if (!currentUserInfo) {
+      return Promise.resolve(false);
+    }
+    return dataSource
+      .getRepository(Article)
+      .findOne({
+        relations: ["bookmarks"],
+        where: {
+          id: article.id,
+        },
+      })
+      .then((a) => {
+        if (!a) {
+          throw new Error(`Article with id: ${article.id} not found!`);
+        } else {
+          return a.bookmarks?.some((userBookmark) => userBookmark.id === currentUserInfo.id) ?? false;
         }
       });
   }

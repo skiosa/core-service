@@ -2,6 +2,7 @@ import { Category } from "skiosa-orm";
 import { Article } from "skiosa-orm/lib/model/article";
 import { Author } from "skiosa-orm/lib/model/author";
 import { Feed } from "skiosa-orm/lib/model/feed";
+import { UserInfo } from "../model/jwt";
 import { PaginationArg } from "../model/paginationArg";
 
 export interface ArticleService {
@@ -84,6 +85,17 @@ export interface ArticleService {
    *
    */
   bookmarkCount(article: Article): Promise<number>;
+
+  /**
+   * @author Lukas Huida
+   * @summary Check if User has bookmarked this article
+   * @description Check if current logged in user has bookmarked this article, if the user is not logged in, it returns false
+   * @param {Article} article - Article from which to get the bookmark status
+   * @param {UserInfo} currentUserInfo - UserInfo of the current logged in user
+   * @returns {boolean} Status of the Users bookmark for this specific article
+   */
+  bookmarkStatus(currentUserInfo: UserInfo, article: Article): Promise<boolean>;
+
   /**
    * @author Jonas Eppard
    * @summary Get recommended Articles
