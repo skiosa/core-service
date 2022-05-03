@@ -77,6 +77,16 @@ export interface ArticleService {
   likeCount(article: Article): Promise<number>;
 
   /**
+   * @author Tim Horlacher
+   * @summary Check if User liked this article
+   * @description Check if current logged in user has liked this article, if the user is not logged in, it returns false
+   * @param {Article} article - Article from which to get the like status
+   * @param {UserInfo} currentUserInfo - UserInfo of the current logged in user
+   * @returns {boolean} Status of the Users like status for this specific article
+   */
+  likeStatus(currentUserInfo: UserInfo, article: Article): Promise<boolean>;
+
+  /**
    * @author Theo Krinitz
    * @summary Get number of users who bookmarked this article
    * @description Get the number of users who bookmarked this article from database

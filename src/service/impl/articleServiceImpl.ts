@@ -142,6 +142,29 @@ export class ArticleServiceImpl implements ArticleService {
       });
   }
 
+  @FieldResolver((__Type) => Boolean)
+  @Authorized("realm:skiosa-user", "PUBLIC")
+  likeStatus(@CurrentUser() currentUserInfo: UserInfo, @Root() article: Article): Promise<boolean> {
+    if (!currentUserInfo) {
+      return Promise.resolve(false);
+    }
+    return dataSource
+      .getRepository(Article)
+      .findOne({
+        relations: ["likes"],
+        where: {
+          id: article.id,
+        },
+      })
+      .then((a) => {
+        if (!a) {
+          throw new Error(`Article with id: ${article.id} not found!`);
+        } else {
+          return a.likes?.some((userLikes) => userLikes.id === currentUserInfo.id) ?? false;
+        }
+      });
+  }
+
   @FieldResolver((__Type) => Int)
   bookmarkCount(@Root() article: Article): Promise<number> {
     return dataSource
