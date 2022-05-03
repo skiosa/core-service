@@ -9,7 +9,6 @@ import { UserInfo } from "../../model/jwt";
 
 @Resolver(Article)
 export class ArticleServiceMock extends MockService implements ArticleService {
-
   @Query((_of) => [Article])
   recommendedArticles(
     @Arg("seed") seed: number,

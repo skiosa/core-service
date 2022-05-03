@@ -19,7 +19,6 @@ import { errorController } from "./controller/errorController";
 import { UserInfo } from "./model/jwt";
 import { FeedServiceImpl } from "./service/impl/feedServiceImpl";
 import { UserInfoServiceImpl } from "./service/impl/userInfoServiceImpl";
-import { ArticleServiceMock } from "./service/mockup/articleServiceMock";
 import { authChecker, userInfo } from "./util/middelwares";
 import { SubscriptionServiceImpl } from "./service/impl/subscriptionServiceImpl";
 import { BookmarkServiceImpl } from "./service/impl/bookmarkServiceImpl";
