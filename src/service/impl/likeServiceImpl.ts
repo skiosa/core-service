@@ -20,8 +20,6 @@ export class LikeServiceImpl implements LikeService {
         })
         .then((article) => {
           if (article) {
-            console.log(article);
-            console.log(currentUser);
             currentUser.likes?.push(article);
             return userRepository.manager.save(currentUser).then(() => true);
           } else {
