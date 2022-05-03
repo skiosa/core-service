@@ -14,25 +14,21 @@ export class BookmarkServiceImpl implements BookmarkService {
   async addBookmark(@CurrentUser() currentUserInfo: UserInfo, @Arg("articleId") articleId: number): Promise<boolean> {
     const userRepository = dataSource.getRepository(User);
 
-    const currentUser = await getCurrentUser(userRepository, currentUserInfo);
-
-    return dataSource
-      .getRepository(Article)
-      .findOneBy({
-        id: articleId,
-      })
-      .then((article) => {
-        if (article) {
-          currentUser.bookmarks?.push(article);
-          userRepository.manager.save(currentUser);
-          return true;
-        } else {
-          throw new Error("Article does not exist");
-        }
-      })
-      .catch(() => {
-        throw new Error("Article does not exist");
-      });
+    return getCurrentUser(userRepository, currentUserInfo).then((currentUser) => {
+      return dataSource
+        .getRepository(Article)
+        .findOneBy({
+          id: articleId,
+        })
+        .then((article) => {
+          if (article) {
+            currentUser.bookmarks?.push(article);
+            return userRepository.manager.save(currentUser).then(() => true);
+          } else {
+            throw new Error("Article not found");
+          }
+        });
+    });
   }
 
   @Mutation(() => Boolean)
@@ -43,29 +39,25 @@ export class BookmarkServiceImpl implements BookmarkService {
   ): Promise<boolean> {
     const userRepository = dataSource.getRepository(User);
 
-    const currentUser = await getCurrentUser(userRepository, currentUserInfo);
+    return getCurrentUser(userRepository, currentUserInfo).then((currentUser) => {
+      return dataSource
+        .getRepository(Article)
+        .findOneBy({
+          id: articleId,
+        })
+        .then((article) => {
+          if (article) {
+            currentUser.bookmarks = currentUser.bookmarks?.filter((bookmark: Article) => {
+              return bookmark.id !== article.id;
+            });
 
-    return dataSource
-      .getRepository(Article)
-      .findOneBy({
-        id: articleId,
-      })
-      .then((article) => {
-        if (article) {
-          //Filter which deletes the selected article from the bookmarks
-          currentUser.bookmarks = currentUser.bookmarks?.filter((bookmark: Article) => {
-            return bookmark.id !== articleId;
-          });
-
-          userRepository.manager.save(currentUser);
-          return true;
-        } else {
-          throw new Error("Article does not exist");
-        }
-      })
-      .catch(() => {
-        throw new Error("Article does not exist");
-      });
+            userRepository.manager.save(currentUser);
+            return true;
+          } else {
+            throw new Error("Article not found");
+          }
+        });
+    });
   }
 
   @Query(() => [Article])
@@ -76,18 +68,12 @@ export class BookmarkServiceImpl implements BookmarkService {
   ): Promise<Article[]> {
     const userRepository = dataSource.getRepository(User);
 
-    return new Promise((resolve, reject) => {
-      getCurrentUser(userRepository, currentUserInfo)
-        .then((currentUser) => {
-          if (currentUser.bookmarks) {
-            resolve(paginate(currentUser.bookmarks, paginated));
-          } else {
-            resolve([]);
-          }
-        })
-        .catch(() => {
-          reject("User does not exist");
-        });
+    return getCurrentUser(userRepository, currentUserInfo).then((currentUser) => {
+      if (currentUser.bookmarks) {
+        return paginate(currentUser.bookmarks, paginated);
+      } else {
+        return [];
+      }
     });
   }
 }
