@@ -23,6 +23,7 @@ import { authChecker, requestLogger, userInfo } from "./util/middelwares";
 import { SubscriptionServiceImpl } from "./service/impl/subscriptionServiceImpl";
 import { BookmarkServiceImpl } from "./service/impl/bookmarkServiceImpl";
 import { ArticleServiceImpl } from "./service/impl/articleServiceImpl";
+import { LikeServiceImpl } from "./service/impl/likeServiceImpl";
 
 /**
  * Configuration Part
@@ -94,7 +95,14 @@ async function startApolloServer() {
    * GraphQL Schema Builder
    */
   const schema = await buildSchema({
-    resolvers: [ArticleServiceImpl, FeedServiceImpl, UserInfoServiceImpl, SubscriptionServiceImpl, BookmarkServiceImpl],
+    resolvers: [
+      ArticleServiceImpl,
+      FeedServiceImpl,
+      UserInfoServiceImpl,
+      SubscriptionServiceImpl,
+      BookmarkServiceImpl,
+      LikeServiceImpl,
+    ],
     authChecker: authChecker,
     //globalMiddlewares: [logAccess],
   });
