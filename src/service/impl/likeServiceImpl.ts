@@ -9,7 +9,11 @@ import { LikeService } from "../likeService";
 export class LikeServiceImpl implements LikeService {
   @Mutation(() => Boolean)
   @Authorized("realm:skiosa-user")
-  async addLike(@CurrentUser() currentUserInfo: UserInfo, @Arg("articleId") articleId: number): Promise<boolean> {
+  async changeLike(
+    @CurrentUser() currentUserInfo: UserInfo,
+    @Arg("articleId") articleId: number,
+    @Arg("isLiked") isLiked: boolean
+  ): Promise<boolean> {
     const userRepository = dataSource.getRepository(User);
 
     return getCurrentUser(userRepository, currentUserInfo).then((currentUser) => {
@@ -20,34 +24,17 @@ export class LikeServiceImpl implements LikeService {
         })
         .then((article) => {
           if (article) {
-            currentUser.likes?.push(article);
-            return userRepository.manager.save(currentUser).then(() => true);
-          } else {
-            throw new Error("Article not found");
-          }
-        });
-    });
-  }
+            if (isLiked) {
+              currentUser.likes?.push(article);
+              return userRepository.manager.save(currentUser).then(() => true);
+            } else {
+              currentUser.likes = currentUser.likes?.filter((like: Article) => {
+                return like.id !== article.id;
+              });
 
-  @Mutation(() => Boolean)
-  @Authorized("realm:skiosa-user")
-  async deleteLike(@CurrentUser() currentUserInfo: UserInfo, @Arg("articleId") articleId: number): Promise<boolean> {
-    const userRepository = dataSource.getRepository(User);
-
-    return getCurrentUser(userRepository, currentUserInfo).then((currentUser) => {
-      return dataSource
-        .getRepository(Article)
-        .findOneBy({
-          id: articleId,
-        })
-        .then((article) => {
-          if (article) {
-            currentUser.likes = currentUser.likes?.filter((like: Article) => {
-              return like.id !== article.id;
-            });
-
-            userRepository.manager.save(currentUser);
-            return true;
+              userRepository.manager.save(currentUser);
+              return false;
+            }
           } else {
             throw new Error("Article not found");
           }
