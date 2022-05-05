@@ -4,14 +4,14 @@ import { PaginationArg } from "../model/paginationArg";
 
 export interface BookmarkService {
   /**
-  * @author Lukas Huida
-  * @summary change bookmark status for article
-  * @description either create or delete a article-bookmark to the current user
-  * @param articleId - to bookmark to
-  * @param isBookmarked - new bookmark status
-  * @param currentUserInfo - jwt info of logged in user
-  * @returns {boolean} new bookmark status
-  */
+   * @author Lukas Huida
+   * @summary change bookmark status for article
+   * @description either create or delete a article-bookmark to the current user
+   * @param articleId - to bookmark to
+   * @param isBookmarked - new bookmark status
+   * @param currentUserInfo - jwt info of logged in user
+   * @returns {boolean} new bookmark status
+   */
   changeBookmark(currentUserInfo: UserInfo, articleId: number, isBookmarked: boolean): Promise<boolean>;
 
   /**
