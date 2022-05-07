@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "9f441f86-50aa-42cb-aa3e-4ef4e1a81f57",
+		"_postman_id": "ba87870e-9c60-4a89-93c4-e6c0869e1d05",
 		"name": "Skiosa",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -2353,6 +2353,49 @@
 							"mode": "graphql",
 							"graphql": {
 								"query": "mutation bookmark {\r\n    addBookmark(articleId: 1)\r\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{api-url}}/graphql",
+							"host": [
+								"{{api-url}}"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST - Toggle Article to Users Bookmarks - Authorized",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status Code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var data = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.test(\"Correct Data\", function () {\r",
+									"    pm.expect(data.data.toggleBookmark).to.be.oneOf([true, false]);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation bookmark {\r\n    toggleBookmark(articleId: 2)\r\n}",
 								"variables": ""
 							}
 						},
