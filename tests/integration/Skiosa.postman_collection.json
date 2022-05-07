@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "9f441f86-50aa-42cb-aa3e-4ef4e1a81f57",
+		"_postman_id": "dc4c4e82-fdb9-4ea9-8d8c-8fbd36791fcb",
 		"name": "Skiosa",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -2339,7 +2339,7 @@
 									"var data = JSON.parse(responseBody);\r",
 									"\r",
 									"pm.test(\"Correct Data\", function () {\r",
-									"    pm.expect(data.data.addBookmark).equal(true);\r",
+									"    pm.expect(data.data.changeBookmark).equal(true);\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -2352,7 +2352,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation bookmark {\r\n    addBookmark(articleId: 1)\r\n}",
+								"query": "mutation bookmark {\r\n    changeBookmark(articleId: 1, isBookmarked: true)\r\n}",
 								"variables": ""
 							}
 						},
@@ -2398,7 +2398,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation bookmark {\r\n    addBookmark(articleId: 1)\r\n}",
+								"query": "mutation bookmark {\r\n    changeBookmark(articleId: 1, isBookmarked: true)\r\n}",
 								"variables": ""
 							}
 						},
@@ -2610,7 +2610,7 @@
 									"var data = JSON.parse(responseBody);\r",
 									"\r",
 									"pm.test(\"Correct Data\", function () {\r",
-									"    pm.expect(data.data.deleteBookmark).equal(true);\r",
+									"    pm.expect(data.data.changeBookmark).equal(false);\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -2623,7 +2623,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation bookmark {\r\n    deleteBookmark(articleId: 1)\r\n}",
+								"query": "mutation bookmark {\r\n    changeBookmark(articleId: 2, isBookmarked: false)\r\n}",
 								"variables": ""
 							}
 						},
@@ -2658,7 +2658,7 @@
 									"var data = JSON.parse(responseBody);\r",
 									"\r",
 									"pm.test(\"Correct Data\", function () {\r",
-									"    pm.expect(data.data.addLike).equal(true);\r",
+									"    pm.expect(data.data.changeLike).equal(true);\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -2671,7 +2671,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation like {\r\n    addLike(articleId: 1)\r\n}",
+								"query": "mutation like {\r\n    changeLike(articleId: 1, isLiked: true)\r\n}",
 								"variables": ""
 							}
 						},
@@ -2717,7 +2717,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation bookmark {\r\n    addLike(articleId: 1)\r\n}",
+								"query": "mutation like {\r\n    changeLike(articleId: 1, isLiked: true)\r\n}",
 								"variables": ""
 							}
 						},
@@ -2838,7 +2838,7 @@
 									"var data = JSON.parse(responseBody);\r",
 									"\r",
 									"pm.test(\"Correct Data\", function () {\r",
-									"    pm.expect(data.data.deleteLike).equal(true);\r",
+									"    pm.expect(data.data.changeLike).equal(false);\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -2851,7 +2851,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation like {\r\n    deleteLike(articleId: 1)\r\n}",
+								"query": "mutation like {\r\n    changeLike(articleId: 1, isLiked: false)\r\n}",
 								"variables": ""
 							}
 						},

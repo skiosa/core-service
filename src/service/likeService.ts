@@ -2,22 +2,13 @@ import { UserInfo } from "../model/jwt";
 
 export interface LikeService {
   /**
-   * @author Tim Horlacher
-   * @summary add article to likes
-   * @description adds an article to the current user's likes
-   * @param {number} articleId - id of an article to like
-   * @param {UserInfo} currentUserInfo - jwt info of logged in user
-   * @returns {boolean} status of like for this article
+   * @author Lukas Huida
+   * @summary change like status for article
+   * @description either create or delete a article-like to the current user
+   * @param articleId - to like to
+   * @param isLiked - new like status
+   * @param currentUserInfo - jwt info of logged in user
+   * @returns {boolean} new like status
    */
-  addLike(currentUserInfo: UserInfo, articleId: number): Promise<boolean>;
-
-  /**
-   * @author Tim Horlacher
-   * @summary delete article from like
-   * @description removes an article from the current user's likes
-   * @param {number} articleId - id of an article to remove from likes
-   * @param {UserInfo} currentUserInfo - jwt info of logged in user
-   * @returns {boolean} status of like for this article
-   */
-  deleteLike(currentUserInfo: UserInfo, articleId: number): Promise<boolean>;
+  changeLike(currentUserInfo: UserInfo, articleId: number, isLiked: boolean): Promise<boolean>;
 }

@@ -11,31 +11,10 @@ import { BookmarkService } from "../bookmarkService";
 export class BookmarkServiceImpl implements BookmarkService {
   @Mutation(() => Boolean)
   @Authorized("realm:skiosa-user")
-  async addBookmark(@CurrentUser() currentUserInfo: UserInfo, @Arg("articleId") articleId: number): Promise<boolean> {
-    const userRepository = dataSource.getRepository(User);
-
-    return getCurrentUser(userRepository, currentUserInfo).then((currentUser) => {
-      return dataSource
-        .getRepository(Article)
-        .findOneBy({
-          id: articleId,
-        })
-        .then((article) => {
-          if (article) {
-            currentUser.bookmarks?.push(article);
-            return userRepository.manager.save(currentUser).then(() => true);
-          } else {
-            throw new Error("Article not found");
-          }
-        });
-    });
-  }
-
-  @Mutation(() => Boolean)
-  @Authorized("realm:skiosa-user")
-  async deleteBookmark(
+  async changeBookmark(
     @CurrentUser() currentUserInfo: UserInfo,
-    @Arg("articleId") articleId: number
+    @Arg("articleId") articleId: number,
+    @Arg("isBookmarked") isBookmarked: boolean
   ): Promise<boolean> {
     const userRepository = dataSource.getRepository(User);
 
@@ -47,12 +26,17 @@ export class BookmarkServiceImpl implements BookmarkService {
         })
         .then((article) => {
           if (article) {
-            currentUser.bookmarks = currentUser.bookmarks?.filter((bookmark: Article) => {
-              return bookmark.id !== article.id;
-            });
+            if (isBookmarked) {
+              currentUser.bookmarks?.push(article);
+              return userRepository.manager.save(currentUser).then(() => true);
+            } else {
+              currentUser.bookmarks = currentUser.bookmarks?.filter((bookmark: Article) => {
+                return bookmark.id !== article.id;
+              });
 
-            userRepository.manager.save(currentUser);
-            return true;
+              userRepository.manager.save(currentUser);
+              return false;
+            }
           } else {
             throw new Error("Article not found");
           }
