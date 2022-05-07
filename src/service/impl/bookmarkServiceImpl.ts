@@ -14,7 +14,7 @@ export class BookmarkServiceImpl implements BookmarkService {
   toggleBookmark(@CurrentUser() currentUserInfo: UserInfo, @Arg("articleId") articleId: number): Promise<boolean> {
     const userRepository = dataSource.getRepository(User);
     return getCurrentUser(userRepository, currentUserInfo).then((currentUser) => {
-      if ((currentUser.bookmarks?.findIndex((article: Article) => article.id === articleId) ?? -1) === -1) {
+      if ((currentUser.bookmarks?.findIndex((a: Article) => a.id === articleId) ?? -1) === -1) {
         // Add bookmark
         return dataSource
           .getRepository(Article)
@@ -23,7 +23,7 @@ export class BookmarkServiceImpl implements BookmarkService {
             if (article) {
               currentUser.bookmarks?.push(article);
               return userRepository.manager.save(currentUser).then((user) => {
-                return (user.bookmarks?.findIndex((article: Article) => article.id === articleId) ?? -1) !== -1;
+                return (user.bookmarks?.findIndex((a: Article) => a.id === articleId) ?? -1) !== -1;
               });
             } else {
               throw new Error("Article not found");
@@ -31,9 +31,9 @@ export class BookmarkServiceImpl implements BookmarkService {
           });
       } else {
         //remove bookmark
-        currentUser.bookmarks = currentUser.bookmarks?.filter((article: Article) => article.id !== articleId);
+        currentUser.bookmarks = currentUser.bookmarks?.filter((a: Article) => a.id !== articleId);
         return userRepository.manager.save(currentUser).then((user) => {
-          return (user.bookmarks?.findIndex((article: Article) => article.id === articleId) ?? -1) !== -1;
+          return (user.bookmarks?.findIndex((a: Article) => a.id === articleId) ?? -1) !== -1;
         });
       }
     });
