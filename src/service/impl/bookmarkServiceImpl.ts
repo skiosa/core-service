@@ -11,6 +11,35 @@ import { BookmarkService } from "../bookmarkService";
 export class BookmarkServiceImpl implements BookmarkService {
   @Mutation(() => Boolean)
   @Authorized("realm:skiosa-user")
+  toggleBookmark(@CurrentUser() currentUserInfo: UserInfo, @Arg("articleId") articleId: number): Promise<boolean> {
+    const userRepository = dataSource.getRepository(User);
+    return getCurrentUser(userRepository, currentUserInfo).then((currentUser) => {
+      if ((currentUser.bookmarks?.findIndex((article: Article) => article.id === articleId) ?? -1) === -1) {
+        // Add bookmark
+        return dataSource
+          .getRepository(Article)
+          .findOneBy({ id: articleId })
+          .then((article) => {
+            if (article) {
+              currentUser.bookmarks?.push(article);
+              return userRepository.manager.save(currentUser).then((user) => {
+                return (user.bookmarks?.findIndex((article: Article) => article.id === articleId) ?? -1) !== -1;
+              });
+            } else {
+              throw new Error("Article not found");
+            }
+          });
+      } else {
+        //remove bookmark
+        currentUser.bookmarks = currentUser.bookmarks?.filter((article: Article) => article.id !== articleId);
+        return userRepository.manager.save(currentUser).then((user) => {
+          return (user.bookmarks?.findIndex((article: Article) => article.id === articleId) ?? -1) !== -1;
+        });
+      }
+    });
+  }
+  @Mutation(() => Boolean)
+  @Authorized("realm:skiosa-user")
   async addBookmark(@CurrentUser() currentUserInfo: UserInfo, @Arg("articleId") articleId: number): Promise<boolean> {
     const userRepository = dataSource.getRepository(User);
 

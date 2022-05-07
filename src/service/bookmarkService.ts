@@ -10,6 +10,7 @@ export interface BookmarkService {
    * @param {number} articleId - id of an article to add to bookmarks
    * @param {UserInfo} currentUserInfo - jwt info of logged in user
    * @returns {boolean} status of bookmark for this article
+   * @deprecated Use toggleBookmark instead
    */
   addBookmark(currentUserInfo: UserInfo, articleId: number): Promise<boolean>;
 
@@ -20,8 +21,19 @@ export interface BookmarkService {
    * @param {number} articleId - id of an article to add to bookmarks
    * @param {UserInfo} currentUserInfo - jwt info of logged in user
    * @returns {boolean} status of bookmark for this article
+   * @deprecated Use toggleBookmark instead
    */
   deleteBookmark(currentUserInfo: UserInfo, articleId: number): Promise<boolean>;
+
+  /**
+   * @author Jonas Eppard
+   * @summary toggle bookmark for article
+   * @description adds an article to the current user's bookmarks
+   * @param {number} articleId - id of an article to add to bookmarks
+   * @param {UserInfo} currentUserInfo - jwt info of logged in user
+   * @returns {boolean} status of bookmark for this article
+   */
+  toggleBookmark(currentUserInfo: UserInfo, articleId: number): Promise<boolean>;
 
   /**
    * @author Lukas Huida
