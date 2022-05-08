@@ -42,7 +42,7 @@ export interface FeedService {
    * @returns {Article[]} List of Queried Articles
    *
    */
-  articles(feed: Feed, paginated?: PaginationArg): Promise<Article[]>;
+  articles(feed: Feed, paginated?: PaginationArg, desc?: boolean): Promise<Article[]>;
 
   /**
    * @author Marcel Alex, Jonas Eppard
