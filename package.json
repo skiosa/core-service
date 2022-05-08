@@ -54,7 +54,6 @@
   },
   "homepage": "https://github.com/skiosa/core-service#readme",
   "devDependencies": {
-    "@danmasta/mocha-sonar": "^1.0.1",
     "@graphql-tools/schema": "^8.3.6",
     "@istanbuljs/nyc-config-typescript": "^1.0.2",
     "@types/chai": "^4.3.0",
