@@ -53,7 +53,7 @@ export class FeedServiceImpl implements FeedService {
   articles(
     @Root() feed: Feed,
     @Arg("PaginationArg", { nullable: true }) paginated?: PaginationArg,
-    @Arg("DESC", { nullable: true }) desc?: boolean
+    @Arg("Desc", { nullable: true }) desc?: boolean
   ): Promise<Article[]> {
     return dataSource.getRepository(Article).find({
       relations: ["feed"],
@@ -64,7 +64,7 @@ export class FeedServiceImpl implements FeedService {
       },
       take: paginated?.take,
       skip: paginated?.skip,
-      order: { id: desc ? "DESC" : "ASC" },
+      order: { publishedAt: desc ? "DESC" : "ASC" },
     });
   }
 

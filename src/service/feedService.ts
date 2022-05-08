@@ -39,6 +39,7 @@ export interface FeedService {
    * @description Get articles from a feed from the database without relations
    * @param {Feed} feed - Feed from which to get articles
    * @param {PaginationArg} paginated - Pagination Arguments for articles
+   * @param {Boolean} desc - Returns articles in descending order dependent on published date
    * @returns {Article[]} List of Queried Articles
    *
    */
