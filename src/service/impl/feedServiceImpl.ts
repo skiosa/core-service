@@ -30,6 +30,8 @@ export class FeedServiceImpl implements FeedService {
       .find({
         relations: [],
         order: { id: "ASC" },
+        skip: paginated?.skip,
+        take: paginated?.take,
       })
       .then((feeds) => shuffle(feeds, seed))
       .then((feeds) => paginate(feeds, paginated));

@@ -7,7 +7,6 @@ import { Repository } from "typeorm";
 import { CurrentUser } from "../../model/context";
 import { UserInfo } from "../../model/jwt";
 import { PaginationArg } from "../../model/paginationArg";
-import { paginate } from "../../util/paginate";
 import { SubscriptionService } from "../subscriptionService";
 
 @Resolver()
@@ -75,8 +74,9 @@ export class SubscriptionServiceImpl implements SubscriptionService {
       .createQueryBuilder("article")
       .where("article.feedId IN (:...subs)", { subs: currentUser.subscriptions.map((val, _) => val.id) })
       .orderBy("article.publishedAt", "DESC")
-      .getMany()
-      .then((articles) => paginate(articles, paginated));
+      .take(paginated?.take)
+      .skip(paginated?.skip)
+      .getMany();
   }
 }
 

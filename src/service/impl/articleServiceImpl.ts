@@ -5,7 +5,7 @@ import { Arg, FieldResolver, Query, Resolver, Root, Int, Authorized } from "type
 import { ArticleService } from "../articleService";
 import { Author } from "skiosa-orm/lib/model/author";
 import { Category } from "skiosa-orm/lib/model/category";
-import { paginate } from "../../util/paginate";
+import { paginate } from '../../util/paginate';
 import { PaginationArg } from "../../model/paginationArg";
 import { UserInfo } from "../../model/jwt";
 import { CurrentUser } from "../../model/context";
@@ -29,6 +29,8 @@ export class ArticleServiceImpl implements ArticleService {
       .find({
         relations: [],
         order: { id: "ASC" },
+        skip: paginated?.skip,
+        take: paginated?.take,
       })
       .then((articles) => shuffle(articles, seed))
       .then((articles) => paginate(articles, paginated));
