@@ -1749,7 +1749,7 @@
 					"response": []
 				},
 				{
-					"name": "GET - Recommended Feeds - Seed 3",
+					"name": "GET - Recommended Feeds - Pagination",
 					"event": [
 						{
 							"listen": "test",
@@ -1762,7 +1762,7 @@
 									"var data = JSON.parse(responseBody);\r",
 									"\r",
 									"pm.test(\"Correct Data\", function () {\r",
-									"    pm.expect(data.data.recommendedFeeds.length).equal(3);\r",
+									"    pm.expect(data.data.recommendedFeeds.length).equal(2);\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -1775,7 +1775,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "{\r\n  recommendedFeeds(PaginationArg: {take: 3}){\r\n    id\r\n  }\r\n}",
+								"query": "{\r\n  recommendedFeeds(PaginationArg: {take: 2}){\r\n    id\r\n  }\r\n}",
 								"variables": ""
 							}
 						},
