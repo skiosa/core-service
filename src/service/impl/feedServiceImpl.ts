@@ -22,19 +22,14 @@ export class FeedServiceImpl implements FeedService {
 
   @Query((_returns) => [Feed])
   async recommendedFeeds(
-    @Arg("seed") seed: number,
     @Arg("PaginationArg", { nullable: true }) paginated?: PaginationArg
   ): Promise<Feed[]> {
     return dataSource
       .getRepository(Feed)
-      .find({
-        relations: [],
-        order: { id: "ASC" },
-        skip: paginated?.skip,
-        take: paginated?.take,
-      })
-      .then((feeds) => shuffle(feeds, seed))
-      .then((feeds) => paginate(feeds, paginated));
+      .createQueryBuilder('feed')
+      .take(paginated?.take)
+      .orderBy('RANDOM()')
+      .getMany();
   }
 
   @Query((_returns) => Feed)

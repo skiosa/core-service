@@ -98,7 +98,6 @@
     "keycloak-connect-graphql": "^0.7.0",
     "pg": "^8.7.3",
     "reflect-metadata": "^0.1.13",
-    "shuffle-seed": "^1.1.6",
     "skiosa-orm": "github:skiosa/orm.git#v1.2.5",
     "type-graphql": "^1.2.0-rc.1",
     "type-graphql-dataloader": "^0.5.0",

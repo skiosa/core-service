@@ -23,14 +23,13 @@ export class ArticleServiceImpl implements ArticleService {
   }
 
   @Query((_of) => [Article])
-  recommendedArticles(@Arg("seed") seed: number, @Arg("PaginationArg", { nullable: true }) paginated?: PaginationArg) {
+  recommendedArticles(@Arg("PaginationArg", { nullable: true }) paginated?: PaginationArg) {
     return dataSource
       .getRepository(Article)
       .createQueryBuilder('article')
       .take(paginated?.take)
       .orderBy('RANDOM()')
-      .getMany()
-      .then((articles) => shuffle(articles, seed));
+      .getMany();
   }
   @Query((_returns) => [Article])
   similarArticles(
