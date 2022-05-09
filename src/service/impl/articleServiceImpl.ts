@@ -1,14 +1,13 @@
-import { shuffle } from "shuffle-seed";
 import { Article, Feed } from "skiosa-orm";
 import { dataSource } from "skiosa-orm/lib/db";
-import { Arg, FieldResolver, Query, Resolver, Root, Int, Authorized } from "type-graphql";
-import { ArticleService } from "../articleService";
 import { Author } from "skiosa-orm/lib/model/author";
 import { Category } from "skiosa-orm/lib/model/category";
-import { paginate } from '../../util/paginate';
-import { PaginationArg } from "../../model/paginationArg";
-import { UserInfo } from "../../model/jwt";
+import { Arg, Authorized, FieldResolver, Int, Query, Resolver, Root } from "type-graphql";
 import { CurrentUser } from "../../model/context";
+import { UserInfo } from "../../model/jwt";
+import { PaginationArg } from "../../model/paginationArg";
+import { paginate } from '../../util/paginate';
+import { ArticleService } from "../articleService";
 
 @Resolver(Article)
 export class ArticleServiceImpl implements ArticleService {

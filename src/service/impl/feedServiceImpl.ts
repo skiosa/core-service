@@ -1,12 +1,11 @@
-import { shuffle } from "shuffle-seed";
 import { Article, Category, Feed, User } from "skiosa-orm";
 import { dataSource } from "skiosa-orm/lib/db";
-import { Arg, FieldResolver, Mutation, Int, Query, Resolver, Root, Authorized } from "type-graphql";
+import { Arg, Authorized, FieldResolver, Int, Mutation, Query, Resolver, Root } from "type-graphql";
 import { DeleteResult } from "typeorm";
+import { FeedInput } from "../../model/models";
 import { PaginationArg } from "../../model/paginationArg";
 import { paginate } from "../../util/paginate";
 import { FeedService } from "../feedService";
-import { FeedInput } from "../../model/models";
 
 @Resolver((_of) => Feed)
 export class FeedServiceImpl implements FeedService {
