@@ -1,12 +1,11 @@
-import { shuffle } from "shuffle-seed";
 import { Article, Category, Feed, User } from "skiosa-orm";
 import { dataSource } from "skiosa-orm/lib/db";
-import { Arg, FieldResolver, Mutation, Int, Query, Resolver, Root, Authorized } from "type-graphql";
+import { Arg, Authorized, FieldResolver, Int, Mutation, Query, Resolver, Root } from "type-graphql";
 import { DeleteResult } from "typeorm";
+import { FeedInput } from "../../model/models";
 import { PaginationArg } from "../../model/paginationArg";
 import { paginate } from "../../util/paginate";
 import { FeedService } from "../feedService";
-import { FeedInput } from "../../model/models";
 
 @Resolver((_of) => Feed)
 export class FeedServiceImpl implements FeedService {
@@ -22,17 +21,15 @@ export class FeedServiceImpl implements FeedService {
 
   @Query((_returns) => [Feed])
   async recommendedFeeds(
-    @Arg("seed") seed: number,
+    @Arg("seed", { nullable: true }) _seed: number,
     @Arg("PaginationArg", { nullable: true }) paginated?: PaginationArg
   ): Promise<Feed[]> {
     return dataSource
       .getRepository(Feed)
-      .find({
-        relations: [],
-        order: { id: "ASC" },
-      })
-      .then((feeds) => shuffle(feeds, seed))
-      .then((feeds) => paginate(feeds, paginated));
+      .createQueryBuilder("feed")
+      .take(paginated?.take ?? 25)
+      .orderBy("RANDOM()")
+      .getMany();
   }
 
   @Query((_returns) => Feed)

@@ -1,14 +1,13 @@
-import { shuffle } from "shuffle-seed";
 import { Article, Feed } from "skiosa-orm";
 import { dataSource } from "skiosa-orm/lib/db";
-import { Arg, FieldResolver, Query, Resolver, Root, Int, Authorized } from "type-graphql";
-import { ArticleService } from "../articleService";
 import { Author } from "skiosa-orm/lib/model/author";
 import { Category } from "skiosa-orm/lib/model/category";
-import { paginate } from "../../util/paginate";
-import { PaginationArg } from "../../model/paginationArg";
-import { UserInfo } from "../../model/jwt";
+import { Arg, Authorized, FieldResolver, Int, Query, Resolver, Root } from "type-graphql";
 import { CurrentUser } from "../../model/context";
+import { UserInfo } from "../../model/jwt";
+import { PaginationArg } from "../../model/paginationArg";
+import { paginate } from "../../util/paginate";
+import { ArticleService } from "../articleService";
 
 @Resolver(Article)
 export class ArticleServiceImpl implements ArticleService {
@@ -23,22 +22,29 @@ export class ArticleServiceImpl implements ArticleService {
   }
 
   @Query((_of) => [Article])
-  recommendedArticles(@Arg("seed") seed: number, @Arg("PaginationArg", { nullable: true }) paginated?: PaginationArg) {
+  recommendedArticles(
+    @Arg("seed", { nullable: true }) _seed: number,
+    @Arg("PaginationArg", { nullable: true }) paginated?: PaginationArg
+  ) {
     return dataSource
       .getRepository(Article)
-      .find({
-        relations: [],
-        order: { id: "ASC" },
-      })
-      .then((articles) => shuffle(articles, seed))
-      .then((articles) => paginate(articles, paginated));
+      .createQueryBuilder("article")
+      .take(paginated?.take ?? 50)
+      .orderBy("RANDOM()")
+      .getMany();
   }
   @Query((_returns) => [Article])
   similarArticles(
     @Arg("articleId") articleId: number,
     @Arg("PaginationArg", { nullable: true }) paginated?: PaginationArg
   ): Promise<Article[]> {
-    return this.recommendedArticles(articleId, paginated);
+    return dataSource
+      .getRepository(Article)
+      .createQueryBuilder("article")
+      .take(paginated?.take ?? 50)
+      .where("article.id != :id", { id: articleId })
+      .orderBy("RANDOM()")
+      .getMany();
   }
 
   @Query((_returns) => Article)
