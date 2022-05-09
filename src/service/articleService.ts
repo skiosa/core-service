@@ -111,6 +111,7 @@ export interface ArticleService {
    * @summary Get recommended Articles
    * @description Get all recommended Articles from a User
    * @param {PaginationArg} paginated - Pagination Arguments for return
+   * @param {number} seed - Seed for random articles to insure proper pagination
    * @returns {Article[]} List of recommended Articles
    */
   recommendedArticles(seed: number, paginated?: PaginationArg): Promise<Article[]>;
