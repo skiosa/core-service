@@ -26,21 +26,24 @@ export class ArticleServiceImpl implements ArticleService {
   recommendedArticles(@Arg("seed") seed: number, @Arg("PaginationArg", { nullable: true }) paginated?: PaginationArg) {
     return dataSource
       .getRepository(Article)
-      .find({
-        relations: [],
-        order: { id: "ASC" },
-        skip: paginated?.skip,
-        take: paginated?.take,
-      })
-      .then((articles) => shuffle(articles, seed))
-      .then((articles) => paginate(articles, paginated));
+      .createQueryBuilder('article')
+      .take(paginated?.take)
+      .orderBy('RANDOM()')
+      .getMany()
+      .then((articles) => shuffle(articles, seed));
   }
   @Query((_returns) => [Article])
   similarArticles(
     @Arg("articleId") articleId: number,
     @Arg("PaginationArg", { nullable: true }) paginated?: PaginationArg
   ): Promise<Article[]> {
-    return this.recommendedArticles(articleId, paginated);
+    return dataSource
+      .getRepository(Article)
+      .createQueryBuilder('article')
+      .take(paginated?.take)
+      .where('article.id != :id', { id: articleId })
+      .orderBy('RANDOM()')
+      .getMany();
   }
 
   @Query((_returns) => Article)
