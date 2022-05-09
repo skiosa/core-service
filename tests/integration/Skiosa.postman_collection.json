@@ -1797,7 +1797,7 @@
 			"name": "Similar Articles",
 			"item": [
 				{
-					"name": "Similar Articles - Seed 1",
+					"name": "Similar Articles",
 					"event": [
 						{
 							"listen": "test",
@@ -1810,11 +1810,7 @@
 									"var data = JSON.parse(responseBody);\r",
 									"\r",
 									"pm.test(\"Correct Data\", function () {\r",
-									"    pm.expect(data.data.similarArticles[0].id).equal(1);\r",
-									"    pm.expect(data.data.similarArticles[1].id).equal(2);\r",
-									"    pm.expect(data.data.similarArticles[2].id).equal(4);\r",
-									"    pm.expect(data.data.similarArticles[3].id).equal(5);\r",
-									"    pm.expect(data.data.similarArticles[4].id).equal(3);\r",
+									"    pm.expect(data.data.similarArticles.length).lessThan(51);\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -1844,7 +1840,7 @@
 					"response": []
 				},
 				{
-					"name": "Similar Articles  Pagination - Seed 1",
+					"name": "Similar Articles  Pagination",
 					"event": [
 						{
 							"listen": "test",
@@ -1857,9 +1853,7 @@
 									"var data = JSON.parse(responseBody);\r",
 									"\r",
 									"pm.test(\"Correct Data\", function () {\r",
-									"    pm.expect(data.data.similarArticles[0].id).equal(2);\r",
-									"    pm.expect(data.data.similarArticles[1].id).equal(4);\r",
-									"    pm.expect(data.data.similarArticles[2].id).equal(5);\r",
+									"    pm.expect(data.data.similarArticles.length).equal(3);\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -1872,54 +1866,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "{\r\n  similarArticles(articleId:1, PaginationArg: {skip:1, take:3}){\r\n    id\r\n  }\r\n}",
-								"variables": ""
-							}
-						},
-						"url": {
-							"raw": "{{api-url}}/graphql",
-							"host": [
-								"{{api-url}}"
-							],
-							"path": [
-								"graphql"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Similar Articles - Seed 2",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status Code is 200\", function() {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});\r",
-									"\r",
-									"var data = JSON.parse(responseBody);\r",
-									"\r",
-									"pm.test(\"Correct Data\", function () {\r",
-									"    pm.expect(data.data.similarArticles[0].id).equal(2);\r",
-									"    pm.expect(data.data.similarArticles[1].id).equal(4);\r",
-									"    pm.expect(data.data.similarArticles[2].id).equal(1);\r",
-									"    pm.expect(data.data.similarArticles[3].id).equal(3);\r",
-									"    pm.expect(data.data.similarArticles[4].id).equal(5);\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "graphql",
-							"graphql": {
-								"query": "{\r\n  similarArticles(articleId:2){\r\n    id\r\n  }\r\n}",
+								"query": "{\r\n  similarArticles(articleId:1, PaginationArg: {skip:0, take:3}){\r\n    id\r\n  }\r\n}",
 								"variables": ""
 							}
 						},

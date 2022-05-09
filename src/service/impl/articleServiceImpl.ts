@@ -22,7 +22,7 @@ export class ArticleServiceImpl implements ArticleService {
   }
 
   @Query((_of) => [Article])
-  recommendedArticles(@Arg("PaginationArg", { nullable: true }) paginated?: PaginationArg) {
+  recommendedArticles(@Arg("seed", { nullable: true }) _seed: number, @Arg("PaginationArg", { nullable: true }) paginated?: PaginationArg) {
     return dataSource
       .getRepository(Article)
       .createQueryBuilder('article')

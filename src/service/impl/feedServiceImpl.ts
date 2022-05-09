@@ -21,6 +21,7 @@ export class FeedServiceImpl implements FeedService {
 
   @Query((_returns) => [Feed])
   async recommendedFeeds(
+    @Arg("seed", { nullable: true }) _seed: number,
     @Arg("PaginationArg", { nullable: true }) paginated?: PaginationArg
   ): Promise<Feed[]> {
     return dataSource

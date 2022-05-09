@@ -16,10 +16,11 @@ export interface FeedService {
    * @author Jonas Eppard
    * @summary Get all recommended Feeds for a User
    * @description Get all recommended Feeds for a User
+   * @param {number} seed - Seed for random feeds to insure proper pagination
    * @param {PaginationArg} paginated - Pagination Arguments for return
    * @returns {Feed[]} List of recommended Feeds
    */
-  recommendedFeeds(paginated?: PaginationArg): Promise<Feed[]>;
+  recommendedFeeds(seed: number, paginated?: PaginationArg): Promise<Feed[]>;
 
   /**
    * @author Marcel Alex, Jonas Eppard
