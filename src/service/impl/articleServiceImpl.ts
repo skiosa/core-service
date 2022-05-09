@@ -6,7 +6,7 @@ import { Arg, Authorized, FieldResolver, Int, Query, Resolver, Root } from "type
 import { CurrentUser } from "../../model/context";
 import { UserInfo } from "../../model/jwt";
 import { PaginationArg } from "../../model/paginationArg";
-import { paginate } from '../../util/paginate';
+import { paginate } from "../../util/paginate";
 import { ArticleService } from "../articleService";
 
 @Resolver(Article)
@@ -22,12 +22,15 @@ export class ArticleServiceImpl implements ArticleService {
   }
 
   @Query((_of) => [Article])
-  recommendedArticles(@Arg("seed", { nullable: true }) _seed: number, @Arg("PaginationArg", { nullable: true }) paginated?: PaginationArg) {
+  recommendedArticles(
+    @Arg("seed", { nullable: true }) _seed: number,
+    @Arg("PaginationArg", { nullable: true }) paginated?: PaginationArg
+  ) {
     return dataSource
       .getRepository(Article)
-      .createQueryBuilder('article')
+      .createQueryBuilder("article")
       .take(paginated?.take ?? 50)
-      .orderBy('RANDOM()')
+      .orderBy("RANDOM()")
       .getMany();
   }
   @Query((_returns) => [Article])
@@ -37,10 +40,10 @@ export class ArticleServiceImpl implements ArticleService {
   ): Promise<Article[]> {
     return dataSource
       .getRepository(Article)
-      .createQueryBuilder('article')
+      .createQueryBuilder("article")
       .take(paginated?.take ?? 50)
-      .where('article.id != :id', { id: articleId })
-      .orderBy('RANDOM()')
+      .where("article.id != :id", { id: articleId })
+      .orderBy("RANDOM()")
       .getMany();
   }
 
