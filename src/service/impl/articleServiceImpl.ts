@@ -26,7 +26,7 @@ export class ArticleServiceImpl implements ArticleService {
     return dataSource
       .getRepository(Article)
       .createQueryBuilder('article')
-      .take(paginated?.take)
+      .take(paginated?.take ?? 50)
       .orderBy('RANDOM()')
       .getMany();
   }
@@ -38,7 +38,7 @@ export class ArticleServiceImpl implements ArticleService {
     return dataSource
       .getRepository(Article)
       .createQueryBuilder('article')
-      .take(paginated?.take)
+      .take(paginated?.take ?? 50)
       .where('article.id != :id', { id: articleId })
       .orderBy('RANDOM()')
       .getMany();

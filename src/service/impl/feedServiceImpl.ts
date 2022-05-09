@@ -26,7 +26,7 @@ export class FeedServiceImpl implements FeedService {
     return dataSource
       .getRepository(Feed)
       .createQueryBuilder('feed')
-      .take(paginated?.take)
+      .take(paginated?.take ?? 25)
       .orderBy('RANDOM()')
       .getMany();
   }
