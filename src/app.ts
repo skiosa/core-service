@@ -113,7 +113,11 @@ async function startApolloServer() {
   const httpServer = http.createServer(app);
   const server = new ApolloServer({
     schema: schema,
-    plugins: [ApolloServerPluginLandingPageLocalDefault()],
+    plugins: [
+      process.env.NODE_ENV === "production"
+        ? ApolloServerPluginLandingPageDisabled()
+        : ApolloServerPluginLandingPageLocalDefault(),
+    ],
     context: ({ req }) => {
       const ctx: Context = {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
